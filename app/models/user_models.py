@@ -19,7 +19,6 @@ class User(UserMixin):
     def is_admin(self):
         return self.role == 'admin'
 
-    # Simulating a database query to get a user by ID
     @classmethod
     def get(cls, user_id):
         user_data = users.get(user_id)
