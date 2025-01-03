@@ -27,6 +27,7 @@ Follow these steps to run the Flask application:
     - On Windows:
       ```bash
       set FLASK_APP=run.py
+      set FLASK_ENV=development
       ```
     - On macOS/Linux:
       ```bash
