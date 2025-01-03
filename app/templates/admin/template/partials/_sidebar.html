@@ -1,0 +1,42 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.dashboard') }}">
+        <span class="menu-title">DASHBOARD</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.category') }}">
+        <span class="menu-title">CATEGORY</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.borrowing') }}">
+        <span class="menu-title">BORROWING</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.materials') }}">
+        <span class="menu-title">MATERIALS</span>
+        <i class="mdi mdi-cart-variant menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.equipment') }}">
+        <span class="menu-title">EQUIPMENT</span>
+        <i class="mdi mdi-cog menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin.tools') }}">
+        <span class="menu-title">TOOLS</span>
+        <i class="mdi mdi-hammer menu-icon"></i>
+      </a>
+    </li>
+  </ul>
+</nav>

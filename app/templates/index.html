@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title> MVC</title>
-  </head>
-  <body>
-    <h1>Hello Dev</h1>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum voluptas
-      consectetur at, alias natus iure suscipit quisquam officia enim obcaecati
-     
-    </p>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+- Home Page
+{% endblock %}
+
+{% block content %}
+<h2>Welcome to the Home Pagessd</h2>
+<p>This is where you can display data from your API or other content.</p>
+{% endblock %}
