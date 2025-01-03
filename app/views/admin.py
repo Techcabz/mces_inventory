@@ -49,3 +49,4 @@ def equipment():
 def tools():
     print(session)
     return render_template('admin/tools.html')
+

@@ -5,6 +5,44 @@
 }
 
 .image-title h2{
+   color: #111 !important;
    margin-top: 0.5rem;
  }
 
+.sidebar, .navbar-brand-wrapper {
+   background-color: #85DBA4 !important;
+}
+
+.sidebar .nav .nav-item.active {
+   background-color: #C1BCBC !important;
+   color: #333 !important;
+}
+
+.sidebar .nav .nav-item {
+   border: 2px solid #6A6A6A !important;
+   border-radius: 15px !important;
+   margin: 5px 10px !important;
+   color: #333 !important;
+   background-color: #FEFEFE !important;
+}
+
+.sidebar .nav .nav-item.active > .nav-link .menu-title {
+   color: #333 !important;
+   font-family: "ubuntu-medium", sans-serif;
+}
+
+.sidebar .nav .nav-item.active > .nav-link i {
+   color: #FEFEFE !important;
+  
+}
+
+.navbar-menu-wrapper {
+   border-bottom: 2px solid #6A6A6A !important;
+}
+
+.card-img-holder 
+{
+   border: 2px solid #6A6A6A !important;
+   border-radius: 15px !important;
+   background-color: #D7E816 !important;
+}
