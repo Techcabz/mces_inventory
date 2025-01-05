@@ -45,6 +45,10 @@
       rel="shortcut icon"
       href="{{ url_for('static', filename='images/favicon.png') }}"
     />
+    <link
+      href="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <main>
@@ -52,8 +56,8 @@
       <!-- content -->
       {% endblock %}
     </main>
-
-    <script src="{{ url_for('static', filename='vendors/js/vendor.bundle.base.js') }}"></script>
+    
+   <script src="{{ url_for('static', filename='vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ url_for('static', filename='vendors/chart.js/chart.umd.js') }}"></script>
 
     <script src="{{ url_for('static', filename='vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
@@ -63,5 +67,15 @@
     <script src="{{ url_for('static', filename='js/todolist.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/he.min.js"></script>
+
+    <script src="{{ url_for('static', filename='js/datatable/table.js') }}"></script>
+    
   </body>
 </html>
