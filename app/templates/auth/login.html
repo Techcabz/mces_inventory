@@ -1,27 +1,28 @@
-{% extends "auth/template/auth_layout.html" %}
-
-{% block content %}
-{% with messages = get_flashed_messages(with_categories=True) %}
-{% if messages %}
-    {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-{% endif %}
-{% endwith %}
+{% extends "auth/template/auth_layout.html" %} {% block content %} {% with
+messages = get_flashed_messages(with_categories=True) %} {% if messages %} {%
+for category, message in messages %}
+<div
+  class="alert alert-{{ category }} alert-dismissible fade show"
+  role="alert"
+>
+  {{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
 
 <div class="container">
   <div class="row">
     <div class="col-md-6 mx-auto">
       <div class="card">
-        
-<h1 class="text-3xl font-bold underline text-clifford">
-  Login
- </h1>
+        <h1 class="text-3xl font-bold underline text-clifford">Login</h1>
         <div class="card-body">
-          <form action="" method="POST">
+          <form action="{{ url_for('main.login') }}" method="POST">
+           
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input
@@ -49,4 +50,5 @@
     </div>
   </div>
 
-{% endblock %}
+  {% endblock %}
+</div>
