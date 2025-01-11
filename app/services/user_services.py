@@ -1,7 +1,6 @@
 # services/user_service.py
 import os
 from ..models.user_models import User
-from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
 
 class UserService:

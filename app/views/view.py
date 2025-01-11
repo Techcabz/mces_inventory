@@ -65,3 +65,8 @@ def equipment():
 @web_guard
 def tools():
     return render_template('admin/tools.html')
+
+
+@main.route('/test')
+def test():
+    return render_template('auth/test.html')
