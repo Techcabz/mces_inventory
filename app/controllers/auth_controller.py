@@ -1,14 +1,14 @@
 from flask import flash, redirect, url_for, request
 from flask_login import login_user,logout_user
 from flask import session
-from app.models.user_models import User
+from app.services.user_services import UserService
 from ..extensions import db
 
 def login_user_controller(request):
     if request.method == 'POST':
-        email = request.form['email']
+        username = request.form['username']
         password = request.form['password']
-        user = User.get_user_by_email(email)
+        user = UserService.get_user_by_username(username)
         
         if user and user.check_password(password):
             login_user(user)
@@ -21,32 +21,52 @@ def login_user_controller(request):
     return None
 
 def register_user_controller(request):
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm_password']
+     if request.method == 'POST':
+        username = request.form.get('username')
+        firstname = request.form.get('firstname')
+        lastname = request.form.get('lastname')
+        middlename = request.form.get('middlename', '')  # Optional
+        sex = request.form.get('sex')
+        address = request.form.get('address')
+        contact = request.form.get('contact')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
 
-        if not email or not password or not confirm_password:
+        # Validate required fields
+        if not all([username, firstname, lastname, sex, address, contact, password, confirm_password]):
             flash('All fields are required.', 'danger')
             return None
 
+        # Validate passwords match
         if password != confirm_password:
             flash('Passwords do not match.', 'danger')
             return None
 
-        if User.query.filter_by(email=email).first():
-            flash('Email is already registered.', 'danger')
+        # Check if username already exists
+        if UserService.get_user_by_username(username):
+            flash('Username is already taken.', 'danger')
             return None
 
-        new_user = User(email=email, role='guest')
-        new_user.set_password(password)
-        db.session.add(new_user)
-        db.session.commit()
+        # Create new user
+        new_user = UserService.create_user(
+            username=username,
+            password=password,
+            role='guest',
+            firstname=firstname,
+            lastname=lastname,
+            middlename=middlename,
+            sex=sex,
+            address=address,
+            contact=contact
+        )
 
-        flash('Registration successful! Please log in.', 'success')
-        return redirect(url_for('main.login'))
+        if new_user:
+            flash('Registration successful! Please log in.', 'success')
+            return redirect(url_for('main.login'))
+        else:
+            flash('Failed to register. Please try again.', 'danger')
 
-    return None
+     return None
 
 def logout_user_controller():
     logout_user()

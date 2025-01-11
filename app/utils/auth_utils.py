@@ -2,7 +2,7 @@ from flask import redirect, url_for, session, flash
 from flask_login import current_user
 from functools import wraps
 
-def admin_required(func):
+def web_guard(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not current_user.is_authenticated:

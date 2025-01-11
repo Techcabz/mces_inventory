@@ -24,12 +24,12 @@ for category, message in messages %}
           <form action="{{ url_for('main.login') }}" method="POST">
            
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
+              <label for="username" class="form-label">Username</label>
               <input
-                type="email"
+                type="username"
                 class="form-control"
-                id="email"
-                name="email"
+                id="username"
+                name="username"
                 required
               />
             </div>

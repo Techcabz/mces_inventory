@@ -2,9 +2,9 @@ import os
 from flask import Flask, render_template
 from flask_login import LoginManager
 from config import DevelopmentConfig, ProductionConfig
-from .models.user_models import User
-from flask_sqlalchemy import SQLAlchemy
-from .extensions import db
+from app.models.user_models import User
+from app.services.user_services import UserService
+from app.extensions import db
 
 def create_app():
     app = Flask(__name__)
@@ -19,6 +19,7 @@ def create_app():
     db.init_app(app)
     with app.app_context():
         db.create_all()
+        UserService.create_default_admin()
         
     # Initialize LoginManager
     login_manager = LoginManager()
