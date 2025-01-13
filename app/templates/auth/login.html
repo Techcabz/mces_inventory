@@ -1,18 +1,20 @@
-{% extends "auth/template/auth_layout.html" %}
-{% block content %}
- 
- <!-- Full Page Section -->
- <div class="relative h-screen bg-cover bg-center" style="background-image: url('background-image.jpg');">
+{% extends "auth/template/auth_layout.html" %} {% block wrapper_content %}
+
+<!-- Full Page Section -->
+
   <!-- Dark Overlay -->
   <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
   <!-- Content Wrapper -->
-  <div class="relative z-10 flex flex-col lg:flex-row h-full items-center justify-between container mx-auto px-6">
-
+  <div
+    class="relative z-10 flex flex-col lg:flex-row h-full items-center justify-between container mx-auto px-40"
+  >
     <!-- Title Section -->
     <div class="text-white max-w-xl lg:max-w-lg text-center lg:text-left">
-      <h1 class="text-3xl lg:text-4xl font-bold mb-4 leading-snug drop-shadow-lg">
-        A Microframework Web-Based Application for <br>
+      <h1
+        class="text-3xl lg:text-4xl font-bold mb-4 leading-snug drop-shadow-lg"
+      >
+        A Microframework Web-Based Application for <br />
         Magallanes Central Elementary School Inventory Management System
       </h1>
     </div>
@@ -22,8 +24,19 @@
       <div class="flex justify-center mb-4">
         <!-- User Icon -->
         <div class="bg-gray-100 p-3 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c1.656 0 3-1.344 3-3s-1.344-3-3-3-3 1.344-3 3 1.344 3 3 3zm0 1c-2.486 0-8 1.343-8 4v2h16v-2c0-2.657-5.514-4-8-4z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-10 w-10 text-gray-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 11c1.656 0 3-1.344 3-3s-1.344-3-3-3-3 1.344-3 3 1.344 3 3 3zm0 1c-2.486 0-8 1.343-8 4v2h16v-2c0-2.657-5.514-4-8-4z"
+            />
           </svg>
         </div>
       </div>
@@ -33,36 +46,63 @@
       <form action="{{ url_for('main.login') }}" method="POST">
         <!-- Username Field -->
         <div class="mb-4">
-          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-          <input type="text" id="username" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
         </div>
 
         <!-- Password Field -->
         <div class="mb-4">
-          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-          <input type="password" id="password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
         </div>
 
         <!-- Remember Me and Links -->
         <div class="flex items-center justify-between mb-6">
           <label class="flex items-center text-sm text-gray-600">
-            <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+            <input
+              type="checkbox"
+              class="rounded border-gray-300 text-green-600 focus:ring-green-500"
+            />
             <span class="ml-2">Remember me</span>
           </label>
-          <a href="#" class="text-sm text-green-600 hover:underline">Forgot password?</a>
+          <a href="#" class="text-sm text-green-600 hover:underline"
+            >Forgot password?</a
+          >
         </div>
 
         <!-- Login Button -->
-        <button type="submit" class="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-green-500">
+        <button
+          type="submit"
+          class="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
           Login
         </button>
       </form>
 
       <!-- Registration Link -->
       <p class="mt-4 text-center text-sm text-gray-600">
-        Not registered? <a href="{{ url_for('main.register') }}" class="text-green-600 hover:underline">Create an account!</a>
+        Not registered?
+        <a
+          href="{{ url_for('main.register') }}"
+          class="text-green-600 hover:underline"
+          >Create an account!</a
+        >
       </p>
     </div>
   </div>
-</div>
+
 {% endblock %}

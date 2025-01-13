@@ -1,126 +1,139 @@
-{% extends "auth/template/auth_layout.html" %}
+{% extends "auth/template/auth_layout.html" %} {% block wrapper_content %}
+<div class="relative z-10 flex justify-center items-center h-full">
+  <div
+    class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-4xl border border-purple-500"
+  >
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-bold text-green-600">REGISTRATION FORM</h2>
+    </div>
 
-{% block content %}
-{% with messages = get_flashed_messages(with_categories=True) %}
-{% if messages %}
-{% for category, message in messages %}
-<div
-  class="alert alert-{{ category }} alert-dismissible fade show"
-  role="alert"
->
-  {{ message }}
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-  ></button>
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 mx-auto">
-      <div class="card">
-        <h1 class="text-3xl font-bold underline text-clifford">Register</h1>
-        <div class="card-body">
-          <form action="{{ url_for('main.register') }}" method="POST">
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input
-                type="text"
-                class="form-control"
-                id="username"
-                name="username"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="firstname" class="form-label">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="firstname"
-                name="firstname"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="lastname" class="form-label">Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="lastname"
-                name="lastname"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="middlename" class="form-label">Middle Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="middlename"
-                name="middlename"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="sex" class="form-label">Sex</label>
-              <select class="form-control" id="sex" name="sex" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-               
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="address" class="form-label">Address</label>
-              <textarea
-                class="form-control"
-                id="address"
-                name="address"
-                rows="2"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="contact" class="form-label">Contact</label>
-              <input
-                type="text"
-                class="form-control"
-                id="contact"
-                name="contact"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                name="password"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="confirm_password" class="form-label">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                class="form-control"
-                id="confirm_password"
-                name="confirm_password"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-          </form>
+    <!-- Form -->
+    <form action="{{ url_for('main.register') }}" method="POST" >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- First Name -->
+        <div>
+          <label
+            for="first-name"
+            class="block text-sm font-medium text-gray-700"
+            >First name</label
+          >
+          <input
+            type="text"
+            id="first-name"
+            name="first-name"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Middle Name -->
+        <div>
+          <label
+            for="middle-name"
+            class="block text-sm font-medium text-gray-700"
+            >Middle name</label
+          >
+          <input
+            type="text"
+            id="middle-name"
+            name="middle-name"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Last Name -->
+        <div>
+          <label for="last-name" class="block text-sm font-medium text-gray-700"
+            >Last name</label
+          >
+          <input
+            type="text"
+            id="last-name"
+            name="last-name"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Sex -->
+        <div>
+          <label for="sex" class="block text-sm font-medium text-gray-700"
+            >Sex</label
+          >
+          <input
+            type="text"
+            id="sex"
+            name="sex"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-sm font-medium text-gray-700"
+            >Address</label
+          >
+          <input
+            type="text"
+            id="address"
+            name="address"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Contact Number -->
+        <div>
+          <label
+            for="contact-number"
+            class="block text-sm font-medium text-gray-700"
+            >Contact number</label
+          >
+          <input
+            type="text"
+            id="contact-number"
+            name="contact-number"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Username -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >User name</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
+        </div>
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          />
         </div>
       </div>
+
+      <!-- Submit Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          type="submit"
+          class="w-full max-w-sm py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+    <div class="text-center text-sm mt-2">
+      Already have an account?
+      <a
+        href="{{ url_for('main.login') }}"
+        class="text-blue-500 hover:underline"
+        >Login</a
+      >
     </div>
   </div>
+  
 </div>
 {% endblock %}
