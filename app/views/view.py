@@ -11,24 +11,21 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 # AUTHENTICATION
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    result = login_user_controller(request)
-    if result:
-        return result
-    return render_template('auth/login.html')
+    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+        return redirect(url_for('admin.dashboard'))
+    return login_user_controller(request)
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    result = register_user_controller(request)
-    if result:
-        return result
-    return render_template('auth/register.html')
+    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+        return redirect(url_for('admin.dashboard'))
+    return register_user_controller(request)
 
 @main.route('/', methods=['GET', 'POST'])
 def home():
-    result = register_user_controller(request)
-    if result:
-        return result
-    return render_template('auth/login.html')
+    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+        return redirect(url_for('admin.dashboard'))
+    return login_user_controller(request)
 
 @main.route('/logout')
 def logout():
