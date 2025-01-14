@@ -23,6 +23,10 @@ if (registerForm) {
         notification.on("click", ({ target, event }) => {
           window.location.href = "/login";
         });
+
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
       } else {
         
         notyf.error(data.message);
