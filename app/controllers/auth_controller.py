@@ -2,7 +2,7 @@ from flask import flash, redirect, url_for, request,render_template
 from flask_login import login_user,logout_user
 from flask import session
 from app.services.user_services import UserService
-from ..extensions import db
+from app.utils.validation_utils import Validation
 from flask import jsonify
 
 def login_user_controller(request):
@@ -38,15 +38,23 @@ def register_user_controller(request):
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        # Validate required fields
+        # Validate fields
         if not all([username, firstname, lastname, sex, address, contact, password, confirm_password]):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400
 
-        # Validate passwords match
+        if not Validation.is_valid_name(firstname):
+            return jsonify({'success': False, 'message': 'First name must contain only letters.'}), 400
+        if not Validation.has_no_repeated_characters(firstname):
+            return jsonify({'success': False, 'message': 'First name must not have three or more consecutive repeated characters.'}), 400
+
+        if not Validation.is_valid_name(lastname):
+            return jsonify({'success': False, 'message': 'Last name must contain only letters.'}), 400
+        if not Validation.has_no_repeated_characters(lastname):
+            return jsonify({'success': False, 'message': 'Last name must not have three or more consecutive repeated characters.'}), 400
+        
         if password != confirm_password:
             return jsonify({'success': False, 'message': 'Passwords do not match.'}), 400
 
-        # Check if username already exists
         if UserService.get_user_by_username(username):
             return jsonify({'success': False, 'message': 'Username is already taken.'}), 400
 

@@ -1,7 +1,5 @@
 {% extends "auth/template/auth_layout.html" %} {% block wrapper_content %}
 
-<!-- Full Page Section -->
-
 <!-- Dark Overlay -->
 <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
@@ -11,7 +9,9 @@
 >
   <!-- Title Section -->
   <div class="text-white max-w-xl lg:max-w-lg text-center lg:text-left">
-    <h1 class="text-3xl lg:text-4xl font-bold mb-4 leading-snug drop-shadow-lg">
+    <h1
+      class="title-front text-3xl lg:text-4xl font-bold mb-4 leading-snug drop-shadow-lg"
+    >
       A Microframework Web-Based Application for <br />
       Magallanes Central Elementary School Inventory Management System
     </h1>
@@ -85,6 +85,8 @@
       <!-- Login Button -->
       <button
         type="submit"
+        id="loginButton"
+        data-loading-text="Logging in..."
         class="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-green-500"
       >
         Login
