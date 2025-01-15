@@ -1,0 +1,268 @@
+
+.main-wrapper{
+  grid-template-columns:  280px auto ;
+  display: grid;
+  transition:  all ease-in 0.3s;
+}
+
+
+body div.container-fluid#main-home{
+  background-image: url('../../img/home.jpg') !important; 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100% !important;
+  
+}
+#admin-page{
+  background-image: url('../../img/body.jpg') !important; 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+
+body div.container-fluid#main-body{
+  height: 100vh !important;
+}
+
+body{
+   transition:  all ease-in 0.7s !important;
+}
+
+
+
+h1{
+  font-size: 100px !important;
+}
+
+h2{
+  font-size: 60px !important;
+}
+
+h3{
+  font-size: 40px !important;
+}
+
+h4{
+  font-size: 20px !important;
+}
+
+h5{
+  font-size: 15px !important;
+}
+
+
+form label{
+  font-weight: bolder !important;
+}
+
+.bg-lighter{
+  background-color: #F5F4F5 !important;
+}
+
+.bg-darker{
+  background-color: #313131 !important;
+}
+
+
+.bg-darkbrown{
+  background-color: #3A3238 !important;
+}
+
+.bg-success1 {
+  background-color: #85DBA4 !important;
+}
+
+#top-footer{
+  height: 100vh !important;
+  opacity: 1 !important;
+}
+
+
+.border-radius{
+  border-radius: 10px !important;
+}
+.overflow{
+  overflow: hidden !important;
+}
+
+
+dt{
+  font-weight: normal;
+}
+dd{
+  font-weight: bolder;
+}
+
+#admin-page{
+  height: 100% important;
+}
+
+
+
+.top-footer{
+   opacity: 1 !important;
+   width: 100% !important;
+   height: 50px !important;
+   bottom: 0;
+   position: relative;
+  }
+
+.admin-top-footer{
+    margin-top:  70vh !important;
+  }
+
+
+
+@media (max-width: 600px){
+  .main-wrapper{
+    grid-template-columns: 100% !important;
+    display: grid;
+    transition:  all ease-in 0.3s;
+  }
+   h1{
+    font-size: 60px !important;
+  }
+
+
+  #sidebar{
+    width: 280px;
+    margin-left: -280px;
+    position: absolute !important;
+    height: auto !important;
+    top: 0;
+    bottom: 0;
+    z-index: 99999 !important;
+  }
+  #toggle-menu{
+    display: block !important;
+  }
+}
+
+@media (max-width: 800px){
+
+  .main-wrapper{
+    grid-template-columns: 100% !important;
+    display: grid;
+    transition:  all ease-in 0.3s;
+  }
+  h1{
+    font-size: 60px !important;
+  }
+
+  #toggle-menu{
+    display: block !important;
+  }
+
+  #sidebar{
+    width: 280px;
+    margin-left: -280px;
+    position: absolute  !important;
+    height: auto !important;
+    top: 0;
+    bottom: 0;
+    z-index: 99999 !important;
+    transition:  all ease-in 0.3s;
+  }
+}
+
+
+@media (max-width: 1290px){
+
+   .main-wrapper{
+    grid-template-columns: 280px auto ;
+    display: grid;
+    transition:  all ease-in 0.3s;
+  }
+}
+
+@media (max-width: 1690px){
+ 
+   .main-wrapper{
+    grid-template-columns: 280px auto ;
+    display: grid;
+    transition:  all ease-in 0.3s;
+  }
+}
+
+
+
+.form-signin{
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.button{
+  border-radius: 20px !important;
+  padding: 30px !important;
+  width: 300px !important;
+  margin-top: 10px !important;
+}
+.button1{
+  border-radius: 20px !important;
+  padding: 30px !important;
+  margin-top: 10px !important;
+}
+
+#body-title,#body-subtitle{
+  text-shadow: 1px 5px 20px black !important; 
+}
+
+
+  #alert-status{
+    margin-top: -350px;
+    position: absolute;
+    z-index: 99999;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+
+  }
+
+  #alert-err-status{
+    margin-top: -350px;
+    position: absolute;
+    z-index: 99999;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+
+  }
+  #alert-err-status2{
+    margin-top: -350px;
+    position: absolute;
+    z-index: 99999;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+
+  }
+
+
+  .shadow-lg{
+    box-shadow: 10px 15px 40px black !important;
+  }
+
+  .show-pass{
+    position: relative !important;
+    right: 20px !important;
+    top: -30px !important;
+    left: calc(100% - 30px);
+    z-index: 99999;
+  }
+
+ 
+   td { white-space: wrap; }
+    div.dataTables_wrapper {
+        width: 95%;
+      margin-left: 25px;
+    }
+    
+    tr { height: 40px; }
+
+
+  .label-header{
+    margin-top: -20px !important;
+  }

@@ -34,7 +34,7 @@ if (registerForm) {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An unexpected error occurred.");
+      notyf.error("An unexpected error occurred.");
       setLoadingState(registerButton, false);
     }
   });
@@ -73,8 +73,7 @@ if (loginForm) {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An unexpected error occurred.");
-
+      notyf.error("An unexpected error occurred.");
       setLoadingState(loginButton, false);
     }
   });

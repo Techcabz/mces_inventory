@@ -28,12 +28,12 @@ def register_user_controller(request):
         return render_template('auth/register.html')
 
     elif request.method == 'POST':
-        username = request.form.get('username')
-        firstname = request.form.get('firstname')
-        lastname = request.form.get('lastname')
-        middlename = request.form.get('middlename', '')  # Optional
-        sex = request.form.get('sex')
-        address = request.form.get('address')
+        username = request.form.get('username', '').lower()
+        firstname = request.form.get('firstname', '').lower()
+        lastname = request.form.get('lastname', '').lower()
+        middlename = request.form.get('middlename', '').lower()  # Optional
+        sex = request.form.get('sex', '').lower()
+        address = request.form.get('address', '').lower()
         contact = request.form.get('contact')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
