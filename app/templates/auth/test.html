@@ -13,14 +13,17 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
     />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
   </head>
   <body class="bg-lighter">
     <div class="main-wrapper h-screen">
+      <!-- sidebar -->
       <aside
-        class="d-flex flex-column text-white "
-        style="background: linear-gradient(to left, #1F9751, #1F9751)"
+        class="d-flex flex-column text-white fixed  h-screen "
+        style="background: linear-gradient(to left, #1f9751, #1f9751); width: 18em;"
         id="sidebar"
       >
         <div class="text-end pe-2">
@@ -75,7 +78,7 @@
               @click="open = !open"
               @keydown.escape="open = false"
               type="button"
-              class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-white  shadow-sm ring-1 ring-inset ring-gray-300"
+              class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300"
               id="menu-button"
               aria-expanded="true"
               aria-haspopup="true"
@@ -95,7 +98,7 @@
               </svg>
             </button>
           </div>
-        
+
           <div
             x-show="open"
             @click.away="open = false"
@@ -120,11 +123,15 @@
                 id="menu-item-0"
                 >Account settings</a
               >
-             
-              <form method="GET" action="{{ url_for('main.logout') }}" role="none">
+
+              <form
+                method="GET"
+                action="{{ url_for('main.logout') }}"
+                role="none"
+              >
                 <button
                   type="submit"
-                  class="block w-full px-4 py-2 text-left text-sm text-gray-700  text-danger "
+                  class="block w-full px-4 py-2 text-left text-sm text-gray-700 text-danger"
                   role="menuitem"
                   tabindex="-1"
                   id="menu-item-3"
@@ -135,13 +142,13 @@
             </div>
           </div>
         </div>
-        
+
         <hr />
         <ul class="nav nav-pills flex-column mb-auto">
           <li>
             <a
               href="#"
-              class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white  hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
+              class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -304,14 +311,14 @@
               LOGS
             </a>
           </li>
-          
         </ul>
       </aside>
-
+      <!-- sidebar end -->
       <main>
+        <!-- header -->
         <div class="w-100 text-center">
           <div
-            class="header text-end text-light d-flex  justify-content-center bg-white mb-1 p-2  border-b-2 border-gray-500"
+            class="header text-end text-light d-flex justify-content-center bg-white mb-1 p-2 border-b-2 border-gray-500"
           >
             <div>
               <button
@@ -336,11 +343,13 @@
                 </svg>
               </button>
             </div>
-            <div class="flex justify-content-evenly align-items-center ">
-              <p class="text-center  text-dark me-2 text-2xl sm:text-2xl md:text-xl lg:text-2xl">
+            <div class="flex justify-content-evenly align-items-center">
+              <p
+                class="text-center text-dark me-2 text-2xl sm:text-2xl md:text-xl lg:text-2xl"
+              >
                 INVENTORY MANAGEMENT SYSTEM
               </p>
-              
+
               <div
                 class="mx-auto"
                 style="
@@ -358,6 +367,28 @@
             </div>
           </div>
         </div>
+        <!-- header end -->
+        <!-- content -->
+        <div class="min-h-screen h-screen mt-3">
+          <div class="flex items-center justify-center bg-gray-100">
+            <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+              <h1 class="text-2xl font-bold text-center mb-4">
+                Vertical Content
+              </h1>
+              <p class="text-gray-600 text-center">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt, inventore?
+              </p>
+              <div class="mt-4">
+                <button
+                  class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                >
+                  Button
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content end -->
       </main>
     </div>
   </body>
