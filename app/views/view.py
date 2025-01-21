@@ -62,6 +62,10 @@ def equipment():
 @web_guard
 def tools():
     return render_template('admin/tools.html')
+@admin.route('/logs')
+@web_guard
+def logs():
+    return render_template('admin/logs.html')
 
 
 @main.route('/test')

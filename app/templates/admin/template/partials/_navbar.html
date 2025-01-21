@@ -1,33 +1,49 @@
-<nav
-  class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
->
-  <!-- Logo -->
-  {% include 'admin/template/partials/_logo.html' %}
-
-  <div class="navbar-menu-wrapper d-flex align-items-stretch">
-    <button
-      class="navbar-toggler navbar-toggler align-self-center"
-      type="button"
-      data-toggle="minimize"
-    >
-      <span class="mdi mdi-menu"></span>
-    </button>
-
-    <button
-      class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-      type="button"
-      data-toggle="offcanvas"
-    >
-      <span class="mdi mdi-menu"></span>
-    </button>
-    <div class="d-flex align-items-center justify-content-center w-100">
-      <div class="d-flex image-title">
-        <h2 class="text-dark text-center font-bold">INVENTORY MANAGEMENT SYSTEM</h2>
+<div class="w-100 text-center">
+  <div
+    class="header text-end text-light d-flex  justify-content-center bg-white mb-1 p-2  border-b-2 border-gray-500"
+  >
+    <div>
+      <button
+        type="button"
+        class="btn toggle-menu px-2"
+        id="toggle-menu"
+        style="display: none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="flex justify-content-evenly align-items-center ">
+      <p class="text-center  text-dark me-2 text-2xl sm:text-2xl md:text-xl lg:text-2xl">
+        INVENTORY MANAGEMENT SYSTEM
+      </p>
+      
+      <div
+        class="mx-auto"
+        style="
+          border-radius: 50%;
+          height: 50px;
+          width: 50px;
+          overflow: hidden;
+        "
+      >
         <img
           src="{{ url_for('static', filename='images/favicon.webp') }}"
-          alt="logo"
+          class="w-100"
         />
       </div>
     </div>
   </div>
-</nav>
+</div>
