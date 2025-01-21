@@ -4,7 +4,7 @@ Follow these steps to run the Flask application:
 
 1. **Clone the repository:**
   ```bash
-  git clone https://github.com/Techcabz/flask_project.git
+  git clone https://github.com/Techcabz/mces_inventory.git
   cd [project name]
   ```
 
