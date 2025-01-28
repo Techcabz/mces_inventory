@@ -1,12 +1,13 @@
 {% extends "base.html" %} {% block content %}
-<div class="main-wrapper h-screen">
+
+<body class="g-sidenav-show  bg-gray-100">
   {% include 'admin/template/partials/_sidebar.html' %}
 
   <!-- partial -->
-  <main>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     {% include 'admin/template/partials/_navbar.html' %}
 
-    <div class="min-h-screen  overflow-x-hidden">
+    <div class=" container-fluid py-4 background-1">
       {% block admin_content %} {% endblock %}
     </div>
    

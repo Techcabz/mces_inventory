@@ -2,13 +2,15 @@
 import os
 from ..models.user_models import User
 from ..extensions import db
+from dotenv import load_dotenv
 
 class UserService:
     @staticmethod
     def create_user(username, password, role='guest', **kwargs):
         user = User(username=username, role=role, **kwargs)
+        
         user.set_password(password)
-
+    
         try:
             db.session.add(user)
             db.session.commit()
@@ -60,18 +62,21 @@ class UserService:
   
     @staticmethod
     def create_default_admin():
-        admin_username = os.getenv("DEFAULT_ADMIN_USERNAME", "admin")
-        admin_password = os.getenv("DEFAULT_ADMIN_PASSWORD", "admin123")
-        admin_role = "admin"
+        # Load .env file
+        load_dotenv()
 
+        admin_username = "admin"
+        admin_password = "admin123"
+        admin_role = "admin"
+       
         existing_admin = UserService.get_user_by_username(username=admin_username)
         if not existing_admin:
             default_data = {
-                "firstname": "Default",
-                "lastname": "Admin",
+                "firstname": "admin",
+                "lastname": "admin",
                 "middlename": "",
-                "sex": "Other",
-                "address": "Admin Address",
+                "sex": "male",
+                "address": "admin address",
                 "contact": "0000000000",
             }
             admin = UserService.create_user(
@@ -81,7 +86,7 @@ class UserService:
                 **default_data,
             )
             if admin:
-                print(f"Default admin user created with username: {admin_username}")
+                print(f"Default admin user created with username: {admin_username} & {admin_password}")
             else:
                 print("Failed to create default admin user.")
         else:

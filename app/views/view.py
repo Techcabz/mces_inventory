@@ -38,34 +38,40 @@ def logout():
 def dashboard():
     return render_template('admin/dashboard.html')
 
-@admin.route('/category')
-@web_guard
-def category():
-    return render_template('admin/category.html')
-
 @admin.route('/borrowing')
 @web_guard
 def borrowing():
     return render_template('admin/borrowing.html')
 
-@admin.route('/materials')
+@admin.route('/category')
 @web_guard
-def materials():
-    return render_template('admin/materials.html')
+def category():
+    return render_template('admin/category.html')
 
-@admin.route('/equipment')
+@admin.route('/inventory')
 @web_guard
-def equipment():
-    return render_template('admin/equipment.html')
+def inventory():
+    return render_template('admin/inventory.html')
 
-@admin.route('/tools')
+@admin.route('/reports')
 @web_guard
-def tools():
-    return render_template('admin/tools.html')
+def reports():
+    return render_template('admin/logs.html')
+
+@admin.route('/settings')
+@web_guard
+def settings():
+    return render_template('admin/logs.html')
+
 @admin.route('/logs')
 @web_guard
 def logs():
     return render_template('admin/logs.html')
+
+@admin.route('/users')
+@web_guard
+def users():
+    return render_template('admin/users.html')
 
 
 @main.route('/test')

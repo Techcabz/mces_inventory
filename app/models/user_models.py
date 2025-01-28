@@ -1,6 +1,8 @@
+import hashlib
+import os
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -15,9 +17,39 @@ class User(UserMixin, db.Model):
     contact = db.Column(db.String(20), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), default='guest')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        salt = os.urandom(16)
+        hash_bytes = hashlib.scrypt(
+            password.encode('utf-8'),
+            salt=salt,
+            n=2**14,
+            r=8,
+            p=1,
+        )
+        self.password_hash = f"scrypt:{salt.hex()}:{hash_bytes.hex()}"
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        try:
+            algo, salt, hash_bytes = self.password_hash.split(":")
+            if algo != "scrypt":
+                return False
+            salt = bytes.fromhex(salt)
+            stored_hash = bytes.fromhex(hash_bytes)
+            computed_hash = hashlib.scrypt(
+                password.encode('utf-8'),
+                salt=salt,
+                n=2**14,
+                r=8,
+                p=1,
+            )
+            return computed_hash == stored_hash
+        except ValueError:
+            return False
+        
+        
+    def __repr__(self):
+        return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname}>"
+

@@ -1,312 +1,337 @@
 <aside
-  class="d-flex flex-column text-white"
-  style="background: linear-gradient(to left, #1f9751, #1f9751)"
-  id="sidebar"
+  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+  id="sidenav-main"
 >
-  <div class="text-end pe-2">
-    <button
-      class="btn btn-sm btn-close bg-light d-none"
-      type="button"
-      id="minimize"
-    ></button>
-  </div>
-
-  <div class="">
-    <div
-      class="mx-auto mt-3"
-      style="border-radius: 50%; height: 100px; width: 100px; overflow: hidden"
-    >
+  <div class="sidenav-header">
+    <i
+      class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+      aria-hidden="true"
+      id="iconSidenav"
+    ></i>
+    <a class="navbar-brand m-0" href="">
       <img
-        src="{{ url_for('static', filename='images/user.svg') }}"
-        class="w-100"
+        src="{{ url_for('static', filename='images/favicon.webp') }}"
+        class="navbar-brand-img h-100"
+        alt="main_logo"
       />
-    </div>
+      <span class="ms-1 font-weight-bold">MCES INVENTORY</span>
+    </a>
   </div>
- 
-  
-  <div x-data="{ open: false }" class="relative inline-block text-left">
-    <div>
-      <button
-        @click="open = !open"
-        @keydown.escape="open = false"
-        type="button"
-        class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300"
-        id="menu-button"
-        aria-expanded="true"
-        aria-haspopup="true"
-      >
-        Administrator
-        <svg
-          class="-mr-1 size-5 text-gray-400"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
-    </div>
+  <hr class="horizontal dark mt-0" />
 
-    <div
-      x-show="open"
-      @click.away="open = false"
-      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="menu-button"
-      tabindex="-1"
-      x-transition:enter="transition ease-out duration-200"
-      x-transition:enter-start="opacity-0 scale-95"
-      x-transition:enter-end="opacity-100 scale-100"
-      x-transition:leave="transition ease-in duration-75"
-      x-transition:leave-start="opacity-100 scale-100"
-      x-transition:leave-end="opacity-0 scale-95"
-    >
-      <div class="py-1" role="none">
-        <a
-          href="#"
-          class="block px-4 py-2 text-sm text-gray-700"
-          role="menuitem"
-          tabindex="-1"
-          id="menu-item-0"
-          >Account settings</a
-        >
-
-        <form method="GET" action="{{ url_for('main.logout') }}" role="none">
-          <button
-            type="submit"
-            class="block w-full px-4 py-2 text-left text-sm text-gray-700 text-danger"
-            role="menuitem"
-            tabindex="-1"
-            id="menu-item-3"
+  <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link {% if request.path == url_for('admin.dashboard') %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
           >
-            Sign out
-          </button>
-        </form>
-      </div>
-    </div>
+            <svg
+              width="12px"
+              height="12px"
+              viewBox="0 0 45 40"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <title>Dashboard</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-1716.000000, -439.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <g transform="translate(1716.000000, 291.000000)">
+                    <g transform="translate(0.000000, 148.000000)">
+                      <path
+                        class="color-background opacity-6"
+                        d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"
+                      ></path>
+                      <path
+                        class="color-background"
+                        d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.borrowing') %}active{% endif %}" href="{{ url_for('admin.borrowing') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+            <svg
+              enable-background="new 0 0 48 48"
+              height="48px"
+              id="Layer_3"
+              version="1.1"
+              viewBox="0 0 48 48"
+              width="48px"
+              xml:space="preserve"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g>
+                <rect
+                  class="color-background"
+                  fill="#241F20"
+                  height="4"
+                  width="16"
+                  x="8.979"
+                  y="22"
+                />
+                <rect
+                  class="color-background"
+                  fill="#241F20"
+                  height="4"
+                  width="16"
+                  x="8.979"
+                  y="29"
+                />
+                <rect
+                  class="color-background"
+                  fill="#241F20"
+                  height="4"
+                  width="16"
+                  x="8.979"
+                  y="36"
+                />
+                <path
+                  class="color-background"
+                  d="M31.979,0h-30v14.167V18v30h30V18h14.043V0H31.979z M27.979,44h-22V18h22V44z M27.979,14h-22V4h22V14z    M37,11.422L33.086,6.62h7.83L37,11.422z"
+                  fill="#241F20"
+                />
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Borrowing</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.category') %}active{% endif %}" href="{{ url_for('admin.category') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <svg
+              height="512"
+              viewBox="0 0 512 512"
+              width="512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                class="color-background"
+                d="M328,16H216a8,8,0,0,0-7.938,8.992l8,64A8,8,0,0,0,224,96V448a48,48,0,0,0,96,0V96a8,8,0,0,0,7.938-7.008l8-64A8,8,0,0,0,328,16Zm-9.062,16-6,48H231.062l-6-48ZM304,448a32,32,0,0,1-64,0V424h24a8,8,0,0,0,0-16H240V392h8a8,8,0,0,0,0-16h-8V360h24a8,8,0,0,0,0-16H240V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H240V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H240V200h8a8,8,0,0,0,0-16h-8V168h24a8,8,0,0,0,0-16H240V96h64Zm184-72h-8V192a8,8,0,0,0-8-8H456V160a8,8,0,0,0-8-8h-8V24a8,8,0,0,0-13.657-5.657l-32,32A8,8,0,0,0,392,56v96h-8a8,8,0,0,0-8,8v24H360a8,8,0,0,0-8,8V376h-8a8,8,0,0,0,0,16h40v88H360a8,8,0,0,0,0,16H472a8,8,0,0,0,0-16H448V392h40a8,8,0,0,0,0-16ZM408,59.313l16-16V152H408ZM392,168h48v16H392ZM368,360h24a8,8,0,0,0,0-16H368V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H368V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H368V200h96V376H368Zm64,120H400V392h32ZM144,232.57V216h8a8,8,0,0,0,8-8V176a8,8,0,0,0-8-8H56a8,8,0,0,0-8,8v32a8,8,0,0,0,8,8h8v16.57A56.086,56.086,0,0,0,16,288V472a24.028,24.028,0,0,0,24,24H168a24.028,24.028,0,0,0,24-24V288A56.086,56.086,0,0,0,144,232.57ZM64,184h80v16H64ZM32,472V296H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v24H40A8.009,8.009,0,0,1,32,472Zm144,0a8.009,8.009,0,0,1-8,8H112V456h24a8,8,0,0,0,0-16H112V424h24a8,8,0,0,0,0-16H112V392h24a8,8,0,0,0,0-16H112V360h24a8,8,0,0,0,0-16H112V328h24a8,8,0,0,0,0-16H112V296h64ZM32.8,280A40.071,40.071,0,0,1,72,248a8,8,0,0,0,8-8V216h48v24a8,8,0,0,0,8,8,40.071,40.071,0,0,1,39.2,32ZM104,128A56,56,0,1,0,48,72,56.063,56.063,0,0,0,104,128Zm0-16A40.067,40.067,0,0,1,64.805,80H143.2A40.067,40.067,0,0,1,104,112Zm0-80A40.067,40.067,0,0,1,143.2,64H64.805A40.067,40.067,0,0,1,104,32Z"
+              />
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Category</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.inventory') %}active{% endif %}" href="{{ url_for('admin.inventory') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <svg
+              width="12px"
+              height="12px"
+              viewBox="0 0 42 42"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <title>box-3d-50</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-2319.000000, -291.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <g transform="translate(1716.000000, 291.000000)">
+                    <g transform="translate(603.000000, 0.000000)">
+                      <path
+                        class="color-background"
+                        d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"
+                      ></path>
+                      <path
+                        class="color-background opacity-6"
+                        d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z"
+                      ></path>
+                      <path
+                        class="color-background opacity-6"
+                        d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Inventory</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.reports') %}active{% endif %}" href="{{ url_for('admin.reports') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <svg
+              width="12px"
+              height="20px"
+              viewBox="0 0 40 40"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <title>spaceship</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-1720.000000, -592.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <g transform="translate(1716.000000, 291.000000)">
+                    <g transform="translate(4.000000, 301.000000)">
+                      <path
+                        class="color-background"
+                        d="M39.3,0.706666667 C38.9660984,0.370464027 38.5048767,0.192278529 38.0316667,0.216666667 C14.6516667,1.43666667 6.015,22.2633333 5.93166667,22.4733333 C5.68236407,23.0926189 5.82664679,23.8009159 6.29833333,24.2733333 L15.7266667,33.7016667 C16.2013871,34.1756798 16.9140329,34.3188658 17.535,34.065 C17.7433333,33.98 38.4583333,25.2466667 39.7816667,1.97666667 C39.8087196,1.50414529 39.6335979,1.04240574 39.3,0.706666667 Z M25.69,19.0233333 C24.7367525,19.9768687 23.3029475,20.2622391 22.0572426,19.7463614 C20.8115377,19.2304837 19.9992882,18.0149658 19.9992882,16.6666667 C19.9992882,15.3183676 20.8115377,14.1028496 22.0572426,13.5869719 C23.3029475,13.0710943 24.7367525,13.3564646 25.69,14.31 C26.9912731,15.6116662 26.9912731,17.7216672 25.69,19.0233333 L25.69,19.0233333 Z"
+                      ></path>
+                      <path
+                        class="color-background opacity-6"
+                        d="M1.855,31.4066667 C3.05106558,30.2024182 4.79973884,29.7296005 6.43969145,30.1670277 C8.07964407,30.6044549 9.36054508,31.8853559 9.7979723,33.5253085 C10.2353995,35.1652612 9.76258177,36.9139344 8.55833333,38.11 C6.70666667,39.9616667 0,40 0,40 C0,40 0,33.2566667 1.855,31.4066667 Z"
+                      ></path>
+                      <path
+                        class="color-background opacity-6"
+                        d="M17.2616667,3.90166667 C12.4943643,3.07192755 7.62174065,4.61673894 4.20333333,8.04166667 C3.31200265,8.94126033 2.53706177,9.94913142 1.89666667,11.0416667 C1.5109569,11.6966059 1.61721591,12.5295394 2.155,13.0666667 L5.47,16.3833333 C8.55036617,11.4946947 12.5559074,7.25476565 17.2616667,3.90166667 L17.2616667,3.90166667 Z"
+                      ></path>
+                      <path
+                        class="color-background opacity-6"
+                        d="M36.0983333,22.7383333 C36.9280725,27.5056357 35.3832611,32.3782594 31.9583333,35.7966667 C31.0587397,36.6879974 30.0508686,37.4629382 28.9583333,38.1033333 C28.3033941,38.4890431 27.4704606,38.3827841 26.9333333,37.845 L23.6166667,34.53 C28.5053053,31.4496338 32.7452344,27.4440926 36.0983333,22.7383333 L36.0983333,22.7383333 Z"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Reports</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.users') %}active{% endif %}" href="{{ url_for('admin.users') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+            <svg
+              enable-background="new 0 0 24 24"
+              id="Layer_1"
+              version="1.0"
+              viewBox="0 0 24 24"
+              xml:space="preserve"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <g>
+                <path
+                  class="color-background"
+                  d="M9,9c0-1.7,1.3-3,3-3s3,1.3,3,3c0,1.7-1.3,3-3,3S9,10.7,9,9z M12,14c-4.6,0-6,3.3-6,3.3V19h12v-1.7C18,17.3,16.6,14,12,14z   "
+                />
+              </g>
+              <g>
+                <g>
+                  <circle class="color-background" cx="18.5" cy="8.5" r="2.5" />
+                </g>
+                <g>
+                  <path
+                    class="color-background"
+                    d="M18.5,13c-1.2,0-2.1,0.3-2.8,0.8c2.3,1.1,3.2,3,3.2,3.2l0,0.1H23v-1.3C23,15.7,21.9,13,18.5,13z"
+                  />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <circle class="color-background" cx="18.5" cy="8.5" r="2.5" />
+                </g>
+                <g>
+                  <path
+                    class="color-background"
+                    d="M18.5,13c-1.2,0-2.1,0.3-2.8,0.8c2.3,1.1,3.2,3,3.2,3.2l0,0.1H23v-1.3C23,15.7,21.9,13,18.5,13z"
+                  />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <circle class="color-background" cx="5.5" cy="8.5" r="2.5" />
+                </g>
+                <g>
+                  <path
+                    class="color-background"
+                    d="M5.5,13c1.2,0,2.1,0.3,2.8,0.8c-2.3,1.1-3.2,3-3.2,3.2l0,0.1H1v-1.3C1,15.7,2.1,13,5.5,13z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Users</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == url_for('admin.settings') %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+          <div
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+          >
+            <svg
+              width="12px"
+              height="12px"
+              viewBox="0 0 40 40"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <title>settings</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g
+                  transform="translate(-2020.000000, -442.000000)"
+                  fill="#FFFFFF"
+                  fill-rule="nonzero"
+                >
+                  <g transform="translate(1716.000000, 291.000000)">
+                    <g transform="translate(304.000000, 151.000000)">
+                      <polygon
+                        class="color-background opacity-6"
+                        points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"
+                      ></polygon>
+                      <path
+                        class="color-background opacity-6"
+                        d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"
+                      ></path>
+                      <path
+                        class="color-background"
+                        d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span class="nav-link-text ms-1">Settings</span>
+        </a>
+      </li>
+    </ul>
   </div>
 
-  <hr />
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li>
-      <a
-        href="{{ url_for('admin.dashboard') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-          />
-        </svg>
-
-        DASHBOARD
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.category') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-          />
-        </svg>
-
-        CATEGORY
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.borrowing') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-          />
-        </svg>
-
-        BORROWING
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.materials') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
-          />
-        </svg>
-
-        MATERIALS
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.equipment') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-          />
-        </svg>
-
-        EQUIPMENT
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.tools') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
-          />
-        </svg>
-
-        TOOLS
-      </a>
-    </li>
-    <li>
-      <a
-        href="{{ url_for('admin.logs') }}"
-        class="border-2 border-solid border-gray-600 mx-3 mt-3 bg-white hover:bg-green-600 text-dark flex items-center justify-start px-4 py-2 rounded-lg shadow-md transition duration-200 ease-in-out"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6 me-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5"
-          />
-        </svg>
-
-        LOGS
-      </a>
-    </li>
-  </ul>
+  
 </aside>
-
-<!-- <nav class="sidebar sidebar-offcanvas" id="sidebar">
-  <ul class="nav">
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.dashboard') }}">
-        <span class="menu-title">DASHBOARD</span>
-        <i class="mdi mdi-home menu-icon"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.category') }}">
-        <span class="menu-title">CATEGORY</span>
-        <i class="mdi mdi-table menu-icon"></i>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.borrowing') }}">
-        <span class="menu-title">BORROWING</span>
-        <i class="mdi mdi-note-multiple menu-icon"></i>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.materials') }}">
-        <span class="menu-title">MATERIALS</span>
-        <i class="mdi mdi-cart-variant menu-icon"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.equipment') }}">
-        <span class="menu-title">EQUIPMENT</span>
-        <i class="mdi mdi-cog menu-icon"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('admin.tools') }}">
-        <span class="menu-title">TOOLS</span>
-        <i class="mdi mdi-hammer menu-icon"></i>
-      </a>
-    </li>
-    <li  class="nav-item">
-      <a class="nav-link" href="{{ url_for('main.logout') }}">
-        <span class="menu-title">LOGOUT</span>
-        <i class="mdi mdi-hammer menu-icon"></i>
-      </a>
-    </li>
-  </ul>
-</nav> -->

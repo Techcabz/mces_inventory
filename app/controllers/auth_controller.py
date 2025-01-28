@@ -14,6 +14,8 @@ def login_user_controller(request):
         password = request.form['password']
         user = UserService.get_user_by_username(username)
         
+        print(user.set_password(password))
+        
         if user and user.check_password(password):
             login_user(user)
             session['role'] = user.role

@@ -1,0 +1,155 @@
+:root {
+  --color-re-main: #006657;
+  --color-re1: #e18801;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+}
+
+.background-1 {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../../static/images/background.webp");
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+  position: relative;
+  z-index: 1; 
+}
+
+.background-1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the color and opacity as needed */
+  z-index: -1; /* Place the overlay below content */
+}
+
+@media (max-width: 768px) {
+  .background-1 {
+    background-position: center;
+  }
+}
+
+.logo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  width: 100%;
+}
+
+.logo-container .logo img {
+  width: 50px;
+  height: 100%;
+  flex: 1;
+}
+
+.logo-container .logo-desc h1 {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-left: 20px;
+  flex: 1;
+}
+
+/* rewrite */
+.btn-outline-success {
+  border-color: var(--color-re-main) !important;
+  color: var(--color-re-main);
+}
+
+.btn-outline-success:hover {
+  color: var(--color-re-main) !important;
+}
+
+.bg-gradient-success {
+  background-image: linear-gradient(
+    310deg,
+    var(--color-re-main) 0%,
+    #4ab176 100%
+  );
+}
+
+/* .icon {
+  background-image: linear-gradient(
+    310deg,
+    var(--color-re-main) 0%,
+    #4ab176 100%
+  ) !important; 
+  color: #fff !important;
+} */
+
+table.dataTable > tbody > tr.selected > * {
+  box-shadow: inset 0 0 0 9999px rgba(19, 78, 68, 0.3) !important;
+  color: black;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.custom-modal-class {
+  max-width: 100%; /* Adjust the desired width */
+  /* Additional custom styles */
+}
+
+.custom-success-class {
+  max-width: 100%;
+}
+
+.custom-modal-class .swal2-popup {
+  width: 30rem;
+}
+
+.custom-success-class .swal2-popup {
+  width: 30rem;
+}
+
+.custom-font-size-xs {
+  font-size: 13px !important;
+}
+.error-text {
+  font-size: 12px;
+  color: red;
+}
+
+.btn-custom {
+  width: 20px !important;
+}
+
+/* CSS rules for screens with a maximum width of 600 pixels */
+@media (max-width: 767px) {
+  .logo-desc {
+    display: none !important;
+  }
+  .hideToMobile {
+    display: none !important;
+  }
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(75, 85, 84, 0.8) !important;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(22, 25, 29, 0.6) !important;
+}
