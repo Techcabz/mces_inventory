@@ -79,6 +79,31 @@ if (loginForm) {
   });
 }
 
+const logout = document.querySelector("#logout");
+if (logout) {
+ -
+  logout.addEventListener("click", async () => {
+   alert("logout");
+   try {
+    const response = await fetch("/logout", {
+      method: "GET",
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if (response.ok) {
+      window.location.href = "/";
+    } else {
+      notyf.error(data.message);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    notyf.error("An unexpected error occurred.");
+  }
+  });
+}
+
 
 function setLoadingState(button, isLoading) {
   if (isLoading) {
