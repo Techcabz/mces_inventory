@@ -22586,7 +22586,7 @@ html {
 
 .navbar-vertical.navbar-expand-xs .navbar-collapse {
   display: block;
-  overflow: auto;
+  /* overflow: auto; */
   /* height: calc(100vh - 360px); */
 }
 
@@ -23306,6 +23306,7 @@ html {
   font-weight: 600;
   box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
   border-radius: 0.5rem;
+  background: #1D8464 !important;
 }
 
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active {

@@ -5,7 +5,7 @@ $(document).ready(function () {
   var fullUrl = protocol + "//" + hostname + "/" + firstPath;
 
   var table = $("#datatable").DataTable({
-    dom: "l<br>Bfrtip",
+    dom: "l<br>frtip",
     buttons: [
       {
         extend: "print",
