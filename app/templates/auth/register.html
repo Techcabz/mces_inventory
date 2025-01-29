@@ -1,155 +1,176 @@
 {% extends "auth/template/auth_layout.html" %} {% block wrapper_content %}
-<div class="relative z-10 flex justify-center items-center h-full">
-  <div
-    class="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-4xl border border-purple-500"
-  >
-    <!-- Header -->
-    <div class="text-center mb-6">
-      <p class="text-2xl font-bold text-green-600">REGISTRATION FORM</p>
-    </div>
 
-    <!-- Form -->
-    <form
-      id="registerForm"
-      action="{{ url_for('main.register') }}"
-      method="POST"
-    >
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- First Name -->
-        <div>
-          <label
-            for="first-name"
-            class="block text-sm font-medium text-gray-700"
-            >First name</label
-          >
-          <input
-            type="text"
-            id="first-name"
-            name="firstname"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Middle Name -->
-        <div>
-          <label
-            for="middle-name"
-            class="block text-sm font-medium text-gray-700"
-            >Middle name</label
-          >
-          <input
-            type="text"
-            id="middle-name"
-            name="middlename"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Last Name -->
-        <div>
-          <label for="last-name" class="block text-sm font-medium text-gray-700"
-            >Last name</label
-          >
-          <input
-            type="text"
-            id="last-name"
-            name="lastname"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Sex -->
-        <div>
-          <label for="sex" class="block text-sm font-medium text-gray-700"
-            >Sex</label
-          >
-          <input
-            type="text"
-            id="sex"
-            name="sex"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Address -->
-        <div>
-          <label for="address" class="block text-sm font-medium text-gray-700"
-            >Address</label
-          >
-          <input
-            type="text"
-            id="address"
-            name="address"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Contact Number -->
-        <div>
-          <label
-            for="contact-number"
-            class="block text-sm font-medium text-gray-700"
-            >Contact number</label
-          >
-          <input
-            type="text"
-            id="contact-number"
-            name="contact"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Username -->
-        <div>
-          <label for="username" class="block text-sm font-medium text-gray-700"
-            >Username</label
-          >
-          <input
-            type="text"
-            id="username"
-            name="username"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <!-- Password -->
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700"
-            >Password</label
-          >
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700"
-            >Confirm Password</label
-          >
-          <input
-            type="password"
-            id="confirm_password"
-            name="confirm_password"
-            class="mt-1 p-2 block w-full border-b border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          />
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="mt-6 flex justify-center">
-        <button
-          id="registerButton"
-          data-loading-text="Registering..."
-          type="submit"
-          class="w-full max-w-sm py-2 px-4 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-green-500"
+<section>
+  <div class="page-header min-vh-75">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-xl-8 col-lg-5 col-md-6 d-flex flex-column mx-auto mb-7 mt-9"
         >
-          Submit
-        </button>
+          <div
+            class="card card-plain bg-white"
+            style="border-radius: 0px !important"
+          >
+            <div class="card-body">
+              <!-- Form -->
+              <form
+                id="registerForm"
+                action="{{ url_for('main.register') }}"
+                method="POST"
+              >
+                <div class="col-xl-12 col-lg-5 col-md-6 row">
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label>Firstname <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="first-name"
+                        name="firstname"
+                        placeholder="Firstname"
+                      />
+                      <div id="sfnameError" class="error-text"></div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label>Lastname <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="last-name"
+                        name="lastname"
+                        placeholder="Lastname"
+                      />
+                      <div id="slnameError" class="error-text"></div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label>Middle name</label>
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="middle-name"
+                        name="middlename"
+                        placeholder="Middle name"
+                      />
+                      <div id="smnameError" class="error-text"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-5 col-md-6 row">
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label>Sex <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <select class="form-select" id="sex" name="sex">
+                        <option value="" selected></option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                      <div id="ssexError" class="error-text"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label>Username <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                      />
+                      <div id="usernameError" class="error-text"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-5 col-md-6 row">
+                  <div class="col-xl-8 col-lg-5 col-md-6">
+                    <label>Address <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="address"
+                        name="address"
+                        placeholder="Address"
+                      />
+                      <div id="addressError" class="error-text"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-lg-5 col-md-6">
+                    <label
+                      >Contact Number<span style="color: red">*</span></label
+                    >
+                    <div class="mb-2">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="contact-number"
+                        name="contact"
+                        placeholder="Contact Number"
+                      />
+                      <div id="contactError" class="error-text"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-5 col-md-6 row">
+                  <div class="col-xl-6 col-lg-5 col-md-6">
+                    <label>Password <span style="color: red">*</span></label>
+                    <div class="mb-2">
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                      />
+                      <div id="passwordError" class="error-text"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-lg-5 col-md-6">
+                    <label
+                      >Confirm Password <span style="color: red">*</span></label
+                    >
+                    <div class="mb-2">
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Password"
+                      />
+                      <div id="cpasswordError" class="error-text"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-xl-12 col-lg-5 col-md-6">
+                  <div class="text-center">
+                    <button
+                      id="registerButton"
+                      data-loading-text="Registering..."
+                      type="submit"
+                      class="btn bg-gradient-success w-50 mt-4 mb-0"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
-    <div class="text-center text-sm mt-2">
-      Already have an account?
-      <a
-        href="{{ url_for('main.login') }}"
-        class="text-blue-500 hover:underline"
-        >Login</a
-      >
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

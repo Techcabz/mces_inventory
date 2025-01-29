@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import  current_user
 from ..controllers.auth_controller import login_user_controller,logout_user_controller,register_user_controller
+from ..controllers.categories_controller import categories
 from ..utils.auth_utils import web_guard
 from ..models.user_models import User
 from ..extensions import db
@@ -43,10 +44,10 @@ def dashboard():
 def borrowing():
     return render_template('admin/borrowing.html')
 
-@admin.route('/category')
+@admin.route('/category', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @web_guard
 def category():
-    return render_template('admin/category.html')
+    return categories(request)
 
 @admin.route('/inventory')
 @web_guard
