@@ -5,7 +5,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="m-0 font-weight-bold text-primary"> {{ request.endpoint.split('.')[-1] | upper }}
           LIST</h5>
-        <button type="button" class="btn bg-gradient-success"
+        <button type="button"  data-bs-toggle="modal" data-bs-target="#addCategory" class="btn bg-gradient-success"
           ><i class="fa fa-plus-square"></i>&nbsp;Add new {{ request.endpoint.split('.')[-1] | upper }}
         </button
         >
@@ -26,4 +26,6 @@
     </div>
   </div>
 </div>
+
+
 {% endblock %}

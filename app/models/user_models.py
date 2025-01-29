@@ -3,6 +3,7 @@ import os
 from flask_login import UserMixin
 from ..extensions import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -15,39 +16,16 @@ class User(UserMixin, db.Model):
     sex = db.Column(db.String(20), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(20), default='guest')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def set_password(self, password):
-        salt = os.urandom(16)
-        hash_bytes = hashlib.scrypt(
-            password.encode('utf-8'),
-            salt=salt,
-            n=2**14,
-            r=8,
-            p=1,
-        )
-        self.password_hash = f"scrypt:{salt.hex()}:{hash_bytes.hex()}"
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        try:
-            algo, salt, hash_bytes = self.password_hash.split(":")
-            if algo != "scrypt":
-                return False
-            salt = bytes.fromhex(salt)
-            stored_hash = bytes.fromhex(hash_bytes)
-            computed_hash = hashlib.scrypt(
-                password.encode('utf-8'),
-                salt=salt,
-                n=2**14,
-                r=8,
-                p=1,
-            )
-            return computed_hash == stored_hash
-        except ValueError:
-            return False
+        return check_password_hash(self.password_hash, password)
         
         
     def __repr__(self):

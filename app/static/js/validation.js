@@ -79,30 +79,34 @@ if (loginForm) {
   });
 }
 
+
 const logout = document.querySelector("#logout");
+
 if (logout) {
- -
-  logout.addEventListener("click", async () => {
-   alert("logout");
-   try {
-    const response = await fetch("/logout", {
-      method: "GET",
-    });
+  logout.addEventListener("click", async (e) => {
+    e.preventDefault(); // Prevent immediate form submission
 
-    const data = await response.json();
-    console.log(data);
-
-    if (response.ok) {
-      window.location.href = "/";
-    } else {
-      notyf.error(data.message);
+    const confirmLogout = confirm("Are you sure you want to log out?");
+    
+    if (confirmLogout) {
+      try {
+        const response = await fetch("/logout", { method: "POST" });
+        const data = await response.json();
+console.log(data)
+        if (response.ok) {
+          alert(data.message); // Show a basic alert message
+          window.location.href = "/login"; // Redirect after logout
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An unexpected error occurred.");
+      }
     }
-  } catch (error) {
-    console.error("Error:", error);
-    notyf.error("An unexpected error occurred.");
-  }
   });
 }
+
 
 
 function setLoadingState(button, isLoading) {

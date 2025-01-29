@@ -13,9 +13,8 @@ def login_user_controller(request):
         username = request.form['username']
         password = request.form['password']
         user = UserService.get_user_by_username(username)
-        
-        print(user.set_password(password))
-        
+     
+       
         if user and user.check_password(password):
             login_user(user)
             session['role'] = user.role
@@ -81,7 +80,9 @@ def register_user_controller(request):
     return jsonify({'success': False, 'message': 'Invalid request method.'}), 405
 
 def logout_user_controller():
-    logout_user()
-    session.clear() 
-    flash('You have been logged out.', 'success')
-    return redirect(url_for('main.login'))
+    if request.method == 'POST':
+        logout_user()
+        session.clear() 
+        return jsonify({'success': True, 'message': 'You have been logged out'}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Invalid request method.'}), 405

@@ -27,7 +27,7 @@ def home():
         return redirect(url_for('admin.dashboard'))
     return login_user_controller(request)
 
-@main.route('/logout')
+@main.route('/logout', methods=['GET', 'POST'])
 def logout():
     return logout_user_controller()
 

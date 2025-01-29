@@ -1,19 +1,16 @@
 <aside
-  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-success"
-  id="sidenav-main"
->
+  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-2 bg-gradient-success"
+  id="sidenav-main">
   <div class="sidenav-header">
     <i
       class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
       aria-hidden="true"
-      id="iconSidenav"
-    ></i>
+      id="iconSidenav"></i>
     <a class="navbar-brand m-0" href="">
       <img
         src="{{ url_for('static', filename='images/favicon.webp') }}"
         class="navbar-brand-img h-100"
-        alt="main_logo"
-      />
+        alt="main_logo"/>
       <span class="ms-1 font-weight-bold text-white">MCES INVENTORY</span>
     </a>
   </div>
@@ -24,23 +21,20 @@
       <li class="nav-item ">
         <a class="nav-link {% if request.path == url_for('admin.dashboard') %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
           <div
-            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg
               width="12px"
               height="12px"
               viewBox="0 0 45 40"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
+              xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>Dashboard</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g
                   transform="translate(-1716.000000, -439.000000)"
                   fill="#FFFFFF"
-                  fill-rule="nonzero"
-                >
+                  fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
                     <g transform="translate(0.000000, 148.000000)">
                       <path
@@ -64,9 +58,8 @@
       <li class="nav-item">
         <a class="nav-link {% if request.path == url_for('admin.borrowing') %}active{% endif %}" href="{{ url_for('admin.borrowing') }}">
           <div
-            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
-            <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+           
             <svg
               enable-background="new 0 0 48 48"
               height="48px"
@@ -76,8 +69,7 @@
               width="48px"
               xml:space="preserve"
               xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
+              xmlns:xlink="http://www.w3.org/1999/xlink">
               <g>
                 <rect
                   class="color-background"
@@ -85,29 +77,25 @@
                   height="4"
                   width="16"
                   x="8.979"
-                  y="22"
-                />
+                  y="22"/>
                 <rect
                   class="color-background"
                   fill="#241F20"
                   height="4"
                   width="16"
                   x="8.979"
-                  y="29"
-                />
+                  y="29"/>
                 <rect
                   class="color-background"
                   fill="#241F20"
                   height="4"
                   width="16"
                   x="8.979"
-                  y="36"
-                />
+                  y="36"/>
                 <path
                   class="color-background"
                   d="M31.979,0h-30v14.167V18v30h30V18h14.043V0H31.979z M27.979,44h-22V18h22V44z M27.979,14h-22V4h22V14z    M37,11.422L33.086,6.62h7.83L37,11.422z"
-                  fill="#241F20"
-                />
+                  fill="#241F20"/>
               </g>
             </svg>
           </div>
@@ -118,18 +106,15 @@
       <li class="nav-item">
         <a class="nav-link {% if request.path == url_for('admin.category') %}active{% endif %}" href="{{ url_for('admin.category') }}">
           <div
-            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg
               height="512"
               viewBox="0 0 512 512"
               width="512"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 class="color-background"
-                d="M328,16H216a8,8,0,0,0-7.938,8.992l8,64A8,8,0,0,0,224,96V448a48,48,0,0,0,96,0V96a8,8,0,0,0,7.938-7.008l8-64A8,8,0,0,0,328,16Zm-9.062,16-6,48H231.062l-6-48ZM304,448a32,32,0,0,1-64,0V424h24a8,8,0,0,0,0-16H240V392h8a8,8,0,0,0,0-16h-8V360h24a8,8,0,0,0,0-16H240V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H240V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H240V200h8a8,8,0,0,0,0-16h-8V168h24a8,8,0,0,0,0-16H240V96h64Zm184-72h-8V192a8,8,0,0,0-8-8H456V160a8,8,0,0,0-8-8h-8V24a8,8,0,0,0-13.657-5.657l-32,32A8,8,0,0,0,392,56v96h-8a8,8,0,0,0-8,8v24H360a8,8,0,0,0-8,8V376h-8a8,8,0,0,0,0,16h40v88H360a8,8,0,0,0,0,16H472a8,8,0,0,0,0-16H448V392h40a8,8,0,0,0,0-16ZM408,59.313l16-16V152H408ZM392,168h48v16H392ZM368,360h24a8,8,0,0,0,0-16H368V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H368V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H368V200h96V376H368Zm64,120H400V392h32ZM144,232.57V216h8a8,8,0,0,0,8-8V176a8,8,0,0,0-8-8H56a8,8,0,0,0-8,8v32a8,8,0,0,0,8,8h8v16.57A56.086,56.086,0,0,0,16,288V472a24.028,24.028,0,0,0,24,24H168a24.028,24.028,0,0,0,24-24V288A56.086,56.086,0,0,0,144,232.57ZM64,184h80v16H64ZM32,472V296H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v24H40A8.009,8.009,0,0,1,32,472Zm144,0a8.009,8.009,0,0,1-8,8H112V456h24a8,8,0,0,0,0-16H112V424h24a8,8,0,0,0,0-16H112V392h24a8,8,0,0,0,0-16H112V360h24a8,8,0,0,0,0-16H112V328h24a8,8,0,0,0,0-16H112V296h64ZM32.8,280A40.071,40.071,0,0,1,72,248a8,8,0,0,0,8-8V216h48v24a8,8,0,0,0,8,8,40.071,40.071,0,0,1,39.2,32ZM104,128A56,56,0,1,0,48,72,56.063,56.063,0,0,0,104,128Zm0-16A40.067,40.067,0,0,1,64.805,80H143.2A40.067,40.067,0,0,1,104,112Zm0-80A40.067,40.067,0,0,1,143.2,64H64.805A40.067,40.067,0,0,1,104,32Z"
-              />
+                d="M328,16H216a8,8,0,0,0-7.938,8.992l8,64A8,8,0,0,0,224,96V448a48,48,0,0,0,96,0V96a8,8,0,0,0,7.938-7.008l8-64A8,8,0,0,0,328,16Zm-9.062,16-6,48H231.062l-6-48ZM304,448a32,32,0,0,1-64,0V424h24a8,8,0,0,0,0-16H240V392h8a8,8,0,0,0,0-16h-8V360h24a8,8,0,0,0,0-16H240V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H240V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H240V200h8a8,8,0,0,0,0-16h-8V168h24a8,8,0,0,0,0-16H240V96h64Zm184-72h-8V192a8,8,0,0,0-8-8H456V160a8,8,0,0,0-8-8h-8V24a8,8,0,0,0-13.657-5.657l-32,32A8,8,0,0,0,392,56v96h-8a8,8,0,0,0-8,8v24H360a8,8,0,0,0-8,8V376h-8a8,8,0,0,0,0,16h40v88H360a8,8,0,0,0,0,16H472a8,8,0,0,0,0-16H448V392h40a8,8,0,0,0,0-16ZM408,59.313l16-16V152H408ZM392,168h48v16H392ZM368,360h24a8,8,0,0,0,0-16H368V328h8a8,8,0,0,0,0-16h-8V296h24a8,8,0,0,0,0-16H368V264h8a8,8,0,0,0,0-16h-8V232h24a8,8,0,0,0,0-16H368V200h96V376H368Zm64,120H400V392h32ZM144,232.57V216h8a8,8,0,0,0,8-8V176a8,8,0,0,0-8-8H56a8,8,0,0,0-8,8v32a8,8,0,0,0,8,8h8v16.57A56.086,56.086,0,0,0,16,288V472a24.028,24.028,0,0,0,24,24H168a24.028,24.028,0,0,0,24-24V288A56.086,56.086,0,0,0,144,232.57ZM64,184h80v16H64ZM32,472V296H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v16H72a8,8,0,0,0,0,16H96v24H40A8.009,8.009,0,0,1,32,472Zm144,0a8.009,8.009,0,0,1-8,8H112V456h24a8,8,0,0,0,0-16H112V424h24a8,8,0,0,0,0-16H112V392h24a8,8,0,0,0,0-16H112V360h24a8,8,0,0,0,0-16H112V328h24a8,8,0,0,0,0-16H112V296h64ZM32.8,280A40.071,40.071,0,0,1,72,248a8,8,0,0,0,8-8V216h48v24a8,8,0,0,0,8,8,40.071,40.071,0,0,1,39.2,32ZM104,128A56,56,0,1,0,48,72,56.063,56.063,0,0,0,104,128Zm0-16A40.067,40.067,0,0,1,64.805,80H143.2A40.067,40.067,0,0,1,104,112Zm0-80A40.067,40.067,0,0,1,143.2,64H64.805A40.067,40.067,0,0,1,104,32Z"/>
             </svg>
           </div>
           <span class="nav-link-text ms-1 text-white">Category</span>
@@ -139,23 +124,20 @@
       <li class="nav-item">
         <a class="nav-link {% if request.path == url_for('admin.inventory') %}active{% endif %}" href="{{ url_for('admin.inventory') }}">
           <div
-            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg
               width="12px"
               height="12px"
               viewBox="0 0 42 42"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
+              xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>box-3d-50</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g
                   transform="translate(-2319.000000, -291.000000)"
                   fill="#FFFFFF"
-                  fill-rule="nonzero"
-                >
+                  fill-rule="nonzero">
                   <g transform="translate(1716.000000, 291.000000)">
                     <g transform="translate(603.000000, 0.000000)">
                       <path
@@ -183,8 +165,7 @@
       <li class="nav-item">
         <a class="nav-link {% if request.path == url_for('admin.reports') %}active{% endif %}" href="{{ url_for('admin.reports') }}">
           <div
-            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
+            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <svg
               width="12px"
               height="20px"
@@ -232,7 +213,6 @@
           <div
             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
           >
-            <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
             <svg
               enable-background="new 0 0 24 24"
               id="Layer_1"
