@@ -28,42 +28,11 @@
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css" />
-
-  <!-- <script src="https://cdn.tailwindcss.com/3.4.16"></script> -->
-  <!-- <script src="{{ url_for('static', filename='js/tailwindcss.min.js') }}"></script> -->
-
-  <!-- <script>
-    tailwind.config = {
-      mode: 'jit',
-      content: ["./**/*.html"],
-      theme: {
-        extend: {
-          colors: {
-            clifford: "#da373d",
-            customGreen1: "#85DBA4",
-            customGreen2: "#13B955",
-          },
-        },
-        fontSize: {
-          sm: "0.8rem",
-          base: "1rem",
-          xl: "1.25rem",
-          "2xl": "1.563rem",
-          "3xl": "1.953rem",
-          "4xl": "2.441rem",
-          "5xl": "3.052rem",
-        },
-      },
-    };
-  </script> -->
-
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" /> -->
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.webp') }}" />
   <link
     href="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sc-2.1.1/sb-1.4.2/sl-1.6.2/datatables.min.css"
     rel="stylesheet" />
-  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" /> -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
@@ -75,8 +44,10 @@
   {% endblock %}
 
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-  <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+  <script  type="module" src="{{ url_for('static', filename='js/modal.js') }}"></script>
 
+  <script type="module" src="{{ url_for('static', filename='js/validation.js') }}"></script>
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
   <script

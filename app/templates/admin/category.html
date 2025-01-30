@@ -62,15 +62,16 @@
                     <div class="d-flex align-items-center gap-3">
                       <a
                         href="javascript:void(0);"
-                        onclick="showUpdateForm({{ category.id }}, '{{ category.name }}')"
-                        class="btn btn-sm btn-warning"
+                        class="btn btn-sm btn-warning edit-category"
+                        data-id="{{ category.id }}"
+                        data-name="{{ category.name }}"
                       >
                         <i class="fa fa-pencil-square-o"></i>
                       </a>
                       <button
                         type="button"
-                        onclick="deleteCategory({{ category.id }})"
-                        class="btn btn-sm btn-danger"
+                        data-id="{{ category.id }}"
+                        class="btn btn-sm btn-danger delete-category"
                       >
                         <i class="fa fa-trash-o"></i>
                       </button>
@@ -93,5 +94,13 @@
     </div>
   </div>
 </div>
+<style>
+  .dropdown-toggle::after {
+    display: none !important;
+  }
 
+  .dropdown-toggle i {
+    font-weight: bold !important;
+  }
+</style>
 {% endblock %}

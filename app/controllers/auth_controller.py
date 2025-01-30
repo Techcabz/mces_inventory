@@ -18,6 +18,9 @@ def login_user_controller(request):
         if user and user.check_password(password):
             login_user(user)
             session['role'] = user.role
+            session['firstname'] = user.firstname 
+            session['lastname'] = user.lastname
+            session['username'] = user.username.title() 
             return jsonify({'success': True, 'message': 'Login successful! Redirecting...'}), 200
 
         else:

@@ -1,3 +1,4 @@
+<!-- category start -->
 <div
   class="modal fade"
   id="addCategory"
@@ -76,7 +77,7 @@
                   class="block text-sm font-medium text-gray-700"
                   >Name</label
                 >
-                <input type="hidden" id="id" name="id"  />
+                <input type="hidden" id="id" name="id" />
                 <input type="text" id="name" name="name" class="form-control" />
               </div>
               <button
@@ -94,3 +95,209 @@
     </div>
   </div>
 </div>
+<!-- category end -->
+
+<!-- inventory start -->
+<div
+  class="modal fade"
+  id="addInventory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">
+          {{ request.endpoint.split('.')[-1] | upper }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="background: #d8ebe0">
+          <div class="card-body p-3">
+            <form id="inventoryForm" method="post">
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Title/Article</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      name="title"
+                      placeholder="Title"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Category </label>
+                  <div class="mb-2">
+                    <select class="form-select" id="category_id" name="category_id">
+                      <option value="" selected></option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                    <div id="category_idError" class="error-text"></div>
+                  </div>
+                </div>
+
+                
+              </div>
+
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Property No. </label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="property_no"
+                      name="property_no"
+                      placeholder="Property No."
+                    />
+                    <div id="sfnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Date Acquired</label>
+                  <div class="mb-2">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date_acquired"
+                      name="date_acquired"
+                      placeholder="Date Acquired"
+                    />
+                    <div id="slnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Aquisition Cost</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cost"
+                      name="cost"
+                      placeholder="Cost"
+                    />
+                    <div id="smnameError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Unit</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="property_no"
+                      name="property_no"
+                      placeholder="Property No."
+                    />
+                    <div id="sfnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Fund Source</label>
+                  <div class="mb-2">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date_acquired"
+                      name="date_acquired"
+                      placeholder="Date Acquired"
+                    />
+                    <div id="slnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Accountable Officer</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cost"
+                      name="cost"
+                      placeholder="Cost"
+                    />
+                    <div id="smnameError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="inventoryButton"
+                data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="updateInventory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">
+          {{ request.endpoint.split('.')[-1] | upper }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="background: #d8ebe0">
+          <div class="card-body p-3">
+            <form id="updateInventoryForm" method="put">
+              <div>
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input type="hidden" id="id" name="id" />
+                <input type="text" id="name" name="name" class="form-control" />
+              </div>
+              <button
+                type="submit"
+                id="inventoryButtonUpdate"
+                data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0"
+              >
+                Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- category end -->
