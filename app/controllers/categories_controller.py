@@ -18,7 +18,7 @@ def categories(request):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400
         if not Validation.is_valid_name(name):
             return jsonify({'success': False, 'message': 'Name must contain only letters.'}), 400
-        if not Validation.has_no_repeated_characters(name):
+        if  Validation.has_repeated_characters(name):
             return jsonify({'success': False, 'message': 'Name must not have three or more consecutive repeated characters.'}), 400
         
         existing_category = category_service.get_one(name=name)
