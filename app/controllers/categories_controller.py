@@ -9,7 +9,7 @@ category_service = CRUDService(Category)
 def categories(request):
     if request.method == 'GET':
         categories = category_service.get()
-        print(categories)
+
         return render_template('admin/category.html', categories=categories)
     elif request.method == 'POST':
         name = request.form['name']

@@ -45,8 +45,8 @@ def create_app():
         return User.query.get(int(user_id))
     
     # Register blueprints
-    from app.views.view import main
-    from app.views.view import admin
+    from app.views.route import main
+    from app.views.route import admin
     app.register_blueprint(main)
     app.register_blueprint(admin)
 

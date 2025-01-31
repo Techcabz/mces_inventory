@@ -15,6 +15,7 @@ class Inventory(db.Model):
     
     fund_source = db.Column(db.String(255), nullable=True)
     officer = db.Column(db.String(255), nullable=True)
+    school = db.Column(db.String(255), nullable=True)
     status = db.Column(Enum("available", "borrowed", "reserved", "damaged", name="inventory_status"), 
                        default="available", nullable=False)
     

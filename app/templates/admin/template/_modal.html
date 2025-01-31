@@ -131,7 +131,7 @@
                       class="form-control"
                       id="title"
                       name="title"
-                      placeholder="Title"
+                      placeholder="Title/Article"
                     />
                     <div id="titleError" class="error-text"></div>
                   </div>
@@ -140,16 +140,21 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Category </label>
                   <div class="mb-2">
-                    <select class="form-select" id="category_id" name="category_id">
-                      <option value="" selected></option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
+                    <select
+                      class="form-select"
+                      id="category_id"
+                      name="category_id"
+                    >
+                      <option value="" selected>Select Categories</option>
+                      {% for category in categories %}
+                      <option value="{{ category.id }}">
+                        {{ category.name }}
+                      </option>
+                      {% endfor %}
                     </select>
                     <div id="category_idError" class="error-text"></div>
                   </div>
                 </div>
-
-                
               </div>
 
               <div class="col-xl-12 col-lg-5 col-md-6 row">
@@ -203,7 +208,7 @@
                       class="form-control"
                       id="property_no"
                       name="property_no"
-                      placeholder="Property No."
+                      placeholder="Unit"
                     />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
@@ -212,11 +217,11 @@
                   <label>Fund Source</label>
                   <div class="mb-2">
                     <input
-                      type="date"
+                      type="text"
                       class="form-control"
-                      id="date_acquired"
-                      name="date_acquired"
-                      placeholder="Date Acquired"
+                      id="fund_source"
+                      name="fund_source"
+                      placeholder="Fund Source"
                     />
                     <div id="slnameError" class="error-text"></div>
                   </div>
@@ -227,20 +232,47 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="cost"
-                      name="cost"
-                      placeholder="Cost"
+                      id="officer"
+                      name="officer"
+                      placeholder="Accountable Officer"
                     />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
               </div>
-
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Office/School</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="school"
+                      name="school"
+                      placeholder="Office/School"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Quantity</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="qty"
+                      name="qty"
+                      placeholder="Quantity"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
               <button
                 type="submit"
                 id="inventoryButton"
                 data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0"
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
               >
                 Submit
               </button>

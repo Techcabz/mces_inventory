@@ -113,7 +113,43 @@ function deleteCategory(id) {
 }
 // categoryForm END
 
+const inventoryForm = document.querySelector("#inventoryForm");
+if (inventoryForm) {
+  inventoryForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+    const button = document.querySelector("#inventoryButton");
+    setLoadingState(button, true);
+
+    try {
+      const response = await fetch("/admin/inventory", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        const notification = notyf.success(data.message);
+        notification.on("click", ({ target, event }) => {
+          window.location.href = "/admin/inventory";
+        });
+
+        setTimeout(() => {
+          window.location.href = "/admin/inventory";
+        }, 2000);
+      } else {
+        notyf.error(data.message);
+        setLoadingState(button, false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      notyf.error("An unexpected error occurred.");
+      setLoadingState(button, false);
+    }
+  });
+}
 
 
 
