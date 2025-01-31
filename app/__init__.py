@@ -5,7 +5,7 @@ from config import DevelopmentConfig, ProductionConfig, Config
 from app.services.user_services import UserService
 from app.extensions import db, migrate
 from dotenv import load_dotenv
-
+from flask_migrate import Migrate
 from app.models.user_models import User
 from app.models.inventory_models import Inventory
 from app.models.category_models import Category
@@ -28,6 +28,7 @@ def create_app():
     
     # Initialize SQLAlchemy
     db.init_app(app)
+    Migrate(app, db)
     
     with app.app_context():
         db.create_all()
