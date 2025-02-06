@@ -18,26 +18,104 @@
       </div>
     </h4>
     <div class="table-responsived">
+     
       <table id="datatable" class="table table-borderless">
         <thead class="bg-gradient-success text-white">
           <tr>
-            <th style="width: 50px">#</th>
+            <th>#</th>
             <th>Title</th>
             <th>Property No</th>
-            <th>Unit</th>
-            <th>Cost</th>
             <th>Category</th>
-            <th>Fund Source</th>
-            <th>Office</th>
+            <th>Quantity</th>
             <th>Date Acquired</th>
             <th>Status</th>
-            <th>Created At</th>
+            <!-- <th>Created At</th> -->
             <th style="width: 160px">Action</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {% for inventory in inventories %}
+          <tr>
+            <td class="cell">{{ loop.index }}</td>
+            <td class="cell">{{ inventory.title.capitalize() }}</td>
+            <td class="cell">{{ inventory.property_no }}</td>
+            <td class="cell">
+              {{ inventory.category.name.capitalize() if inventory.category else
+              'Uncategorized' }}
+            </td>
+            <td class="cell">{{ inventory.quantity }}</td>
+            <td class="cell">
+              {{ inventory.date_acquired.strftime('%B %d, %Y') }}
+            </td>
+            <td class="cell"><span class="badge 
+              {% if inventory.status == 'available' %}badge-success
+              {% elif inventory.status == 'borrowed' %}badge-warning
+              {% elif inventory.status == 'reserved' %}badge-info
+              {% elif inventory.status == 'damaged' %}badge-danger
+              {% else %}badge-secondary{% endif %}">
+              {{ inventory.status.capitalize() }}
+            </span></td>
+            <!-- <td class="cell">
+              {{ inventory.created_at.strftime('%m/%d/%Y %I:%M %p') }}
+            </td> -->
+            <td class="cell">
+              <div class="dropdown d-flex justify-content-center">
+                <button
+                  class="btn btn-secondary btn-custom btn-sm dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton1"
+                >
+                  <div class="dropdown-item">
+                    <div class="d-flex align-items-center gap-3">
+                      <a
+                        href="javascript:void(0);"
+                        class="btn btn-sm btn-warning edit-inventory"
+                        data-id="{{ inventory.id }}"
+                      >
+                        <i class="fa fa-pencil-square-o text-white"></i>
+                      </a>
+                      <a
+                        href="javascript:void(0);"
+                        class="btn btn-sm btn-primary edit-inventory text-white"
+                        data-id="{{ inventory.id }}"
+                      >
+                        <i class="fa fa-eye text-white"></i>
+                      </a>
+                      <button
+                        type="button"
+                        data-id="{{ inventory.id }}"
+                        class="btn btn-sm btn-danger delete-category"
+                      >
+                        <i class="fa fa-trash-o"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
       </table>
     </div>
   </div>
 </div>
+<style>
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+
+  .dropdown-toggle i {
+    font-weight: bold !important;
+  }
+</style>
 {% endblock %}

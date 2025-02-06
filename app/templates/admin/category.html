@@ -39,7 +39,7 @@
           {% for category in categories %}
           <tr>
             <td>{{ category.id }}</td>
-            <td>{{ category.name }}</td>
+            <td>{{ category.name.capitalize() }}</td>
             <td>{{ category.created_at.strftime('%B %d, %Y %I:%M %p') }}</td>
 
             <td>
@@ -81,13 +81,7 @@
               </div>
             </td>
           </tr>
-          {% else %}
-          <tr>
-            <td colspan="2">No categories found.</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+          
           {% endfor %}
         </tbody>
       </table>

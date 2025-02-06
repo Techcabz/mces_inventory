@@ -13,19 +13,19 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 # AUTHENTICATION
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+    if current_user.is_authenticated:
         return redirect(url_for('admin.dashboard'))
     return login_user_controller(request)
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+    if current_user.is_authenticated:
         return redirect(url_for('admin.dashboard'))
     return register_user_controller(request)
 
 @main.route('/', methods=['GET', 'POST'])
 def home():
-    if current_user.is_authenticated and request.endpoint != 'admin.dashboard':
+    if current_user.is_authenticated:
         return redirect(url_for('admin.dashboard'))
     return login_user_controller(request)
 
@@ -50,10 +50,12 @@ def borrowing():
 def category():
     return categories(request)
 
-@admin.route('/inventory',methods=['GET', 'POST', 'PUT', 'DELETE'])
+@admin.route('/inventory', methods=['GET', 'POST'])
+@admin.route('/inventory/<int:inventory_id>', methods=['GET', 'PUT', 'DELETE'])
 @web_guard
-def inventory():
-    return inventories(request)
+def inventory(inventory_id=None):
+    return inventories(request, inventory_id)
+
 
 @admin.route('/reports')
 @web_guard

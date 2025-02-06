@@ -12,7 +12,7 @@ def categories(request):
 
         return render_template('admin/category.html', categories=categories)
     elif request.method == 'POST':
-        name = request.form['name']
+        name = request.form['name'].strip().lower()
 
         if not all([name]):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400
@@ -32,7 +32,7 @@ def categories(request):
     elif request.method == 'PUT':
         # Handle updating a category
         category_id = request.form['id']
-        name = request.form['name']
+        name = request.form['name'].strip().lower()
         
         if not all([category_id, name]):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400

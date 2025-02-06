@@ -150,23 +150,100 @@ if (inventoryForm) {
     }
   });
 }
+const updateInventoryForm = document.querySelector("#updateInventoryForm");
+if (updateInventoryForm) {
+  updateInventoryForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+    const button = document.querySelector("#inventoryButtonUpdate");
+    setLoadingState(button, true);
+    const id = formData.get("id");
+    try {
+      const response = await fetch(`/admin/inventory/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
 
+      const data = await response.json();
+      console.log(formData.get("id"));
+      if (response.ok) {
+        const notification = notyf.success(data.message);
+        notification.on("click", ({ target, event }) => {
+          window.location.href = "/admin/inventory";
+        });
+
+        setTimeout(() => {
+          window.location.href = "/admin/inventory";
+        }, 2000);
+      } else {
+        notyf.error(data.message);
+        setLoadingState(button, false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      notyf.error("An unexpected error occurred.");
+      setLoadingState(button, false);
+    }
+  });
+}
+async function showInvUpdateForm(id) {
+  document.getElementById("updatecategoryForm").querySelector("#id").value = id;
+
+  try {
+    const response = await fetch(`/admin/inventory/${id}`, { method: "GET" });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch inventory item.");
+    }
+
+    const data = await response.json();
+    const form = document.getElementById("updateInventoryForm");
+
+    form.querySelector("#title").value = data.title || "";
+    form.querySelector("#category_id").value = data.category_id || "";
+    form.querySelector("#property_no").value = data.property_no || "";
+    form.querySelector("#date_acquired").value = data.date_acquired || "";
+    form.querySelector("#cost").value = data.cost || "";
+    form.querySelector("#fund_source").value = data.fund_source || "";
+    form.querySelector("#officer").value = data.officer || "";
+    form.querySelector("#school").value = data.school || "";
+    form.querySelector("#qty").value = data.quantity || "";
+    form.querySelector("#unit").value = data.unit || "";
+    form.querySelector("#id").value = data.id || "";
+
+    var updateModal = new bootstrap.Modal(
+      document.getElementById("updateInventory")
+    );
+    updateModal.show();
+  } catch (error) {
+    console.error("Error:", error);
+    notyf.error("An unexpected error occurred.");
+  }
+}
 
 // dom calling
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".edit-category").forEach((button) => {
-      button.addEventListener("click", function () {
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        showUpdateForm(id, name);
-      });
+  document.querySelectorAll(".edit-category").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      showUpdateForm(id, name);
     });
-
-    document.querySelectorAll(".delete-category").forEach((button) => {
-        button.addEventListener("click", function () {
-          const id = this.dataset.id;
-          deleteCategory(id);
-        });
-      });
   });
+
+  document.querySelectorAll(".delete-category").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteCategory(id);
+    });
+  });
+
+  document.querySelectorAll(".edit-inventory").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      // const name = this.dataset.name;
+      showInvUpdateForm(id);
+    });
+  });
+});

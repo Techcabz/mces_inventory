@@ -98,7 +98,7 @@
 <!-- category end -->
 
 <!-- inventory start -->
-<!-- <div
+<div
   class="modal fade"
   id="addInventory"
   tabindex="-1"
@@ -206,8 +206,8 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="property_no"
-                      name="property_no"
+                      id="unit"
+                      name="unit"
                       placeholder="Unit"
                     />
                     <div id="sfnameError" class="error-text"></div>
@@ -258,10 +258,12 @@
                   <label>Quantity</label>
                   <div class="mb-2">
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       id="qty"
                       name="qty"
+                      min="1"
+                      max="100"
                       placeholder="Quantity"
                     />
                     <div id="titleError" class="error-text"></div>
@@ -291,7 +293,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
@@ -308,20 +310,160 @@
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
             <form id="updateInventoryForm" method="put">
-              <div>
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-700"
-                  >Name</label
-                >
-                <input type="hidden" id="id" name="id" />
-                
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Title/Article</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      name="title"
+                      placeholder="Title/Article"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Category </label>
+                  <div class="mb-2">
+                    <select
+                      class="form-select"
+                      id="category_id"
+                      name="category_id"
+                    >
+                      <option value="" selected>Select Categories</option>
+                      {% for category in categories %}
+                      <option value="{{ category.id }}">
+                        {{ category.name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                    <div id="category_idError" class="error-text"></div>
+                  </div>
+                </div>
               </div>
+
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Property No. </label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="property_no"
+                      name="property_no"
+                      placeholder="Property No."
+                    />
+                    <div id="sfnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Date Acquired</label>
+                  <div class="mb-2">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date_acquired"
+                      name="date_acquired"
+                      placeholder="Date Acquired"
+                    />
+                    <div id="slnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Aquisition Cost</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cost"
+                      name="cost"
+                      placeholder="Cost"
+                    />
+                    <div id="smnameError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Unit</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="unit"
+                      name="unit"
+                      placeholder="Unit"
+                    />
+                    <div id="sfnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Fund Source</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fund_source"
+                      name="fund_source"
+                      placeholder="Fund Source"
+                    />
+                    <div id="slnameError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Accountable Officer</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="officer"
+                      name="officer"
+                      placeholder="Accountable Officer"
+                    />
+                    <div id="smnameError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-12 col-lg-5 col-md-6 row">
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Office/School</label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="school"
+                      name="school"
+                      placeholder="Office/School"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Quantity</label>
+                  <div class="mb-2">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="qty"
+                      name="qty"
+                      min="1"
+                      max="100"
+                      placeholder="Quantity"
+                    />
+                    <div id="titleError" class="error-text"></div>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" id="id" name="id" />
               <button
                 type="submit"
                 id="inventoryButtonUpdate"
                 data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0"
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
               >
                 Update
               </button>
@@ -331,5 +473,5 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
 <!-- category end -->
