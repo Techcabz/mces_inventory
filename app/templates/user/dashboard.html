@@ -15,7 +15,7 @@
             </div>
           </h4>
           <hr />
-          <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-3">
+          <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-3" id="search-results">
             {% for item in category_items.get(category.name.lower(), []) %}
             <div class="col">
               <a

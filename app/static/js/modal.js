@@ -244,7 +244,6 @@ function deleteInventory(id) {
   }
 }
 
-
 const borrowForm = document.querySelector("#borrowForm");
 if (borrowForm) {
   borrowForm.addEventListener("submit", async (e) => {
@@ -255,7 +254,7 @@ if (borrowForm) {
     const uuid = borrowForm.querySelector("#inventory_uuid").value;
     setLoadingState(button, true);
 
-    console.log(uuid)
+    console.log(uuid);
     try {
       const response = await fetch(`/users/item/${uuid}`, {
         method: "POST",
@@ -312,4 +311,62 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteInventory(id);
     });
   });
+
+  const searchBar = document.getElementById("search-bar");
+  const resultsDiv = document.getElementById("search-results");
+  const defaultResults = resultsDiv.innerHTML; // Store default content
+
+  searchBar.addEventListener("input", function () {
+    let query = searchBar.value.trim();
+
+    if (query.length > 0) {
+      fetch(`/search-items?q=${query}`)
+        .then((response) => response.json())
+        .then((data) => {
+          resultsDiv.innerHTML = "";
+          if (data.length > 0) {
+            data.forEach((item) => {
+              resultsDiv.innerHTML += `
+                            <div class="col">
+                                <div class="card">
+                                    <img class="card-img-top" src="${
+                                      item.image_url
+                                    }" alt="${item.title}">
+                                    <div class="card-body">
+                                   <span class="card-title d-flex justify-content-between">
+                                        <strong>${item.title}</strong>
+
+</span>                                           <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
+                                        <span class="badge ${getStatusClass(
+                                          item.status
+                                        )}">${item.status}</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+            });
+          } else {
+            resultsDiv.innerHTML = "<p>No items found</p>";
+          }
+        });
+    } else {
+      resultsDiv.innerHTML = defaultResults;
+    }
+  });
+  function getStatusClass(status) {
+    switch (status) {
+      case "Available":
+        return "bg-success";
+      case "Borrowed":
+        return "bg-primary";
+      case "Reserved":
+        return "bg-warning";
+      case "Damaged":
+        return "bg-danger";
+      default:
+        return "bg-secondary";
+    }
+  }
 });

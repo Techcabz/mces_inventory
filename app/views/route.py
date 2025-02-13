@@ -4,7 +4,7 @@ from app.controllers.auth_controller import login_user_controller,logout_user_co
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers
-from app.controllers.item_controller import items
+from app.controllers.item_controller import items, search_items
 from app.controllers.borrowing_controller import borrowings
 from app.utils.auth_utils import web_guard
 from app.models.user_models import User
@@ -95,4 +95,6 @@ def test():
 def user_dashboard(item_uuid=None):
     return items(request,item_uuid)
 
-
+@main.route('/search-items')
+def search_item():
+    return search_items()

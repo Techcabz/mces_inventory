@@ -12,7 +12,7 @@ borrowing_service = CRUDService(Borrowing)
 category_service = CRUDService(Category)
 
 def items(request, inventory_uuid=None):  
-   
+    
     if request.method == 'GET':
        
         if inventory_uuid:
@@ -97,3 +97,35 @@ def items(request, inventory_uuid=None):
             'message': 'Your borrowing request has been submitted and is pending approval from the admin.'
             }), 200
         return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
+    
+def search_items():
+    query = request.args.get("q", "").strip().lower()
+
+    if not query:
+        # If no query, return all items grouped by category
+        items = inventory_service.get()
+        return jsonify([
+            {
+                "title": item.title.capitalize(),
+                "image_url": get_inventory_image(item.image),
+                "quantity": item.quantity,
+                "status": item.status.capitalize(),
+                "category": item.category.name.capitalize() if item.category else "Uncategorized",
+            }
+            for item in items
+        ])
+
+    # If query exists, filter items
+    items = inventory_service.get()
+    filtered_items = [
+        {
+            "title": item.title.capitalize(),
+            "image_url": get_inventory_image(item.image),
+            "quantity": item.quantity,
+            "status": item.status.capitalize(),
+            "category": item.category.name.capitalize() if item.category else "Uncategorized",
+        }
+        for item in items if query in item.title.lower() or query in (item.category.name.lower() if item.category else "")
+    ]
+
+    return jsonify(filtered_items)
