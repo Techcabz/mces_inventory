@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block content %} {% include
+'user/templates/partials/_navbar.html' %}
+
+<div class="background-1">
+  <main class="main-content mt-0">{% block user_content %} {% endblock %}</main>
+</div>
+{% include 'user/templates/partials/_footer.html' %} {% endblock %}

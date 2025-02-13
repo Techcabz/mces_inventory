@@ -1,0 +1,126 @@
+{% extends "user/templates/user_layout.html" %} {% block user_content %}
+<main class="main-content mt-2 mt-md-5">
+  <div class="page-header mt-sm-5 min-vh-75">
+    <div class="container mt-sm-5">
+      <div class="card mt-5 mb-4 p-4">
+        <div class="row g-3 align-items-center">
+          <!-- Left Side: Image -->
+          <div class="col-lg-6 col-md-6 col-12">
+            <img
+              loading="lazy"
+              src="{{ inventory.image_url }}"
+              alt="{{ inventory.title }}"
+              class="img-fluid rounded w-100"
+              style="max-height: 350px; object-fit: cover"
+            />
+          </div>
+
+          <!-- Right Side: Details -->
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="card-body">
+              <h4 class="card-title text-primary text-center text-md-start">
+                {{ inventory.title | capitalize }}
+              </h4>
+
+              <p class="text-center text-md-start">
+                <strong>Quantity Available:</strong> {{ inventory.quantity }}
+              </p>
+
+              <p class="text-center text-md-start">
+                <strong>Status:</strong>
+                <span
+                  class="badge {% if inventory.status == 'available' %} bg-success {% elif inventory.status == 'borrowed' %} bg-primary {% elif inventory.status == 'reserved' %} bg-warning {% elif inventory.status == 'damaged' %} bg-danger {% else %} bg-secondary {% endif %}"
+                >
+                  {{ inventory.status | capitalize }}
+                </span>
+              </p>
+
+              <!-- Borrow Form -->
+              {% if inventory.status == 'available' and inventory.quantity > 0
+              %}
+              <form id="borrowForm" method="POST">
+                <div class="mb-3">
+                  <label for="quantity" class="form-label"
+                    >Quantity to Borrow</label
+                  >
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    value="1"
+                    class="form-control w-50 w-md-25"
+                    min="1"
+                    max="{{ inventory.quantity }}"
+                    required
+                  />
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-12 col-md-6">
+                    <label for="start_date" class="form-label"
+                      >Start Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="start_date"
+                      name="start_date"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="end_date" class="form-label">End Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="end_date"
+                      name="end_date"
+                      required
+                    />
+                  </div>
+                </div>
+                <input
+                  type="hidden"
+                  id="inventory_uuid"
+                  name="inventory_uuid"
+                  value="{{ inventory.uuid}}"
+                />
+                <input type="hidden" id="user_id" name="user_id" value="{{ session['user_id'] }}" />
+                <div class="d-flex gap-2 text-md-start mt-3">
+                  <button
+                    id="borrowingButton"
+                    data-loading-text="Processing..."
+                    type="submit"
+                    class="btn btn-primary w-100 w-md-auto"
+                  >
+                    Borrow {{ inventory.title | capitalize }}
+                  </button>
+
+                  <a
+                    href="{{ url_for('main.user_dashboard') }}"
+                    class="btn btn-secondary"
+                    >GO BACK</a
+                  >
+                </div>
+              </form>
+              {% else %}
+              <div class="d-flex gap-2 text-center text-md-start">
+                <button class="btn btn-secondary w-100 w-md-auto" disabled>
+                  Not Available
+                </button>
+                <a
+                  href="{{ url_for('main.user_dashboard') }}"
+                  class="btn btn-secondary"
+                  >GO BACK</a
+                >
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -3,12 +3,17 @@ from flask_login import  current_user
 from app.controllers.auth_controller import login_user_controller,logout_user_controller,register_user_controller
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
+from app.controllers.users_controller import cusers
+from app.controllers.item_controller import items
+from app.controllers.borrowing_controller import borrowings
 from app.utils.auth_utils import web_guard
 from app.models.user_models import User
 from app.extensions import db
+from uuid import UUID
 
 main = Blueprint('main', __name__)
 admin = Blueprint('admin', __name__, url_prefix='/admin')
+# user = Blueprint('admin', __name__, url_prefix='/user')
 
 # AUTHENTICATION
 @main.route('/login', methods=['GET', 'POST'])
@@ -40,10 +45,11 @@ def logout():
 def dashboard():
     return render_template('admin/dashboard.html')
 
-@admin.route('/borrowing')
+@admin.route('/borrowing', methods=['GET', 'POST'])
+@main.route('/borrowing/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
 @web_guard
-def borrowing():
-    return render_template('admin/borrowing.html')
+def borrowing( item_uuid=None):
+    return borrowings(request,item_uuid)
 
 @admin.route('/category', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @web_guard
@@ -72,12 +78,21 @@ def settings():
 def logs():
     return render_template('admin/logs.html')
 
-@admin.route('/users')
+@admin.route('/users', methods=['GET'])
+@admin.route('/users/<int:users_id>', methods=['GET', 'PUT', 'DELETE'])
 @web_guard
-def users():
-    return render_template('admin/users.html')
+def users(users_id=None):
+    return cusers(request,users_id)
 
 
 @main.route('/test')
 def test():
     return render_template('auth/test.html')
+
+# USER DASHBOARD
+@main.route('/user/dashboard')
+@main.route('/users/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
+def user_dashboard(item_uuid=None):
+    return items(request,item_uuid)
+
+

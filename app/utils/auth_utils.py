@@ -11,6 +11,6 @@ def web_guard(func):
 
         if session.get('role') != 'admin': 
             flash('Access denied: Admins only!', 'error')
-            return redirect(url_for('main.login')) 
+            return redirect(url_for('main.user_dashboard')) 
         return func(*args, **kwargs)
     return wrapper

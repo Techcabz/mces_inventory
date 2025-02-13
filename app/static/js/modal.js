@@ -221,6 +221,65 @@ async function showInvUpdateForm(id) {
     notyf.error("An unexpected error occurred.");
   }
 }
+function deleteInventory(id) {
+  if (confirm("Are you sure you want to delete this inventory?")) {
+    fetch(`/admin/inventory/${id}`, {
+      method: "DELETE",
+      body: new URLSearchParams({
+        id: id,
+      }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Inventory deleted successfully!");
+          location.reload();
+        } else {
+          alert("Error deleting inventory.");
+        }
+      });
+  }
+}
+
+
+const borrowForm = document.querySelector("#borrowForm");
+if (borrowForm) {
+  borrowForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const button = document.querySelector("#borrowingButton");
+    const uuid = borrowForm.querySelector("#inventory_uuid").value;
+    setLoadingState(button, true);
+
+    console.log(uuid)
+    try {
+      const response = await fetch(`/users/item/${uuid}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        const notification = notyf.success(data.message);
+        setTimeout(() => {
+          window.location.href = "/users/history_item";
+        }, 2000);
+      } else {
+        notyf.error(data.message);
+        setLoadingState(button, false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      notyf.error("An unexpected error occurred.");
+      setLoadingState(button, false);
+    }
+  });
+}
 
 // dom calling
 document.addEventListener("DOMContentLoaded", function () {
@@ -244,6 +303,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const id = this.dataset.id;
       // const name = this.dataset.name;
       showInvUpdateForm(id);
+    });
+  });
+
+  document.querySelectorAll(".delete-inventory").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteInventory(id);
     });
   });
 });

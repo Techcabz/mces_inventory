@@ -2,25 +2,27 @@ from ..extensions import db
 from datetime import datetime
 from sqlalchemy import Enum
 from app.models.category_models import Category
+import uuid
 
 class Inventory(db.Model):
     __tablename__ = 'inventory'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), unique=True, nullable=False)
-    property_no = db.Column(db.String(255), unique=True, nullable=True)
+    property_no = db.Column(db.String(255), unique=False, nullable=True)
     date_acquired = db.Column(db.Date, nullable=True)
     cost = db.Column(db.Numeric(10, 2), nullable=False)
     quantity = db.Column(db.Integer, default=0, nullable=False)
     unit = db.Column(db.String(120), nullable=False, default="pcs")
-
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))  
     fund_source = db.Column(db.String(255), nullable=True)
     officer = db.Column(db.String(255), nullable=True)
     school = db.Column(db.String(255), nullable=True)
     status = db.Column(Enum("available", "borrowed", "reserved", "damaged", name="inventory_status"), 
                        default="available", nullable=False)
-    
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)  # Ensure categories is correct
+    image = db.Column(db.String(255), nullable=True) 
+    description = db.Column(db.Text, nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)  
 
     # Relationship to Category
     category = db.relationship('Category', backref=db.backref('inventory_items', lazy=True))
@@ -43,6 +45,7 @@ class Inventory(db.Model):
             "school": self.school,
             "quantity": self.quantity,
             "status": self.status,
+            "image": self.image, 
             "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             "updated_at": self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }

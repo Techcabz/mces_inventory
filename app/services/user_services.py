@@ -76,6 +76,7 @@ class UserService:
                 "lastname": "admin",
                 "middlename": "",
                 "sex": "male",
+                "status": 1,
                 "address": "admin address",
                 "contact": "0000000000",
             }

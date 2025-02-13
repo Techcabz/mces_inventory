@@ -18,12 +18,12 @@
       </div>
     </h4>
     <div class="table-responsived">
-     
       <table id="datatable" class="table table-borderless">
         <thead class="bg-gradient-success text-white">
           <tr>
             <th>#</th>
             <th>Title</th>
+            <th>Image</th>
             <th>Property No</th>
             <th>Category</th>
             <th>Quantity</th>
@@ -37,8 +37,17 @@
           {% for inventory in inventories %}
           <tr>
             <td class="cell">{{ loop.index }}</td>
+            <td class="cell">
+              <img
+                class="img-thumbnail"
+                src="{{ url_for('cached_image', filename=inventory.image) if inventory.image else url_for('static', filename='images/not_available.jpg') }}"
+                alt="Inventory Image"
+                loading="lazy"
+                style="width: 60px !important; height: 60px !important"
+              />
+            </td>
             <td class="cell">{{ inventory.title.capitalize() }}</td>
-            <td class="cell">{{ inventory.property_no }}</td>
+            <td class="cell">{{ inventory.property_no or 'N/A' }}</td>
             <td class="cell">
               {{ inventory.category.name.capitalize() if inventory.category else
               'Uncategorized' }}
@@ -47,14 +56,13 @@
             <td class="cell">
               {{ inventory.date_acquired.strftime('%B %d, %Y') }}
             </td>
-            <td class="cell"><span class="badge 
-              {% if inventory.status == 'available' %}badge-success
-              {% elif inventory.status == 'borrowed' %}badge-warning
-              {% elif inventory.status == 'reserved' %}badge-info
-              {% elif inventory.status == 'damaged' %}badge-danger
-              {% else %}badge-secondary{% endif %}">
-              {{ inventory.status.capitalize() }}
-            </span></td>
+            <td class="cell">
+              <span
+                class="badge {% if inventory.status == 'available' %}badge-success {% elif inventory.status == 'borrowed' %}badge-warning {% elif inventory.status == 'reserved' %}badge-info {% elif inventory.status == 'damaged' %}badge-danger {% else %}badge-secondary{% endif %}"
+              >
+                {{ inventory.status.capitalize() }}
+              </span>
+            </td>
             <!-- <td class="cell">
               {{ inventory.created_at.strftime('%m/%d/%Y %I:%M %p') }}
             </td> -->
@@ -85,7 +93,7 @@
                       </a>
                       <a
                         href="javascript:void(0);"
-                        class="btn btn-sm btn-primary edit-inventory text-white"
+                        class="btn btn-sm btn-primary edit-inventory text-white d-none"
                         data-id="{{ inventory.id }}"
                       >
                         <i class="fa fa-eye text-white"></i>
@@ -93,7 +101,7 @@
                       <button
                         type="button"
                         data-id="{{ inventory.id }}"
-                        class="btn btn-sm btn-danger delete-category"
+                        class="btn btn-sm btn-danger delete-inventory"
                       >
                         <i class="fa fa-trash-o"></i>
                       </button>

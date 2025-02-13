@@ -1,10 +1,13 @@
 import os
 from urllib.parse import urlparse
-
+from flask import current_app
 class Config:
     # Base directory
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+    UPLOAD_FOLDER = os.path.abspath(os.path.join(os.getcwd(), "app/static/storage/app"))
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    
     # Decide database type: 'sqlite' or 'mysql'
     DB_TYPE = os.getenv("DB_TYPE", "mysql").lower()
 

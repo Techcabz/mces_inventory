@@ -14,10 +14,12 @@ class User(UserMixin, db.Model):
     lastname = db.Column(db.String(120), nullable=False)
     middlename = db.Column(db.String(120), nullable=False)
     sex = db.Column(db.String(20), nullable=False)
+    status = db.Column(db.Integer, default=0, nullable=False, comment="0=Pending, 1=Approved, 2=Blocked")
     address = db.Column(db.String(255), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(20), default='guest')
+ 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -26,8 +28,13 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-        
+    
+    @property
+    def fullname(self):
+        return f"{self.firstname} {self.middlename} {self.lastname}".strip()
+
         
     def __repr__(self):
-        return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname}>"
+        return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname} {self.status}>"
+
 

@@ -1,6 +1,9 @@
 import re
 
 class Validation:
+    ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+
     @staticmethod
     def is_valid_name(name):
         """Check if the name contains only alphabetic characters."""
@@ -16,3 +19,8 @@ class Validation:
     def is_valid_number(value):
         """Check if the value is a positive integer."""
         return value.isdigit() and int(value) > 0
+    @staticmethod
+    def allowed_file(filename):
+        """Check if the file extension is allowed."""
+        return "." in filename and filename.rsplit(".", 1)[1].lower() in Validation.ALLOWED_EXTENSIONS
+

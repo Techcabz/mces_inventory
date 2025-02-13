@@ -121,10 +121,14 @@
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form id="inventoryForm" method="post">
+            <form
+              id="inventoryForm"
+              method="post"
+              enctype="multipart/form-data"
+            >
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Title/Article</label>
+                  <label>Title/Article <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="text"
@@ -138,7 +142,7 @@
                 </div>
 
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Category </label>
+                  <label>Category <span style="color: red;">*</span> </label>
                   <div class="mb-2">
                     <select
                       class="form-select"
@@ -153,6 +157,19 @@
                       {% endfor %}
                     </select>
                     <div id="category_idError" class="error-text"></div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Image </label>
+                  <div class="mb-2">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="image"
+                      name="image"
+                      placeholder="Image"
+                    />
+                    <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
               </div>
@@ -172,7 +189,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Date Acquired</label>
+                  <label>Date Acquired <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="date"
@@ -227,7 +244,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Accountable Officer</label>
+                  <label>Accountable Officer <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="text"
@@ -255,7 +272,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Quantity</label>
+                  <label>Quantity <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="number"
@@ -309,10 +326,14 @@
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form id="updateInventoryForm" method="put">
+            <form
+              id="updateInventoryForm"
+              method="put"
+              enctype="multipart/form-data"
+            >
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Title/Article</label>
+                  <label>Title/Article <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="text"
@@ -326,7 +347,7 @@
                 </div>
 
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Category </label>
+                  <label>Category <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <select
                       class="form-select"
@@ -341,6 +362,20 @@
                       {% endfor %}
                     </select>
                     <div id="category_idError" class="error-text"></div>
+                  </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Image </label>
+                  <div class="mb-2">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="image"
+                      name="image"
+                      placeholder="Image"
+                    />
+                    <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
               </div>
@@ -360,7 +395,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Date Acquired</label>
+                  <label>Date Acquired <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="date"
@@ -415,7 +450,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Accountable Officer</label>
+                  <label>Accountable Officer <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="text"
@@ -443,7 +478,7 @@
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Quantity</label>
+                  <label>Quantity <span style="color: red;">*</span></label>
                   <div class="mb-2">
                     <input
                       type="number"

@@ -1,102 +1,163 @@
-.image-title img{
-   width: 50px;
-   height: 50px;
-   margin-left: 20px;
+.image-title img {
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
 }
 
-.image-title h2{
-   color: #111 !important;
-   margin-top: 0.5rem;
- }
+.image-title h2 {
+  color: #111 !important;
+  margin-top: 0.5rem;
+}
 
-.sidebar, .navbar-brand-wrapper {
-   background-color: #16A34A !important;
+.sidebar,
+.navbar-brand-wrapper {
+  background-color: #16a34a !important;
 }
 
 .sidebar .nav .nav-item.active {
-   background-color: #C1BCBC !important;
-   color: #333 !important;
+  background-color: #c1bcbc !important;
+  color: #333 !important;
 }
 
 .sidebar .nav .nav-item {
-   border: 2px solid #6A6A6A !important;
-   border-radius: 15px !important;
-   margin: 5px 10px !important;
-   color: #333 !important;
-   background-color: #FEFEFE !important;
+  border: 2px solid #6a6a6a !important;
+  border-radius: 15px !important;
+  margin: 5px 10px !important;
+  color: #333 !important;
+  background-color: #fefefe !important;
 }
 
 .sidebar .nav .nav-item.active > .nav-link .menu-title {
-   color: #333 !important;
-   font-family: "ubuntu-medium", sans-serif;
+  color: #333 !important;
+  font-family: "ubuntu-medium", sans-serif;
 }
 
 .sidebar .nav .nav-item.active > .nav-link i {
-   color: #FEFEFE !important;
-  
+  color: #fefefe !important;
 }
 
 .navbar-menu-wrapper {
-   border-bottom: 2px solid #6A6A6A !important;
+  border-bottom: 2px solid #6a6a6a !important;
 }
 
-.card-img-holder 
-{
-   border: 2px solid #6A6A6A !important;
-   border-radius: 15px !important;
-   background-color: #D7E816 !important;
+.card-img-holder {
+  border: 2px solid #6a6a6a !important;
+  border-radius: 15px !important;
+  background-color: #d7e816 !important;
 }
 
 .title-front {
-   font-family: 'Arial', sans-serif;
-   font-size: 1.5rem;
-   font-weight: bold;
-   color: #FFD700; 
-   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); 
- }
- a:hover {
-   color: #0056b3; 
- }
+  font-family: "Arial", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+a:hover {
+  color: #0056b3;
+}
 
 /* Base Badge Styling */
 .badge {
-   display: inline-block !important;
-   padding: 0.35em 0.65em !important;
-   font-size: 0.75rem !important;
-   font-weight: 600 !important;
-   line-height: 1 !important;
-   text-align: center !important;
-   white-space: nowrap !important;
-   vertical-align: baseline !important;
-   border-radius: 0.25rem !important;
+  display: inline-block !important;
+  padding: 0.35em 0.65em !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  vertical-align: baseline !important;
+  border-radius: 0.25rem !important;
 }
 
 /* Badge Colors */
-.badge-primary { background-color: #007bff !important; color: #fff !important; }
-.badge-secondary { background-color: #6c757d !important; color: #fff !important; }
-.badge-success { background-color: #28a745 !important; color: #fff !important; }
-.badge-danger { background-color: #dc3545 !important; color: #fff !important; }
-.badge-warning { background-color: #ffc107 !important; color: #212529 !important; }
-.badge-info { background-color: #17a2b8 !important; color: #fff !important; }
-.badge-light { background-color: #f8f9fa !important; color: #212529 !important; border: 1px solid #d6d8db !important; }
-.badge-dark { background-color: #343a40 !important; color: #fff !important; }
+.badge-primary {
+  background-color: #007bff !important;
+  color: #fff !important;
+}
+.badge-secondary {
+  background-color: #6c757d !important;
+  color: #fff !important;
+}
+.badge-success {
+  background-color: #28a745 !important;
+  color: #fff !important;
+}
+.badge-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+.badge-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+.badge-info {
+  background-color: #17a2b8 !important;
+  color: #fff !important;
+}
+.badge-light {
+  background-color: #f8f9fa !important;
+  color: #212529 !important;
+  border: 1px solid #d6d8db !important;
+}
+.badge-dark {
+  background-color: #343a40 !important;
+  color: #fff !important;
+}
 
 /* Additional Badge Styles */
 .badge-pill {
-   border-radius: 50rem !important;
-   padding: 0.5em 0.85em !important;
+  border-radius: 50rem !important;
+  padding: 0.5em 0.85em !important;
 }
 
 .badge-outline {
-   background-color: transparent !important;
-   border: 1px solid !important;
+  background-color: transparent !important;
+  border: 1px solid !important;
 }
 
-.badge-outline.badge-primary { color: #007bff !important; border-color: #007bff !important; }
-.badge-outline.badge-secondary { color: #6c757d !important; border-color: #6c757d !important; }
-.badge-outline.badge-success { color: #28a745 !important; border-color: #28a745 !important; }
-.badge-outline.badge-danger { color: #dc3545 !important; border-color: #dc3545 !important; }
-.badge-outline.badge-warning { color: #ffc107 !important; border-color: #ffc107 !important; }
-.badge-outline.badge-info { color: #17a2b8 !important; border-color: #17a2b8 !important; }
-.badge-outline.badge-light { color: #212529 !important; border-color: #d6d8db !important; }
-.badge-outline.badge-dark { color: #343a40 !important; border-color: #343a40 !important; }
+.badge-outline.badge-primary {
+  color: #007bff !important;
+  border-color: #007bff !important;
+}
+.badge-outline.badge-secondary {
+  color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+.badge-outline.badge-success {
+  color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+.badge-outline.badge-danger {
+  color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+.badge-outline.badge-warning {
+  color: #ffc107 !important;
+  border-color: #ffc107 !important;
+}
+.badge-outline.badge-info {
+  color: #17a2b8 !important;
+  border-color: #17a2b8 !important;
+}
+.badge-outline.badge-light {
+  color: #212529 !important;
+  border-color: #d6d8db !important;
+}
+.badge-outline.badge-dark {
+  color: #343a40 !important;
+  border-color: #343a40 !important;
+}
+
+.nav-tabs .nav-link {
+   color: #dddddd !important;
+   border: none !important;
+   background-color: transparent !important;
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff !important;
+  font-weight: bolder !important;
+  border: none !important;
+  background-color: transparent !important;
+}

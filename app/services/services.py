@@ -22,7 +22,7 @@ class CRUDService:
         """
         Get records from the database by filters.
         """
-        query = self.model.query
+        query = self.model.query.options(db.joinedload('*'))
         for field, value in filters.items():
             query = query.filter(getattr(self.model, field) == value)
         return query.all()
