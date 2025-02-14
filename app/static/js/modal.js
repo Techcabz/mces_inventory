@@ -313,48 +313,66 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   const searchBar = document.getElementById("search-bar");
-  const resultsDiv = document.getElementById("search-results");
-  const defaultResults = resultsDiv.innerHTML; // Store default content
-
-  searchBar.addEventListener("input", function () {
-    let query = searchBar.value.trim();
-
+  const categoriesContainer = document.getElementById("default-card");
+  const searchResultsContainer = document.getElementById(
+    "search-results-container"
+  );
+  const searchResultsList = document.getElementById("search-results-list");
+  let currentQuery = "";
+  searchBar.addEventListener("input", async function () {
+    const query = searchBar.value.trim();
+  
+    currentQuery = query;
+  
     if (query.length > 0) {
-      fetch(`/search-items?q=${query}`)
-        .then((response) => response.json())
-        .then((data) => {
-          resultsDiv.innerHTML = "";
+      categoriesContainer.style.display = "none";
+      searchResultsContainer.style.display = "block";
+  
+      try {
+        // Fetch search results
+        const response = await fetch(`/search-items?q=${query}`);
+        const data = await response.json();
+  
+        if (currentQuery === query) {
+          // Clear previous results
+          searchResultsList.innerHTML = "";
+  
           if (data.length > 0) {
             data.forEach((item) => {
-              resultsDiv.innerHTML += `
-                            <div class="col">
-                                <div class="card">
-                                    <img class="card-img-top" src="${
-                                      item.image_url
-                                    }" alt="${item.title}">
-                                    <div class="card-body">
-                                   <span class="card-title d-flex justify-content-between">
-                                        <strong>${item.title}</strong>
-
-</span>                                           <div class="d-flex justify-content-between align-items-center">
-                                        <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
-                                        <span class="badge ${getStatusClass(
-                                          item.status
-                                        )}">${item.status}</span>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+              searchResultsList.innerHTML += `
+                <div class="col">
+                  <a href="/users/item/${item.uuid}">
+                    <div class="card">
+                      <img class="card-img-top" src="${item.image_url}" alt="${item.title}">
+                      <div class="card-body">
+                        <span class="card-title d-flex justify-content-between">
+                          <strong>${item.title}</strong>
+                        </span>
+                        <div class="d-flex justify-content-between align-items-center">
+                          <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
+                          <span class="badge ${getStatusClass(item.status)}">${item.status}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              `;
             });
           } else {
-            resultsDiv.innerHTML = "<p>No items found</p>";
+            searchResultsList.innerHTML = "<p>No items found</p>";
           }
-        });
+        }
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        searchResultsList.innerHTML = "<p>Error loading results. Please try again.</p>";
+      }
     } else {
-      resultsDiv.innerHTML = defaultResults;
+      categoriesContainer.style.display = "block";
+      searchResultsContainer.style.display = "none";
+      searchResultsList.innerHTML = "";
     }
   });
+  
   function getStatusClass(status) {
     switch (status) {
       case "Available":

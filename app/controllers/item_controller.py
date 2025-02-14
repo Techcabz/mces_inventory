@@ -109,6 +109,7 @@ def search_items():
                 "title": item.title.capitalize(),
                 "image_url": get_inventory_image(item.image),
                 "quantity": item.quantity,
+                "uuid": item.uuid,
                 "status": item.status.capitalize(),
                 "category": item.category.name.capitalize() if item.category else "Uncategorized",
             }
@@ -122,6 +123,7 @@ def search_items():
             "title": item.title.capitalize(),
             "image_url": get_inventory_image(item.image),
             "quantity": item.quantity,
+             "uuid": item.uuid,
             "status": item.status.capitalize(),
             "category": item.category.name.capitalize() if item.category else "Uncategorized",
         }
