@@ -150,13 +150,13 @@ a:hover {
 }
 
 .nav-tabs .nav-link {
-   color: #dddddd !important;
+   color: #333 !important;
    border: none !important;
    background-color: transparent !important;
 }
 
 .nav-tabs .nav-link.active {
-  color: #fff !important;
+  color: #030303 !important;
   font-weight: bolder !important;
   border: none !important;
   background-color: transparent !important;

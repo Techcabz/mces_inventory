@@ -1,42 +1,23 @@
 <!-- category start -->
-<div
-  class="modal fade"
-  id="addCategory"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
             <form id="categoryForm" method="post">
               <div>
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-700"
-                  >Name</label
-                >
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                 <input type="text" id="name" name="name" class="form-control" />
               </div>
-              <button
-                type="submit"
-                id="categoryButton"
-                data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0"
-              >
+              <button type="submit" id="categoryButton" data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0">
                 Submit
               </button>
             </form>
@@ -47,45 +28,26 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="updateCategory"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="updateCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
             <form id="updatecategoryForm" method="put">
               <div>
-                <label
-                  for="name"
-                  class="block text-sm font-medium text-gray-700"
-                  >Name</label
-                >
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                 <input type="hidden" id="id" name="id" />
                 <input type="text" id="name" name="name" class="form-control" />
               </div>
-              <button
-                type="submit"
-                id="categoryButtonUpdate"
-                data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0"
-              >
+              <button type="submit" id="categoryButtonUpdate" data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0">
                 Update
               </button>
             </form>
@@ -98,45 +60,24 @@
 <!-- category end -->
 
 <!-- inventory start -->
-<div
-  class="modal fade"
-  id="addInventory"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="addInventory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form
-              id="inventoryForm"
-              method="post"
-              enctype="multipart/form-data"
-            >
+            <form id="inventoryForm" method="post" enctype="multipart/form-data">
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Title/Article <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="title"
-                      name="title"
-                      placeholder="Title/Article"
-                    />
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title/Article" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
@@ -144,11 +85,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Category <span style="color: red;">*</span> </label>
                   <div class="mb-2">
-                    <select
-                      class="form-select"
-                      id="category_id"
-                      name="category_id"
-                    >
+                    <select class="form-select" id="category_id" name="category_id">
                       <option value="" selected>Select Categories</option>
                       {% for category in categories %}
                       <option value="{{ category.id }}">
@@ -162,13 +99,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Image </label>
                   <div class="mb-2">
-                    <input
-                      type="file"
-                      class="form-control"
-                      id="image"
-                      name="image"
-                      placeholder="Image"
-                    />
+                    <input type="file" class="form-control" id="image" name="image" placeholder="Image" />
                     <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
@@ -178,39 +109,23 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Property No. </label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="property_no"
-                      name="property_no"
-                      placeholder="Property No."
-                    />
+                    <input type="text" class="form-control" id="property_no" name="property_no"
+                      placeholder="Property No." />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Date Acquired <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="date_acquired"
-                      name="date_acquired"
-                      placeholder="Date Acquired"
-                    />
+                    <input type="date" class="form-control" id="date_acquired" name="date_acquired"
+                      placeholder="Date Acquired" />
                     <div id="slnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Aquisition Cost <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="cost"
-                      name="cost"
-                      placeholder="Cost"
-                    />
+                    <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
@@ -220,39 +135,23 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Unit</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="unit"
-                      name="unit"
-                      placeholder="Unit"
-                    />
+                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Fund Source</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="fund_source"
-                      name="fund_source"
-                      placeholder="Fund Source"
-                    />
+                    <input type="text" class="form-control" id="fund_source" name="fund_source"
+                      placeholder="Fund Source" />
                     <div id="slnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Accountable Officer <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="officer"
-                      name="officer"
-                      placeholder="Accountable Officer"
-                    />
+                    <input type="text" class="form-control" id="officer" name="officer"
+                      placeholder="Accountable Officer" />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
@@ -261,38 +160,21 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Office/School</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="school"
-                      name="school"
-                      placeholder="Office/School"
-                    />
+                    <input type="text" class="form-control" id="school" name="school" placeholder="Office/School" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Quantity <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="qty"
-                      name="qty"
-                      min="1"
-                      max="100"
-                      placeholder="Quantity"
-                    />
+                    <input type="number" class="form-control" id="qty" name="qty" min="1" max="100"
+                      placeholder="Quantity" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                id="inventoryButton"
-                data-loading-text="Submitting..."
-                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
-              >
+              <button type="submit" id="inventoryButton" data-loading-text="Submitting..."
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0">
                 Submit
               </button>
             </form>
@@ -303,45 +185,24 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="updateInventory"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="updateInventory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form
-              id="updateInventoryForm"
-              method="put"
-              enctype="multipart/form-data"
-            >
+            <form id="updateInventoryForm" method="put" enctype="multipart/form-data">
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Title/Article <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="title"
-                      name="title"
-                      placeholder="Title/Article"
-                    />
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title/Article" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
@@ -349,11 +210,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Category <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <select
-                      class="form-select"
-                      id="category_id"
-                      name="category_id"
-                    >
+                    <select class="form-select" id="category_id" name="category_id">
                       <option value="" selected>Select Categories</option>
                       {% for category in categories %}
                       <option value="{{ category.id }}">
@@ -368,13 +225,7 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Image </label>
                   <div class="mb-2">
-                    <input
-                      type="file"
-                      class="form-control"
-                      id="image"
-                      name="image"
-                      placeholder="Image"
-                    />
+                    <input type="file" class="form-control" id="image" name="image" placeholder="Image" />
                     <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
@@ -384,39 +235,23 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Property No. </label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="property_no"
-                      name="property_no"
-                      placeholder="Property No."
-                    />
+                    <input type="text" class="form-control" id="property_no" name="property_no"
+                      placeholder="Property No." />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Date Acquired <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="date_acquired"
-                      name="date_acquired"
-                      placeholder="Date Acquired"
-                    />
+                    <input type="date" class="form-control" id="date_acquired" name="date_acquired"
+                      placeholder="Date Acquired" />
                     <div id="slnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Aquisition Cost <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="cost"
-                      name="cost"
-                      placeholder="Cost"
-                    />
+                    <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
@@ -426,39 +261,23 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Unit</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="unit"
-                      name="unit"
-                      placeholder="Unit"
-                    />
+                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Fund Source</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="fund_source"
-                      name="fund_source"
-                      placeholder="Fund Source"
-                    />
+                    <input type="text" class="form-control" id="fund_source" name="fund_source"
+                      placeholder="Fund Source" />
                     <div id="slnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Accountable Officer <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="officer"
-                      name="officer"
-                      placeholder="Accountable Officer"
-                    />
+                    <input type="text" class="form-control" id="officer" name="officer"
+                      placeholder="Accountable Officer" />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
@@ -467,39 +286,22 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Office/School</label>
                   <div class="mb-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="school"
-                      name="school"
-                      placeholder="Office/School"
-                    />
+                    <input type="text" class="form-control" id="school" name="school" placeholder="Office/School" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Quantity <span style="color: red;">*</span></label>
                   <div class="mb-2">
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="qty"
-                      name="qty"
-                      min="1"
-                      max="100"
-                      placeholder="Quantity"
-                    />
+                    <input type="number" class="form-control" id="qty" name="qty" min="1" max="100"
+                      placeholder="Quantity" />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
               </div>
               <input type="hidden" id="id" name="id" />
-              <button
-                type="submit"
-                id="inventoryButtonUpdate"
-                data-loading-text="Submitting..."
-                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
-              >
+              <button type="submit" id="inventoryButtonUpdate" data-loading-text="Submitting..."
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0">
                 Update
               </button>
             </form>
@@ -509,4 +311,69 @@
     </div>
   </div>
 </div>
-<!-- category end -->
+<!-- inventory end -->
+
+<!-- user table pending -->
+<div class="modal fade" id="pendingUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">
+          PENDING {{ request.endpoint.split('.')[-1] | upper }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="background: #d8ebe0">
+          <div class="card-body p-3">
+            <div class="table-responsived">
+              <table id="datatable0" class="table table-borderless w-100">
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th style="width: 50px">#</th>
+                    <th>Username</th>
+                    <th>Roles</th>
+                    <th>Created At</th>
+                    <th style="width: 160px">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in users %} {% if user.role == 'guest' %}
+                  <tr>
+                    <td class="cell">{{ loop.index }}</td>
+                    <td>{{ user.username.capitalize() }}</td>
+                    <td>{{ user.role.capitalize() }}</td>
+                    <td>{{ user.created_at.strftime('%B %d, %Y %I:%M %p') }}</td>
+                    <td>
+                      <div class="dropdown d-flex justify-content-center">
+                        <button class="btn btn-secondary btn-custom btn-sm dropdown-toggle" type="button"
+                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <div class="dropdown-item">
+                            <div class="d-flex align-items-center gap-3">
+                              <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-category"
+                                data-id="{{ user.id }}" data-name="{{ user.name }}">
+                                <i class="fa fa-pencil-square-o"></i>
+                              </a>
+                              <button type="button" data-id="{{ user.id }}"
+                                class="btn btn-sm btn-danger delete-category">
+                                <i class="fa fa-trash-o"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endif %} {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
