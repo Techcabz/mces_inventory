@@ -4,13 +4,13 @@
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab"
       aria-controls="home" aria-selected="true">
-      Users
+      USERS
     </button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab"
       aria-controls="profile" aria-selected="false">
-      Admin
+      ADMINISTRATOR
     </button>
   </li>
 </ul>
@@ -37,17 +37,21 @@
               <tr>
                 <th style="width: 50px">#</th>
                 <th>Username</th>
-                <th>Roles</th>
+                <th>Status</th>
                 <th>Created At</th>
                 <th style="width: 160px">Action</th>
               </tr>
             </thead>
             <tbody>
-              {% for user in users %} {% if user.role == 'guest' %}
+              {% for user in users %} {% if user.role == 'guest' %} {% if user.status in [1, 2] %}.
               <tr>
                 <td class="cell">{{ loop.index }}</td>
                 <td>{{ user.username.capitalize() }}</td>
-                <td>{{ user.role.capitalize() }}</td>
+                <td><span
+                  class="badge {% if user.status == 0 %}badge-warning {% elif user.status == 1 %}badge-success {% elif user.status == 2 %}badge-danger{% endif %}"
+                >
+                {% if user.status == 0 %}PENDING {% elif user.status == 1 %} APPROVED {% elif user.status == 2 %} BLOCKED {% endif %}
+                </span></td>
                 <td>{{ user.created_at.strftime('%B %d, %Y %I:%M %p') }}</td>
                 <td>
                   <div class="dropdown d-flex justify-content-center">
@@ -70,7 +74,7 @@
                     </div>
                   </div>
                 </td>
-              </tr>
+              </tr> {% endif %}  
               {% endif %} {% endfor %}
             </tbody>
           </table>

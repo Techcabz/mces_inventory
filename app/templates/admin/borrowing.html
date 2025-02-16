@@ -16,7 +16,7 @@
       <table id="datatable" class="table table-borderless">
         <thead class="bg-gradient-success text-white">
           <tr>
-            <th >#</th>
+            <th>#</th>
             <th>Reference</th>
             <th>Item</th>
             <th>Users</th>
@@ -31,7 +31,7 @@
           {% for borrowing in borrowings %}
           <tr>
             <td>{{ loop.index }}</td>
-            <td>{{ borrowing.reference_number }}</td>
+            <td> <span class="border p-1 border-dark">{{ borrowing.reference_number }}</span></td>
             <td>{{ borrowing.inventory_item.title }}</td>
             <td>{{ borrowing.user.fullname }}</td>
             <td>{{ borrowing.quantity }}</td>
@@ -42,12 +42,16 @@
             </td>
             <td>
               <span
-                class="badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}"
-              >
+                class="badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}">
                 {{ borrowing.status | capitalize }}
               </span>
             </td>
-            <td></td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
+                <span class="badge bg-success custom-cursor">APPROVED</span>
+                <span class="badge bg-danger custom-cursor">DISAPPROVED</span>
+              </div>
+            </td>
           </tr>
           {% endfor %}
         </tbody>

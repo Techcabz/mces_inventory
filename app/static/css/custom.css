@@ -161,3 +161,8 @@ a:hover {
   border: none !important;
   background-color: transparent !important;
 }
+
+.custom-cursor {
+  cursor: pointer;
+}
+
