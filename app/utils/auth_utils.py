@@ -14,3 +14,16 @@ def web_guard(func):
             return redirect(url_for('main.user_dashboard')) 
         return func(*args, **kwargs)
     return wrapper
+
+
+def web_guard_user(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash('Please log in to access this page.', 'danger')
+            return redirect(url_for('main.login')) 
+
+        if session.get('role') != 'guest': 
+            return redirect(url_for('main.user_dashboard')) 
+        return func(*args, **kwargs)
+    return wrapper

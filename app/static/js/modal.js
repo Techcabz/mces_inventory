@@ -319,60 +319,63 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   const searchResultsList = document.getElementById("search-results-list");
   let currentQuery = "";
-  searchBar.addEventListener("input", async function () {
-    const query = searchBar.value.trim();
-  
-    currentQuery = query;
-  
-    if (query.length > 0) {
-      categoriesContainer.style.display = "none";
-      searchResultsContainer.style.display = "block";
-  
-      try {
-        // Fetch search results
-        const response = await fetch(`/search-items?q=${query}`);
-        const data = await response.json();
-  
-        if (currentQuery === query) {
-          // Clear previous results
-          searchResultsList.innerHTML = "";
-  
-          if (data.length > 0) {
-            data.forEach((item) => {
-              searchResultsList.innerHTML += `
-                <div class="col">
-                  <a href="/users/item/${item.uuid}">
-                    <div class="card">
-                      <img class="card-img-top" src="${item.image_url}" alt="${item.title}">
-                      <div class="card-body">
-                        <span class="card-title d-flex justify-content-between">
-                          <strong>${item.title}</strong>
-                        </span>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
-                          <span class="badge ${getStatusClass(item.status)}">${item.status}</span>
+  if (searchBar) {
+    searchBar.addEventListener("input", async function () {
+      const query = searchBar.value.trim();
+
+      currentQuery = query;
+
+      if (query.length > 0) {
+        categoriesContainer.style.display = "none";
+        searchResultsContainer.style.display = "block";
+
+        try {
+          // Fetch search results
+          const response = await fetch(`/search-items?q=${query}`);
+          const data = await response.json();
+
+          if (currentQuery === query) {
+            // Clear previous results
+            searchResultsList.innerHTML = "";
+
+            if (data.length > 0) {
+              data.forEach((item) => {
+                searchResultsList.innerHTML += `
+                  <div class="col">
+                    <a href="/users/item/${item.uuid}">
+                      <div class="card">
+                        <img class="card-img-top" src="${item.image_url}" alt="${item.title}">
+                        <div class="card-body">
+                          <span class="card-title d-flex justify-content-between">
+                            <strong>${item.title}</strong>
+                          </span>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
+                            <span class="badge ${getStatusClass(item.status)}">${item.status}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </a>
-                </div>
-              `;
-            });
-          } else {
-            searchResultsList.innerHTML = "<p>No items found</p>";
+                    </a>
+                  </div>
+                `;
+              });
+            } else {
+              searchResultsList.innerHTML = "<p>No items found</p>";
+            }
           }
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+          searchResultsList.innerHTML = "<p>Error loading results. Please try again.</p>";
         }
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-        searchResultsList.innerHTML = "<p>Error loading results. Please try again.</p>";
+      } else {
+        categoriesContainer.style.display = "block";
+        searchResultsContainer.style.display = "none";
+        searchResultsList.innerHTML = "";
       }
-    } else {
-      categoriesContainer.style.display = "block";
-      searchResultsContainer.style.display = "none";
-      searchResultsList.innerHTML = "";
-    }
-  });
-  
+    });
+  }
+
+
   function getStatusClass(status) {
     switch (status) {
       case "Available":

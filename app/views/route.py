@@ -6,7 +6,7 @@ from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers
 from app.controllers.item_controller import items, search_items
 from app.controllers.borrowing_controller import borrowings
-from app.utils.auth_utils import web_guard
+from app.utils.auth_utils import web_guard,web_guard_user
 from app.models.user_models import User
 from app.extensions import db
 from uuid import UUID
@@ -92,9 +92,12 @@ def test():
 # USER DASHBOARD
 @main.route('/user/dashboard')
 @main.route('/users/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
+@web_guard_user
 def user_dashboard(item_uuid=None):
     return items(request,item_uuid)
 
+
 @main.route('/search-items')
+@web_guard_user
 def search_item():
     return search_items()
