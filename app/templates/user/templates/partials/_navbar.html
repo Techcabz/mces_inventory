@@ -3,31 +3,21 @@
     <div class="col-12">
       <!-- Navbar -->
       <nav
-        class="navbar navbar-expand-lg blur bg-white blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4"
-      >
+        class="navbar navbar-expand-lg blur bg-white blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
         <div class="container-fluid pe-0">
-          <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="">
+          <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{{ url_for('main.user_dashboard') }}">
             <div class="logo-container">
               <div class="logo">
-                <img
-                  src="{{ url_for('static', filename='images/favicon.webp') }}"
-                  alt=""
-                />
+                <img src="{{ url_for('static', filename='images/favicon.webp') }}" alt="" />
               </div>
               <div class="logo-desc">
                 <h1></h1>
               </div>
             </div>
           </a>
-          <button
-            class="navbar-toggler shadow-none ms-2"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navigation"
-            aria-controls="navigation"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+          <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon mt-2">
               <span class="navbar-toggler-bar bar1"></span>
               <span class="navbar-toggler-bar bar2"></span>
@@ -38,54 +28,26 @@
             <div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
             <ul class="navbar-nav justify-content-end px-3 hideToMobile">
               <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                <a
-                  href="javascript:;"
-                  class="nav-link text-body font-weight-bold p-0"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                <a href="{{ url_for('main.user_borrowed') }}" class="nav-link text-body font-weight-bold p-0">
                   <i class="fas fa-cart-arrow-down"></i>
                   <span class="d-sm-inline d-none">&nbsp;Borrowed </span>
                 </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li class="mb-0">
-                    <a href="" class="nav-link">Latest Borrowed</a>
-                  </li>
-                  <li class="mb-0">
-                    <a href="" class="nav-link">Recent Borrowed</a>
-                  </li>
-                </ul>
+
               </li>
             </ul>
             <ul class="navbar-nav justify-content-end px-3 hideToMobile">
               <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                <a
-                  href="javascript:;"
-                  class="nav-link text-body font-weight-bold p-0"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                <a href="javascript:;" class="nav-link text-body font-weight-bold p-0" id="dropdownMenuButton"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="fa fa-user me-sm-1"></i>
                   <span class="d-sm-inline d-none">
                     {% if session['username'].title() %} Welcome,
                     <strong>{{ session['username'] }}</strong> {% else %}
-                    Welcome, Guest! {% endif %}</span
-                  >
+                    Welcome, Guest! {% endif %}</span>
                 </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
-                  aria-labelledby="dropdownMenuButton"
-                >
+                <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                   <li class="mb-0">
-                    <button
-                      id="logout"
-                      class="btn btn-outline-danger mb-0 btn-sm w-100"
-                    >
+                    <button id="logout" class="btn btn-outline-danger mb-0 btn-sm w-100">
                       Logout
                     </button>
                   </li>
@@ -101,9 +63,7 @@
                   <a href="" class="nav-link">Recent Borrowed</a>
                 </li>
                 <li class="nav-item">
-                  <button
-                    class="btn btn-outline-danger w-100 mb-0 btn-sm btn-round mb-0"
-                  >
+                  <button class="btn btn-outline-danger w-100 mb-0 btn-sm btn-round mb-0">
                     Logout
                   </button>
                 </li>

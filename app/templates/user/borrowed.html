@@ -1,0 +1,158 @@
+{% extends "user/templates/user_layout.html" %} {% block user_content %}
+<main class="main-content mt-0">
+    <div class="page-header min-vh-75">
+        <div class="container mt-lg-5 mt-sm-5 mt-md-5" style="margin-top:10vh !important">
+            <div class="card mb-3 p-3 mt-sm-5 mt-md-5">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending"
+                            type="button" role="tab" aria-controls="pending" aria-selected="true">
+                            PENDING
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved"
+                            type="button" role="tab" aria-controls="approved" aria-selected="false">
+                            APPROVED
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="canceled-tab" data-bs-toggle="tab" data-bs-target="#canceled"
+                            type="button" role="tab" aria-controls="canceled" aria-selected="false">
+                            RECENT / CANCELED
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content mt-2" id="myTabContent">
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                        <div class="table-responsived ">
+                            <table id="datatable" class="table table-borderless w-100">
+                                <thead class="bg-gradient-success text-white">
+                                    <tr>
+                                        <th>#</th>
+
+                                        <th>Reference</th>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+
+                                        <th>Day Left / Overdue</th>
+
+                                        <th style="width: 160px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for borrowing in borrowings %}
+                                    {% if borrowing.status == 'pending' %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                                        <td>{{ borrowing.inventory_item.title }}</td>
+                                        <td>{{ borrowing.quantity }}</td>
+                                        <td>
+                                            {% if borrowing.days_remaining > 0 %}
+                                            <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}
+                                                days</span>
+                                            {% elif borrowing.days_late > 0 %}
+                                            <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
+                                            {% else %}
+                                            N/A
+                                            {% endif %}
+                                        </td>
+
+                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+                                                VIEW
+                                                </span></td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show " id="approved" role="tabpanel" aria-labelledby="pending-tab">
+                        <div class="table-responsived ">
+                            <table id="datatable1" class="table table-borderless w-100">
+                                <thead class="bg-gradient-success text-white">
+                                    <tr>
+                                        <th>#</th>
+
+                                        <th>Reference</th>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+
+                                        <th>Day Left / Overdue</th>
+
+                                        <th style="width: 160px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for borrowing in borrowings %}
+                                    {% if borrowing.status == 'approved' %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                                        <td>{{ borrowing.inventory_item.title }}</td>
+                                        <td>{{ borrowing.quantity }}</td>
+                                        <td>
+                                            {% if borrowing.days_remaining > 0 %}
+                                            <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}
+                                                days</span>
+                                            {% elif borrowing.days_late > 0 %}
+                                            <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
+                                            {% else %}
+                                            N/A
+                                            {% endif %}
+                                        </td>
+
+                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+                                                VIEW
+                                                </span></td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show " id="canceled" role="tabpanel" aria-labelledby="pending-tab">
+                        <div class="table-responsived ">
+                            <table id="datatable2" class="table table-borderless w-100">
+                                <thead class="bg-gradient-success text-white">
+                                    <tr>
+                                        <th>#</th>
+
+                                        <th>Reference</th>
+                                        <th>Item</th>
+                                        <th>Qty</th>
+
+                                        <th style="width: 160px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for borrowing in borrowings %}
+                                    {% if borrowing.status == 'cancelled' or borrowing.status == 'done' %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                                        <td>{{ borrowing.inventory_item.title }}</td>
+                                        <td>{{ borrowing.quantity }}</td>
+                                        
+
+                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+                                                VIEW
+                                                </span></td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+{% endblock %}

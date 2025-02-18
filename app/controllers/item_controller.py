@@ -6,10 +6,12 @@ from app.services.services import CRUDService
 from app.utils.file_utils import get_inventory_image
 from uuid import UUID 
 from datetime import datetime
+from app.models.borrowing_details_model import BorrowingDetails
 
 inventory_service = CRUDService(Inventory)
 borrowing_service = CRUDService(Borrowing)
 category_service = CRUDService(Category)
+cancel_service = CRUDService(BorrowingDetails)
 
 def items(request, inventory_uuid=None):  
     
@@ -98,6 +100,23 @@ def items(request, inventory_uuid=None):
             }), 200
         return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
     
+
+def users_borrowed(request, inventory_uuid=None):
+    if request.method == 'GET':
+        borrowing_list = borrowing_service.get()
+        now = datetime.utcnow()
+
+        for borrowing in borrowing_list:
+            if borrowing.end_date:
+                days_remaining = (borrowing.end_date - now).days
+                borrowing.days_remaining = max(0, days_remaining)  
+                borrowing.days_late = max(0, -days_remaining) 
+            else:
+                borrowing.days_remaining = None
+                borrowing.days_late = None
+            
+        return render_template('user/borrowed.html', borrowings=borrowing_list)
+
 def search_items():
     query = request.args.get("q", "").strip().lower()
 

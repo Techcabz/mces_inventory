@@ -27,7 +27,8 @@ if (registerForm) {
           window.location.href = "/login";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
+
         setLoadingState(registerButton, false);
       }
     } catch (error) {
@@ -54,7 +55,7 @@ if (loginForm) {
       });
 
       const data = await response.json();
-  
+
       if (response.ok) {
         alert("success", "top", data.message);
 
@@ -62,7 +63,8 @@ if (loginForm) {
           window.location.href = "/admin/dashboard";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
+
         setLoadingState(loginButton, false);
       }
     } catch (error) {
@@ -86,13 +88,13 @@ if (logout) {
           const response = await fetch(`/logout`, {
             method: "POST",
           });
-  
+
           const data = await response.json();
-  
+
           if (!response.ok) {
             throw new Error(data.message || "Failed to delete category.");
           }
-  
+
           alert("success", "top", data.message);
           window.location.href = "/login"
         } catch (error) {
@@ -101,11 +103,11 @@ if (logout) {
         }
       },
       () => {
-        
+
       }
     );
 
-   
+
   });
 }
 

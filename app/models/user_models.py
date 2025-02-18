@@ -2,12 +2,11 @@ import hashlib
 import os
 from flask_login import UserMixin
 from ..extensions import db
-from datetime import datetime
+from datetime import datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
     firstname = db.Column(db.String(120), nullable=False)
@@ -22,19 +21,19 @@ class User(UserMixin, db.Model):
  
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
+   
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+ 
     @property
     def fullname(self):
         return f"{self.firstname} {self.middlename} {self.lastname}".strip()
 
-        
+
     def __repr__(self):
         return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname} {self.status}>"
-
 
