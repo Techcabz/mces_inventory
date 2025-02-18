@@ -106,6 +106,25 @@ def users_borrowed(request, inventory_uuid=None):
         borrowing_list = borrowing_service.get()
         now = datetime.utcnow()
 
+        if inventory_uuid:
+            for borrowing in borrowing_list:
+                if borrowing.end_date:
+                    days_remaining = (borrowing.end_date - now).days
+                    borrowing.days_remaining = max(0, days_remaining)  
+                    borrowing.days_late = max(0, -days_remaining) 
+                else:
+                    borrowing.days_remaining = None
+                    borrowing.days_late = None
+
+                inventory_item = borrowing.inventory_item
+               
+                if inventory_item:
+                    borrowing.image_url = get_inventory_image(inventory_item.image)
+                else:
+                    borrowing.image_url = None
+                print(borrowing.image_url)
+            return render_template('user/borrowed_single.html', borrowings=borrowing)
+        
         for borrowing in borrowing_list:
             if borrowing.end_date:
                 days_remaining = (borrowing.end_date - now).days

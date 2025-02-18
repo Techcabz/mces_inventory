@@ -117,6 +117,7 @@ def user_dashboard(item_uuid=None):
     return items(request,item_uuid)
 
 @main.route('/user/borrowed')
+@main.route('/users/borrowed/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
 @web_guard_user
 def user_borrowed(item_uuid=None):
     return users_borrowed(request,item_uuid)

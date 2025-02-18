@@ -59,7 +59,8 @@
                                             {% endif %}
                                         </td>
 
-                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                                class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>
                                     </tr>
@@ -105,7 +106,8 @@
                                             {% endif %}
                                         </td>
 
-                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                                class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>
                                     </tr>
@@ -138,9 +140,10 @@
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
                                         <td>{{ borrowing.inventory_item.title }}</td>
                                         <td>{{ borrowing.quantity }}</td>
-                                        
 
-                                        <td> <a class="badge bg-gradient-primary custom-cursor ">
+
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                                class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>
                                     </tr>
