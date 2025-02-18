@@ -14,7 +14,7 @@ class Borrowing(db.Model):
     start_date = db.Column(db.DateTime, default=datetime.utcnow) 
     end_date = db.Column(db.DateTime, nullable=True)  
     quantity = db.Column(db.Integer, default=0, nullable=False)
-    status = db.Column(Enum("pending", "approved", "cancel", "done", name="borrow_status"), 
+    status = db.Column(Enum("pending", "approved", "cancelled", "done", name="borrow_status"), 
                        default="pending", nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow) 

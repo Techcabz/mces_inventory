@@ -1,4 +1,4 @@
-import { setLoadingState, alert } from "./helper.module.js";
+import { setLoadingState, alert, showConfirmationDialog } from "./helper.module.js";
 
 // categoryForm
 const categoryForm = document.querySelector("#categoryForm");
@@ -377,9 +377,109 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+
   document.addEventListener("click", function (event) {
+
+    if (event.target.classList.contains("bUserA")) {
+      let userID = event.target.getAttribute("data-user-id");
+
+      showConfirmationDialog(
+        "Are you sure you want to approved this user?",
+        "Yes",
+        "No",
+        async () => {
+          try {
+            const response = await fetch(`/admin/users/approved/${userID}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: 1 }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.message);
+            }
+
+            alert("success", "top", data.message);
+            window.location.reload();
+          } catch (error) {
+            console.error("Error:", error);
+            alert("error", "top", error.message);
+          }
+        },
+        () => {
+
+        }
+      );
+    }
+
+    if (event.target.classList.contains("bUserD")) {
+      let userID = event.target.getAttribute("data-user-id");
+
+      showConfirmationDialog(
+        "Are you sure you want to disapprove this user? This will delete the user from our records. Do you want to continue?",
+        "Yes",
+        "No",
+        async () => {
+          try {
+            const response = await fetch(`/admin/users/disapproved/${userID}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.message);
+            }
+
+            alert("success", "top", data.message);
+            window.location.reload();
+          } catch (error) {
+            console.error("Error:", error);
+            alert("error", "top", error.message);
+          }
+        },
+        () => {
+
+        }
+      );
+    }
+
+    if (event.target.classList.contains("bDone")) {
+      let borrowingId = event.target.getAttribute("data-borrowing-id");
+      let inventoryId = event.target.getAttribute("data-inventory-id");
+      let inventoryQty = event.target.getAttribute("data-inventory-qty");
+
+      Swal.fire({
+        title: "Mark this borrowing as done?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "No",
+        confirmButtonText: "Yes!",
+        width: "300px",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/admin/borrowing/done/${borrowingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "done", inventory_id: inventoryId, quantity: inventoryQty }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.message);
+              alert("success", "top", data.message);
+              location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+      });
+    }
+
     if (event.target.classList.contains("bApproved")) {
-      let borrowingId = event.target.getAttribute("data-id"); 
+      let borrowingId = event.target.getAttribute("data-id");
 
       Swal.fire({
         title: "Approve this borrowing?",
@@ -390,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
         width: "300px",
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(`/admin/borrowing/approval/${borrowingId}`, {
+          fetch(`/admin/borrowing/status/${borrowingId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "approved" }),
@@ -399,20 +499,18 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
               console.log(data.message);
               alert("success", "top", data.message);
-               location.reload(); 
+              location.reload();
             })
             .catch(error => console.error("Error:", error));
         }
       });
     }
-  });
 
-  document.addEventListener("click", function (event) {
     if (event.target.classList.contains("bDisapproved")) {
-      let borrowingId = event.target.getAttribute("data-id"); // Get borrowing ID
+      let borrowingId = event.target.getAttribute("data-id");
 
       Swal.fire({
-        title: "Disapprove Request",
+        title: "Cancel Request",
         text: "Please provide a reason:",
         input: "textarea",
         inputPlaceholder: "Enter your reason here...",
@@ -422,21 +520,35 @@ document.addEventListener("DOMContentLoaded", function () {
       }).then((result) => {
         if (result.isConfirmed) {
           let reason = result.value;
-          fetch(`/admin/borrowing/update_status/${borrowingId}`, {
-            method: "POST",
+          fetch(`/admin/borrowing/cancel_reason/${borrowingId}`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "cancel", reason: reason }),
+            body: JSON.stringify({ status: "cancelled", reason: reason }),
           })
             .then(response => response.json())
             .then(data => {
               console.log(data.message);
-              Swal.fire("Disapproved!", `Reason: ${reason}`, "warning");
-              location.reload(); // Refresh page
+              alert("success", "top", data.message);
+              location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // Only trigger cancel if the cancel button is clicked
+          fetch(`/admin/borrowing/status/${borrowingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "cancelled" }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              alert("success", "top", data.message);
+              location.reload();
             })
             .catch(error => console.error("Error:", error));
         }
       });
     }
+
   });
 
 

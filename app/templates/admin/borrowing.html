@@ -76,8 +76,7 @@
                 <td>
                   <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
                     <span class="badge bg-success custom-cursor bApproved" data-id="{{ borrowing.id }}">APPROVED</span>
-                    <span class="badge bg-danger custom-cursor bDisapproved"
-                      data-id="{{ borrowing.id }}">DISAPPROVED</span>
+                    <span class="badge bg-danger custom-cursor bDisapproved" data-id="{{ borrowing.id }}">Cancel</span>
                   </div>
                 </td>
               </tr>
@@ -116,13 +115,14 @@
                 <th>Qty</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Day Left / Overdue</th>
                 <th class="d-none">Status</th>
                 <th style="width: 160px">Action</th>
               </tr>
             </thead>
             <tbody>
               {% for borrowing in borrowings %}
-              {% if borrowing.status == 'pending' %}
+              {% if borrowing.status == 'approved' %}
               <tr>
                 <td>{{ loop.index }}</td>
 
@@ -135,6 +135,15 @@
                   {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
                   else 'N/A' }}
                 </td>
+                <td>
+                  {% if borrowing.days_remaining > 0 %}
+                  <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }} days</span>
+                  {% elif borrowing.days_late > 0 %}
+                  <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
+                  {% else %}
+                  N/A
+                  {% endif %}
+                </td>
                 <td class="d-none">
                   <span
                     class=" badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}">
@@ -142,11 +151,29 @@
                   </span>
                 </td>
                 <td>
-                  <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
-                    <span class="badge bg-success custom-cursor bApproved" data-id="{{ borrowing.id }}">APPROVED</span>
-                    <span class="badge bg-danger custom-cursor bDisapproved"
-                      data-id="{{ borrowing.id }}">DISAPPROVED</span>
+                  <div class="dropdown d-flex justify-content-center">
+                    <button class="btn btn-secondary btn-custom btn-sm dropdown-toggle" type="button"
+                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <div class="dropdown-item">
+                        <div class="d-flex align-items-center gap-3">
+                          <span class="badge bg-success custom-cursor bDone" data-borrowing-id="{{ borrowing.id }}"
+                            data-inventory-id="{{ borrowing.inventory_item.id }}"
+                            data-inventory-qty="{{ borrowing.quantity }}">
+                            MARK AS DONE
+                          </span>
+                          <span class="badge bg-danger custom-cursor bDisapproved"
+                            data-borrowing-id="{{ borrowing.id }}" data-inventory-id="{{ borrowing.inventory_item.id }}"
+                            data-inventory-qty="{{ borrowing.quantity }}">
+                            CANCEL
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </td>
               </tr>
               {% endif %}
@@ -184,13 +211,13 @@
                 <th>Qty</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th class="d-none">Status</th>
-                <th style="width: 160px">Action</th>
+                <th>Status</th>
+                <th class="d-none" style="width: 160px">Action</th>
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %}
-              {% if borrowing.status == 'pending' %}
+              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled' or borrowing.status == 'done' %}
+
               <tr>
                 <td>{{ loop.index }}</td>
 
@@ -203,13 +230,13 @@
                   {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
                   else 'N/A' }}
                 </td>
-                <td class="d-none">
+                <td>
                   <span
-                    class=" badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}">
+                    class=" badge {% if borrowing.status == 'done' %} bg-primary  {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>
-                <td>
+                <td class="d-none">
                   <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
                     <span class="badge bg-success custom-cursor bApproved" data-id="{{ borrowing.id }}">APPROVED</span>
                     <span class="badge bg-danger custom-cursor bDisapproved"
@@ -217,6 +244,7 @@
                   </div>
                 </td>
               </tr>
+
               {% endif %}
               {% endfor %}
             </tbody>
@@ -226,5 +254,14 @@
     </div>
   </div>
 </div>
+<!---->
+<style>
+  .dropdown-toggle::after {
+    display: none !important;
+  }
 
+  .dropdown-toggle i {
+    font-weight: bold !important;
+  }
+</style>
 {% endblock %}
