@@ -5,7 +5,7 @@ from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers
 from app.controllers.item_controller import items, search_items
-from app.controllers.borrowing_controller import borrowings
+from app.controllers.borrowing_controller import borrowings, borrowings_approval
 from app.utils.auth_utils import web_guard,web_guard_user
 from app.models.user_models import User
 from app.extensions import db
@@ -46,10 +46,14 @@ def dashboard():
     return render_template('admin/dashboard.html')
 
 @admin.route('/borrowing', methods=['GET', 'POST'])
-@main.route('/borrowing/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
+# @main.route('/borrowing/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
 @web_guard
-def borrowing( item_uuid=None):
+def borrowing(item_uuid=None):
     return borrowings(request,item_uuid)
+
+@admin.route("/borrowing/approval/<int:borrowing_id>", methods=['GET', 'POST', 'PUT',])
+def borrowing_approval(borrowing_id=None):
+    return borrowings_approval(request, borrowing_id)
 
 @admin.route('/category', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @web_guard
@@ -61,6 +65,8 @@ def category():
 @web_guard
 def inventory(inventory_id=None):
     return inventories(request, inventory_id)
+
+
 
 
 @admin.route('/reports')

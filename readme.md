@@ -28,30 +28,19 @@ Follow these steps to run the Flask application:
   pip install -r requirements.txt
   ```
 
-5. **Set the Flask application environment variable:**
-  - On Windows:
-    ```bash
-    set FLASK_APP=run.py
-    set FLASK_ENV=development
-    ```
-  - On macOS/Linux:
-    ```bash
-    export FLASK_APP=run.py
-    ```
-
-6. **Run the database migrations:**
+5. **Run the database migrations:**
   ```bash
   flask db init        # Initialize the migrations folder (only once)
   flask db migrate -m "Initial migration"
   flask db upgrade
   ```
 
-7. **Run the Flask application:**
+6. **Run the Flask application:**
   ```bash
   flask run
   ```
 
-8. **Open your web browser and navigate to:**
+7. **Open your web browser and navigate to:**
   ```
   http://127.0.0.1:5000
   ```

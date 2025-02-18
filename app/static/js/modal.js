@@ -1,6 +1,4 @@
-import { setLoadingState } from "./helper.module.js";
-
-var notyf = new Notyf();
+import { setLoadingState, alert } from "./helper.module.js";
 
 // categoryForm
 const categoryForm = document.querySelector("#categoryForm");
@@ -19,23 +17,20 @@ if (categoryForm) {
       });
 
       const data = await response.json();
-      console.log(data);
+
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/admin/category";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/admin/category";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
         setLoadingState(categoryButton, false);
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(categoryButton, false);
     }
   });
@@ -58,21 +53,18 @@ if (updatecategoryForm) {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/admin/category";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/admin/category";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
         setLoadingState(categoryButton, false);
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(categoryButton, false);
     }
   });
@@ -103,10 +95,10 @@ function deleteCategory(id) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          alert("Category deleted successfully!");
+          alert("sucess", "top", "Category deleted successfully!");
           location.reload();
         } else {
-          alert("Error deleting category.");
+          alert("warning", "top", "Error deleting category.");
         }
       });
   }
@@ -131,21 +123,18 @@ if (inventoryForm) {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/admin/inventory";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/admin/inventory";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
         setLoadingState(button, false);
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(button, false);
     }
   });
@@ -168,21 +157,18 @@ if (updateInventoryForm) {
       const data = await response.json();
       console.log(formData.get("id"));
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/admin/inventory";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/admin/inventory";
         }, 2000);
       } else {
-        notyf.error(data.message);
+        alert("warning", "top", data.message);
         setLoadingState(button, false);
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(button, false);
     }
   });
@@ -218,7 +204,7 @@ async function showInvUpdateForm(id) {
     updateModal.show();
   } catch (error) {
     console.error("Error:", error);
-    notyf.error("An unexpected error occurred.");
+    alert("error", "top", error);
   }
 }
 function deleteInventory(id) {
@@ -235,10 +221,10 @@ function deleteInventory(id) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          alert("Inventory deleted successfully!");
+          alert("success", "top", "Deleted successfully");
           location.reload();
         } else {
-          alert("Error deleting inventory.");
+          alert("error", "top", "Error deleting inventory.");
         }
       });
   }
@@ -254,7 +240,6 @@ if (borrowForm) {
     const uuid = borrowForm.querySelector("#inventory_uuid").value;
     setLoadingState(button, true);
 
-    console.log(uuid);
     try {
       const response = await fetch(`/users/item/${uuid}`, {
         method: "POST",
@@ -262,19 +247,20 @@ if (borrowForm) {
       });
 
       const data = await response.json();
-      console.log(data);
+
       if (response.ok) {
-        const notification = notyf.success(data.message);
+        alert("success", "top", data.message);
         setTimeout(() => {
           window.location.href = "/users/history_item";
         }, 2000);
       } else {
-        notyf.error(data.message);
+
+        alert("warning", "top", data.message);
         setLoadingState(button, false);
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(button, false);
     }
   });
@@ -390,4 +376,68 @@ document.addEventListener("DOMContentLoaded", function () {
         return "bg-secondary";
     }
   }
+
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("bApproved")) {
+      let borrowingId = event.target.getAttribute("data-id"); 
+
+      Swal.fire({
+        title: "Approve this borrowing?",
+        icon: "question",
+        showCancelButton: false,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Yes!",
+        width: "300px",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/admin/borrowing/approval/${borrowingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "approved" }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.message);
+              alert("success", "top", data.message);
+               location.reload(); 
+            })
+            .catch(error => console.error("Error:", error));
+        }
+      });
+    }
+  });
+
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("bDisapproved")) {
+      let borrowingId = event.target.getAttribute("data-id"); // Get borrowing ID
+
+      Swal.fire({
+        title: "Disapprove Request",
+        text: "Please provide a reason:",
+        input: "textarea",
+        inputPlaceholder: "Enter your reason here...",
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Cancel (No Reason)",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let reason = result.value;
+          fetch(`/admin/borrowing/update_status/${borrowingId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "cancel", reason: reason }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.message);
+              Swal.fire("Disapproved!", `Reason: ${reason}`, "warning");
+              location.reload(); // Refresh page
+            })
+            .catch(error => console.error("Error:", error));
+        }
+      });
+    }
+  });
+
+
 });

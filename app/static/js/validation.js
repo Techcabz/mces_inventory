@@ -1,7 +1,7 @@
 import {
-  setLoadingState
+  setLoadingState, alert, showConfirmationDialog
 } from "./helper.module.js";
-var notyf = new Notyf();
+
 
 const registerForm = document.querySelector("#registerForm");
 if (registerForm) {
@@ -21,10 +21,7 @@ if (registerForm) {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/login";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/login";
@@ -35,7 +32,7 @@ if (registerForm) {
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("success", "top", error);
       setLoadingState(registerButton, false);
     }
   });
@@ -57,13 +54,9 @@ if (loginForm) {
       });
 
       const data = await response.json();
-      console.log(data);
-
+  
       if (response.ok) {
-        const notification = notyf.success(data.message);
-        notification.on("click", ({ target, event }) => {
-          window.location.href = "/admin/dashboard";
-        });
+        alert("success", "top", data.message);
 
         setTimeout(() => {
           window.location.href = "/admin/dashboard";
@@ -74,7 +67,7 @@ if (loginForm) {
       }
     } catch (error) {
       console.error("Error:", error);
-      notyf.error("An unexpected error occurred.");
+      alert("error", "top", error);
       setLoadingState(loginButton, false);
     }
   });
@@ -84,25 +77,35 @@ const logout = document.querySelector("#logout");
 if (logout) {
   logout.addEventListener("click", async (e) => {
     e.preventDefault(); // Prevent immediate form submission
-
-    const confirmLogout = confirm("Are you sure you want to log out?");
-
-    if (confirmLogout) {
-      try {
-        const response = await fetch("/logout", { method: "POST" });
-        const data = await response.json();
-        console.log(data);
-        if (response.ok) {
-          alert(data.message); // Show a basic alert message
-          window.location.href = "/login"; // Redirect after logout
-        } else {
-          alert("Error: " + data.message);
+    showConfirmationDialog(
+      "Are you sure you want to log out?",
+      "Yes",
+      "No",
+      async () => {
+        try {
+          const response = await fetch(`/logout`, {
+            method: "POST",
+          });
+  
+          const data = await response.json();
+  
+          if (!response.ok) {
+            throw new Error(data.message || "Failed to delete category.");
+          }
+  
+          alert("success", "top", data.message);
+          window.location.href = "/login"
+        } catch (error) {
+          console.error("Error:", error);
+          alert("error", "top", error.message);
         }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("An unexpected error occurred.");
+      },
+      () => {
+        
       }
-    }
+    );
+
+   
   });
 }
 

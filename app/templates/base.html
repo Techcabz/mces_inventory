@@ -9,6 +9,8 @@
   <link href="{{ url_for('static', filename='css/nucleo-icons.css') }}" rel="stylesheet" />
   <link href="{{ url_for('static', filename='css/nucleo-svg.css') }}" rel="stylesheet" />
   <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+
   <script src="https://kit.fontawesome.com/67f3a552e6.js" crossorigin="anonymous"></script>
   <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
   <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
@@ -45,8 +47,10 @@
   {% endblock %}
 
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script type="module" src="{{ url_for('static', filename='js/modal.js') }}"></script>
-
+ 
   <script type="module" src="{{ url_for('static', filename='js/validation.js') }}"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>

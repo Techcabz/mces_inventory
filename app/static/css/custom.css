@@ -166,3 +166,27 @@ a:hover {
   cursor: pointer;
 }
 
+/* Small SweetAlert title */
+.swal-title {
+  font-size: 18px; /* Smaller title */
+  text-align: center; /* Center the title */
+}
+
+/* Small SweetAlert content */
+.swal-content {
+  font-size: 14px; /* Smaller text */
+  padding: 0.5em; /* Less padding around content */
+}
+
+/* Adjust the button size */
+.swal2-confirm {
+  padding: 5px 15px;
+  font-size: 14px;
+  min-width: 100px;
+}
+.swal2-cancel {
+  padding: 5px 15px;
+  font-size: 14px;
+  min-width: 100px;
+}
+
