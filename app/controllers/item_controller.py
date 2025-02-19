@@ -129,6 +129,8 @@ def users_borrowed(request, item_uuid=None):
                 borrowing.days_late = None
                 
             inventory_item = borrowing.inventory_item
+            borrowing_details = borrowing.details  
+           
             # Serialize the borrowing object
             borrowing_data = borrowing.serialize()
             borrowing_data['days_remaining'] = borrowing.days_remaining
@@ -136,7 +138,12 @@ def users_borrowed(request, item_uuid=None):
             borrowing_data['start_date_str'] = borrowing.start_date.strftime('%b, %d, %Y')
             borrowing_data['end_date_str'] = borrowing.end_date.strftime('%b, %d, %Y')
             borrowing_data['image_url'] = get_inventory_image(inventory_item.image)
-          
+            
+            if borrowing_details and borrowing_details.cancel_reason:
+                borrowing_data['cancel_reason'] = borrowing_details.cancel_reason
+            else:
+                borrowing_data['cancel_reason'] = None
+            print(borrowing_data['cancel_reason'])
             return render_template('user/borrowed_single.html', borrowings=borrowing_data)
         
         for borrowing in borrowing_list:
