@@ -4,6 +4,15 @@ class CRUDService:
     def __init__(self, model):
         self.model = model
 
+    def count(self, **filters):
+        """
+        Count records in the database based on filters.
+        """
+        query = self.model.query
+        for field, value in filters.items():
+            query = query.filter(getattr(self.model, field) == value)
+        return query.count()
+    
     def create(self, **kwargs):
         """
         Create a new record in the database.

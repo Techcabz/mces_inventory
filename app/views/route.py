@@ -7,6 +7,7 @@ from app.controllers.users_controller import cusers,user_approved,user_disapprov
 from app.controllers.item_controller import items, search_items,users_borrowed, borrowing_status_user
 from app.controllers.borrowing_controller import borrowings, borrowings_status,borrowings_cancel_reason,borrowings_done
 from app.controllers.receipts_controller import receiptGenerate
+from app.controllers.dashboard_controller import dashboard_set
 from app.utils.auth_utils import web_guard,web_guard_user
 from app.models.user_models import User
 from app.extensions import db
@@ -44,7 +45,7 @@ def logout():
 @admin.route('/dashboard')
 @web_guard
 def dashboard():
-    return render_template('admin/dashboard.html')
+    return dashboard_set()
 
 @admin.route('/borrowing', methods=['GET', 'POST'])
 # @main.route('/borrowing/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
