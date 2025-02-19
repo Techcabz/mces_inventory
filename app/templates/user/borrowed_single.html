@@ -6,32 +6,68 @@
         <div class="row g-3 align-items-center">
           <!-- Left Side: Image -->
           <div class="col-lg-6 col-md-6 col-12">
-            <img
-              loading="lazy"
-              src="{{ borrowings.image_url }}"
-              alt=""
-              class="img-fluid rounded w-100"
-              style="max-height: 350px; object-fit: cover; background-position: center; background-size: contain;"
-            />
+            <img loading="lazy" src="{{ borrowings.image_url }}" alt="" class="img-fluid rounded w-100"
+              style="max-height: 350px; object-fit: cover; background-position: center; background-size: contain;" />
           </div>
 
           <!-- Right Side: Details -->
           <div class="col-lg-6 col-md-6 col-12">
+
             <div class="card-body">
-              <h4 class="card-title text-primary text-center text-md-start">
-               
-              </h4>
+              <fieldset class="border p-2 mb-2">
+                <legend class="float-none w-auto text-sm">Reference Number</legend>
+                <p class="m-0 p-0 text-center">
+                  <strong> {{ borrowings.reference_number}}</strong>
+                </p>
+              </fieldset>
+              <fieldset class="border p-3">
+                <legend class="float-none w-auto text-sm">Borrowed Details</legend>
+                <h4 class="card-title mt-0 text-primary  text-md-start">
+                  {{ borrowings.inventory_item.title | capitalize }}
+                </h4>
+                <p class="text-md-start">Status
+                  <strong> <span
+                      class=" badge {% if borrowings.status == 'done' %} bg-primary  {% elif borrowings.status == 'pending' %} bg-warning {% elif borrowings.status == 'approved' %} bg-success {% elif borrowings.status == 'cancelled' %} bg-danger {% endif %}">
+                      {{ borrowings.status | capitalize }}
+                    </span></strong>
 
-              <p class="text-center text-md-start">
-                <strong>Quantity Available:</strong> 
-              </p>
+                </p>
+                <div class="d-flex flex-column flex-md-row gap-2">
+                  <p class="text-md-start mb-0">
+                    Start Date:
+                    <strong>{{ borrowings.start_date_str}}</strong>,
+                  </p>
+                  <p class="text-md-start mb-0">
+                    End Date:
+                    <strong>{{ borrowings.end_date_str}}</strong>
+                  </p>
+                </div>
 
-              <p class="text-center text-md-start">
-                <strong>Status:</strong>
-              
-              </p>
 
-             
+                <p class=" text-md-start mb-0">Quantity:
+                  <strong>{{ borrowings.quantity }}</strong>
+                </p>
+                <p class=" text-md-start">Day Left / Overdue:
+                  <strong> {% if borrowings.days_remaining > 0 %}
+                    <span class="badge bg-success"> {{ borrowings.days_remaining }}
+                      days</span>
+                    {% elif borrowings.days_late > 0 %}
+                    <span class="badge bg-danger">Overdue: {{ borrowings.days_late }} days</span>
+                    {% else %}
+                    N/A
+                    {% endif %}</strong>
+
+                </p>
+
+              </fieldset>
+              <div class="d-flex gap-2 text-md-start mt-3">
+                {% if borrowings.status == 'pending' %}
+                <a class="btn btn-danger w-100 w-md-auto">
+                  Cancel
+                </a>
+                {% endif %}
+                <a href="{{ url_for('main.user_borrowed') }}" class="btn btn-secondary">GO BACK</a>
+              </div>
             </div>
           </div>
         </div>

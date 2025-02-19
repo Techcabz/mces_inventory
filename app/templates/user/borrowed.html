@@ -35,20 +35,20 @@
                                         <th>Item</th>
                                         <th>Qty</th>
 
-                                        <th>Day Left / Overdue</th>
+                                        <th class="d-none">Day Left / Overdue</th>
 
                                         <th style="width: 160px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'pending' %}
+                                    {% if borrowing.status == 'pending'  %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
                                         <td>{{ borrowing.inventory_item.title }}</td>
                                         <td>{{ borrowing.quantity }}</td>
-                                        <td>
+                                        <td class="d-none">
                                             {% if borrowing.days_remaining > 0 %}
                                             <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}
                                                 days</span>
@@ -59,7 +59,7 @@
                                             {% endif %}
                                         </td>
 
-                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.uuid) }}"
                                                 class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>
@@ -78,7 +78,7 @@
                                     <tr>
                                         <th>#</th>
 
-                                        <th>Reference</th>
+                                        <th>Reference </th>
                                         <th>Item</th>
                                         <th>Qty</th>
 
@@ -89,7 +89,7 @@
                                 </thead>
                                 <tbody>
                                     {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'approved' %}
+                                    {% if borrowing.status == 'approved'  %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
@@ -106,7 +106,7 @@
                                             {% endif %}
                                         </td>
 
-                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.uuid) }}"
                                                 class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>
@@ -142,7 +142,7 @@
                                         <td>{{ borrowing.quantity }}</td>
 
 
-                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.inventory_item.uuid) }}"
+                                        <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.uuid) }}"
                                                 class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
                                                 </span></td>

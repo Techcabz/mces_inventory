@@ -52,7 +52,7 @@ def items(request, inventory_uuid=None):
             
         return render_template('user/dashboard.html',  categories=categories, category_items=category_items)
     if request.method == 'POST':
-         
+      
         if inventory_uuid:
             try:
                 uuid_obj = UUID(str(inventory_uuid)) 
@@ -101,29 +101,39 @@ def items(request, inventory_uuid=None):
         return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
     
 
-def users_borrowed(request, inventory_uuid=None):
+def users_borrowed(request, item_uuid=None):
     if request.method == 'GET':
-        borrowing_list = borrowing_service.get()
         now = datetime.utcnow()
-
-        if inventory_uuid:
-            for borrowing in borrowing_list:
-                if borrowing.end_date:
-                    days_remaining = (borrowing.end_date - now).days
-                    borrowing.days_remaining = max(0, days_remaining)  
-                    borrowing.days_late = max(0, -days_remaining) 
-                else:
-                    borrowing.days_remaining = None
-                    borrowing.days_late = None
-
-                inventory_item = borrowing.inventory_item
-               
-                if inventory_item:
-                    borrowing.image_url = get_inventory_image(inventory_item.image)
-                else:
-                    borrowing.image_url = None
-                print(borrowing.image_url)
-            return render_template('user/borrowed_single.html', borrowings=borrowing)
+        borrowing_list = borrowing_service.get()
+        if item_uuid:
+            try:
+                uuid_obj = UUID(str(item_uuid)) 
+                borrowing = borrowing_service.get_one(uuid=str(uuid_obj))
+            except ValueError:
+                return render_template('404.html'), 404
+            
+            if not borrowing:
+                return render_template('404.html'), 404
+            
+            # Calculate days_remaining and days_late
+            if borrowing.end_date:
+                days_remaining = (borrowing.end_date - now).days 
+                borrowing.days_remaining = max(0, days_remaining)  
+                borrowing.days_late = max(0, -days_remaining) 
+            else:
+                borrowing.days_remaining = None
+                borrowing.days_late = None
+                
+            inventory_item = borrowing.inventory_item
+            # Serialize the borrowing object
+            borrowing_data = borrowing.serialize()
+            borrowing_data['days_remaining'] = borrowing.days_remaining
+            borrowing_data['days_late'] = borrowing.days_late
+            borrowing_data['start_date_str'] = borrowing.start_date.strftime('%b, %d, %Y')
+            borrowing_data['end_date_str'] = borrowing.end_date.strftime('%b, %d, %Y')
+            borrowing_data['image_url'] = get_inventory_image(inventory_item.image)
+          
+            return render_template('user/borrowed_single.html', borrowings=borrowing_data)
         
         for borrowing in borrowing_list:
             if borrowing.end_date:
@@ -133,7 +143,6 @@ def users_borrowed(request, inventory_uuid=None):
             else:
                 borrowing.days_remaining = None
                 borrowing.days_late = None
-            
         return render_template('user/borrowed.html', borrowings=borrowing_list)
 
 def search_items():

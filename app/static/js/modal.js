@@ -251,7 +251,7 @@ if (borrowForm) {
       if (response.ok) {
         alert("success", "top", data.message);
         setTimeout(() => {
-          window.location.href = "/users/history_item";
+          window.location.href = `/users/borrowed/item/${uuid}`;
         }, 2000);
       } else {
 
