@@ -56,12 +56,13 @@
             </ul>
             <div class="d-flex d-lg-none d-md-none">
               <ul class="navbar-nav">
-                <li class="mb-0">
-                  <a href="" class="nav-link">Latest Borrowed</a>
+                <li class="m-3">
+                  <a href="{{ url_for('main.user_borrowed') }}" class="nav-link text-body font-weight-bold p-0">
+                    <i class="fas fa-cart-arrow-down"></i>
+                    <span class="d-sm-inline d-none">&nbsp;Borrowed </span>
+                  </a>
                 </li>
-                <li class="mb-0">
-                  <a href="" class="nav-link">Recent Borrowed</a>
-                </li>
+
                 <li class="nav-item">
                   <button class="btn btn-outline-danger w-100 mb-0 btn-sm btn-round mb-0">
                     Logout

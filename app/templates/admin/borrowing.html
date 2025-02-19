@@ -75,8 +75,12 @@
                 </td>
                 <td>
                   <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
-                    <span class="badge bg-success custom-cursor bApproved" data-id="{{ borrowing.id }}">APPROVED</span>
-                    <span class="badge bg-danger custom-cursor bDisapproved" data-id="{{ borrowing.id }}">Cancel</span>
+                    <span class="badge bg-success custom-cursor bApproved" data-borrowing-id="{{ borrowing.id }}"
+                      data-inventory-id="{{ borrowing.inventory_item.id }}"
+                      data-inventory-qty="{{ borrowing.quantity }}">APPROVED</span>
+                    <span class="badge bg-danger custom-cursor bDisapproved" data-borrowing-id="{{ borrowing.id }}"
+                      data-inventory-id="{{ borrowing.inventory_item.id }}"
+                      data-inventory-qty="{{ borrowing.quantity }}">Cancel</span>
                   </div>
                 </td>
               </tr>
@@ -216,7 +220,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled' or borrowing.status == 'done' %}
+              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled' or borrowing.status == 'completed' %}
 
               <tr>
                 <td>{{ loop.index }}</td>
@@ -232,7 +236,7 @@
                 </td>
                 <td>
                   <span
-                    class=" badge {% if borrowing.status == 'done' %} bg-primary  {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
+                    class=" badge {% if borrowing.status == 'completed' %} bg-primary  {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>

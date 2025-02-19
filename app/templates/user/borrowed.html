@@ -42,7 +42,7 @@
                                 </thead>
                                 <tbody>
                                     {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'pending'  %}
+                                    {% if borrowing.status == 'pending' and borrowing.user_id == session['user_id'] %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
@@ -89,7 +89,7 @@
                                 </thead>
                                 <tbody>
                                     {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'approved'  %}
+                                    {% if borrowing.status == 'approved' and borrowing.user_id == session['user_id'] %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
@@ -128,25 +128,34 @@
                                         <th>Reference</th>
                                         <th>Item</th>
                                         <th>Qty</th>
-
+                                        <th>Status</th>
                                         <th style="width: 160px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'cancelled' or borrowing.status == 'done' %}
+                                    {% if borrowing.status == 'cancelled' or borrowing.status == 'completed' %}
+                                    {% if borrowing.user_id == session['user_id'] %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
                                         <td>{{ borrowing.inventory_item.title }}</td>
                                         <td>{{ borrowing.quantity }}</td>
+                                        <td>
 
+                                            <span
+                                                class="badge {% if borrowing.status == 'completed' %} bg-primary {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
+                                                {{ borrowing.status | capitalize }}
+                                            </span>
 
+                                        </td>
                                         <td> <a href="{{ url_for('main.user_borrowed', item_uuid=borrowing.uuid) }}"
                                                 class="badge bg-gradient-primary custom-cursor ">
                                                 VIEW
-                                                </span></td>
+                                                </span>
+                                        </td>
                                     </tr>
+                                    {% endif %}
                                     {% endif %}
                                     {% endfor %}
 

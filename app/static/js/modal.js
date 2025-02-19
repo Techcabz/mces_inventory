@@ -250,8 +250,9 @@ if (borrowForm) {
 
       if (response.ok) {
         alert("success", "top", data.message);
+        const borrowingUuid = data.borrowing_uuid;
         setTimeout(() => {
-          window.location.href = `/users/borrowed/item/${uuid}`;
+          window.location.href = `/users/borrowed/item/${borrowingUuid}`;
         }, 2000);
       } else {
 
@@ -479,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (event.target.classList.contains("bApproved")) {
-      let borrowingId = event.target.getAttribute("data-id");
+      let borrowingId = event.target.getAttribute("data-borrowing-id");
 
       Swal.fire({
         title: "Approve this borrowing?",
@@ -507,8 +508,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (event.target.classList.contains("bDisapproved")) {
-      let borrowingId = event.target.getAttribute("data-id");
-
+      let borrowingId = event.target.getAttribute("data-borrowing-id");
+      alert("success", "top", borrowingId)
       Swal.fire({
         title: "Cancel Request",
         text: "Please provide a reason:",
@@ -534,6 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error:", error));
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // Only trigger cancel if the cancel button is clicked
+         
           fetch(`/admin/borrowing/status/${borrowingId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

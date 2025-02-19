@@ -15,7 +15,7 @@ class Borrowing(db.Model):
     start_date = db.Column(db.DateTime, default=datetime.utcnow) 
     end_date = db.Column(db.DateTime, nullable=True)  
     quantity = db.Column(db.Integer, default=0, nullable=False)
-    status = db.Column(Enum("pending", "approved", "cancelled", "done", name="borrow_status"), 
+    status = db.Column(Enum("pending", "approved", "cancelled", "completed", name="borrow_status"), 
                        default="pending", nullable=False)
     uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))  
     created_at = db.Column(db.DateTime, default=datetime.utcnow) 

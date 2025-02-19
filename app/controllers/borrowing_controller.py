@@ -39,6 +39,14 @@ def borrowings_status(request, borrowing_id=None):
         
         data = request.json
         new_status = data.get("status")
+        
+        inventory = inventory_service.get_one(id=borrowing.inventory_id) 
+
+        if inventory.quantity > 0:
+            inventory.status = 'available'  
+        # add quantity from inventory
+        inventory.quantity += borrowing.quantity
+        inventory_service.update(inventory)
 
         borrowing_service.update(borrowing.id, status=new_status)
         return jsonify({'success': True, 'message': 'Borrowing request approved'}), 200
@@ -56,7 +64,8 @@ def borrowings_done(request, borrowing_id=None):
         inventory_id = data.get("inventory_id")
         quantity = int(data.get("quantity"))
         inventory = inventory_service.get_one(id=inventory_id) 
-
+        if inventory.quantity > 0:
+            inventory.status = 'available'  
         # add quantity from inventory
         inventory.quantity += quantity
         inventory_service.update(inventory)
@@ -79,6 +88,13 @@ def borrowings_cancel_reason(request, borrowing_id=None):
         reason = data.get("reason")
         if new_status != "cancelled":
             return jsonify({'success': False, 'message': 'Invalid status'}), 400
+        
+        inventory = inventory_service.get_one(id=borrowing.inventory_id) 
+        if inventory.quantity > 0:
+            inventory.status = 'available'  
+        # add quantity from inventory
+        inventory.quantity += borrowing.quantity
+        inventory_service.update(inventory)
         
         borrowing_service.update(borrowing.id, status=new_status)
         cancel_service.create(borrowing_id=borrowing.id, cancel_reason=reason)

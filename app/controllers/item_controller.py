@@ -92,12 +92,16 @@ def items(request, inventory_uuid=None):
             inventory.quantity -= quantity
             inventory_service.update(inventory)
             
-            borrowing_service.create(user_id=user_id,inventory_id=inventory_id,start_date=start_date,end_date=end_date,quantity=quantity )
+            if inventory.quantity == 0:
+                inventory.status = 'borrowed'  
+                
+            borrowing = borrowing_service.create(user_id=user_id,inventory_id=inventory_id,start_date=start_date,end_date=end_date,quantity=quantity )
 
             return jsonify({
             'success': True,
-            'message': 'Your borrowing request has been submitted and is pending approval from the admin.'
-            }), 200
+            'message': 'Your borrowing request has been submitted and is pending approval from the admin.',
+            'borrowing_uuid': borrowing.uuid  
+        }), 200
         return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
     
 

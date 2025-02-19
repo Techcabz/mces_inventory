@@ -14,7 +14,7 @@
           <div class="col-lg-6 col-md-6 col-12">
 
             <div class="card-body">
-              <fieldset class="border p-2 mb-2">
+              <fieldset class="border p-2 mb-2 {% if borrowings.status == 'completed' or borrowings.status == 'cancelled' %} d-none {% endif %}">
                 <legend class="float-none w-auto text-sm">Reference Number</legend>
                 <p class="m-0 p-0 text-center">
                   <strong> {{ borrowings.reference_number}}</strong>
@@ -27,7 +27,7 @@
                 </h4>
                 <p class="text-md-start">Status
                   <strong> <span
-                      class=" badge {% if borrowings.status == 'done' %} bg-primary  {% elif borrowings.status == 'pending' %} bg-warning {% elif borrowings.status == 'approved' %} bg-success {% elif borrowings.status == 'cancelled' %} bg-danger {% endif %}">
+                      class=" badge {% if borrowings.status == 'completed' %} bg-primary  {% elif borrowings.status == 'pending' %} bg-warning {% elif borrowings.status == 'approved' %} bg-success {% elif borrowings.status == 'cancelled' %} bg-danger {% endif %}">
                       {{ borrowings.status | capitalize }}
                     </span></strong>
 
@@ -47,6 +47,7 @@
                 <p class=" text-md-start mb-0">Quantity:
                   <strong>{{ borrowings.quantity }}</strong>
                 </p>
+                {% if borrowings.status == 'pending' or borrowings.status == 'approved' %}
                 <p class=" text-md-start">Day Left / Overdue:
                   <strong> {% if borrowings.days_remaining > 0 %}
                     <span class="badge bg-success"> {{ borrowings.days_remaining }}
@@ -58,7 +59,7 @@
                     {% endif %}</strong>
 
                 </p>
-
+                {% endif %}
               </fieldset>
               <div class="d-flex gap-2 text-md-start mt-3">
                 {% if borrowings.status == 'pending' %}
