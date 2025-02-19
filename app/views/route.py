@@ -6,6 +6,7 @@ from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers,user_approved,user_disapproved
 from app.controllers.item_controller import items, search_items,users_borrowed, borrowing_status_user
 from app.controllers.borrowing_controller import borrowings, borrowings_status,borrowings_cancel_reason,borrowings_done
+from app.controllers.receipts_controller import receiptGenerate
 from app.utils.auth_utils import web_guard,web_guard_user
 from app.models.user_models import User
 from app.extensions import db
@@ -82,10 +83,10 @@ def inventory(inventory_id=None):
 def reports():
     return render_template('admin/logs.html')
 
-@admin.route('/settings')
+@admin.route('/receipts')
 @web_guard
-def settings():
-    return render_template('admin/logs.html')
+def receipts():
+    return receiptGenerate()
 
 @admin.route('/logs')
 @web_guard
