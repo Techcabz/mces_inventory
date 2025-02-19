@@ -34,7 +34,7 @@
                                         <th>Reference</th>
                                         <th>Item</th>
                                         <th>Qty</th>
-
+                                        <th>Date Start / End</th>
                                         <th class="d-none">Day Left / Overdue</th>
 
                                         <th style="width: 160px">Action</th>
@@ -48,6 +48,12 @@
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
                                         <td>{{ borrowing.inventory_item.title }}</td>
                                         <td>{{ borrowing.quantity }}</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <span>{{ borrowing.start_date.strftime('%b, %d, %Y') }}</span> -
+                                                <span>{{ borrowing.end_date.strftime('%b, %d, %Y') }}</span>
+                                            </div>
+                                        </td>
                                         <td class="d-none">
                                             {% if borrowing.days_remaining > 0 %}
                                             <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}
@@ -81,7 +87,7 @@
                                         <th>Reference </th>
                                         <th>Item</th>
                                         <th>Qty</th>
-
+                                        <th>Date Start / End</th>
                                         <th>Day Left / Overdue</th>
 
                                         <th style="width: 160px">Action</th>
@@ -95,6 +101,12 @@
                                         <td><span class="font-weight-bold">{{ borrowing.reference_number }}</span></td>
                                         <td>{{ borrowing.inventory_item.title }}</td>
                                         <td>{{ borrowing.quantity }}</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <span>{{ borrowing.start_date.strftime('%b, %d, %Y') }}</span> -
+                                                <span>{{ borrowing.end_date.strftime('%b, %d, %Y') }}</span>
+                                            </div>
+                                        </td>
                                         <td>
                                             {% if borrowing.days_remaining > 0 %}
                                             <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}

@@ -4,7 +4,7 @@ from app.controllers.auth_controller import login_user_controller,logout_user_co
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers,user_approved,user_disapproved
-from app.controllers.item_controller import items, search_items,users_borrowed
+from app.controllers.item_controller import items, search_items,users_borrowed, borrowing_status_user
 from app.controllers.borrowing_controller import borrowings, borrowings_status,borrowings_cancel_reason,borrowings_done
 from app.utils.auth_utils import web_guard,web_guard_user
 from app.models.user_models import User
@@ -121,6 +121,12 @@ def user_dashboard(item_uuid=None):
 @web_guard_user
 def user_borrowed(item_uuid=None):
     return users_borrowed(request,item_uuid)
+
+@main.route('/users/borrowed/status/<int:item_id>', methods=['POST','GET', 'PUT', 'DELETE'])
+@web_guard_user
+def borrowings_status_user(item_id=None):
+    return borrowing_status_user(request,item_id)
+
 
 @main.route('/search-items')
 @web_guard_user

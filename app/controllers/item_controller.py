@@ -143,7 +143,7 @@ def users_borrowed(request, item_uuid=None):
                 borrowing_data['cancel_reason'] = borrowing_details.cancel_reason
             else:
                 borrowing_data['cancel_reason'] = None
-            print(borrowing_data['cancel_reason'])
+          
             return render_template('user/borrowed_single.html', borrowings=borrowing_data)
         
         for borrowing in borrowing_list:
@@ -189,3 +189,25 @@ def search_items():
     ]
 
     return jsonify(filtered_items)
+
+def borrowing_status_user(request, borrowing_id=None):
+    if request.method == 'PUT':
+        borrowing = borrowing_service.get_one(id=borrowing_id)
+
+        if not borrowing:
+            return jsonify({'success': False, 'message': 'Borrowing record not found'}), 404
+        
+        data = request.json
+        new_status = data.get("status")
+        
+        inventory = inventory_service.get_one(id=borrowing.inventory_id) 
+
+        if inventory.quantity > 0:
+            inventory.status = 'available'  
+        # add quantity from inventory
+        inventory.quantity += borrowing.quantity
+        inventory_service.update(inventory)
+
+        borrowing_service.update(borrowing.id, status=new_status)
+        return jsonify({'success': True, 'message': 'Cancellation request approved'}), 200
+    return jsonify({'error': False, 'message': 'Invalid Method'}), 400

@@ -509,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (event.target.classList.contains("bDisapproved")) {
       let borrowingId = event.target.getAttribute("data-borrowing-id");
-      alert("success", "top", borrowingId)
+     
       Swal.fire({
         title: "Cancel Request",
         text: "Please provide a reason:",
@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error:", error));
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // Only trigger cancel if the cancel button is clicked
-         
+
           fetch(`/admin/borrowing/status/${borrowingId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -551,6 +551,31 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    if (event.target.classList.contains("bCancel")) {
+      let borrowingId = event.target.getAttribute("data-borrowing-id");
+     
+      Swal.fire({
+        title: "Confirm Cancellation",
+        text: "  Are you sure you want to cancel this borrowing? This action cannot be undone.",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/users/borrowed/status/${borrowingId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "cancelled" }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              alert("success", "top", data.message);
+              location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+      });
+    }
   });
 
 
