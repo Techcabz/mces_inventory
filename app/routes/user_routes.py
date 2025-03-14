@@ -1,6 +1,6 @@
 
 from . import main,web_guard_user,request,render_template
-from app.controllers.item_controller import get_profiles, items, search_items, users_borrowed, borrowing_status_user, borrow_items
+from app.controllers.item_controller import update_profiles,get_profiles, items, search_items, users_borrowed, borrowing_status_user, borrow_items
 from app.controllers.cart_controller import add_cart, view_cart, get_cart_count, update_cart_quantity, remove_cart_item
 
 
@@ -61,3 +61,9 @@ def search_item():
 @web_guard_user
 def get_profile():
     return get_profiles(request)
+
+
+@main.route('/users/update_profile', methods=['POST'])
+@web_guard_user
+def update_profile():
+    return update_profiles()

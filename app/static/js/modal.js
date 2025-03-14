@@ -303,6 +303,45 @@ if (cartForm) {
   });
 }
 
+const profileForm = document.querySelector("#profileForm");
+if (profileForm) {
+  profileForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const formDataObject = Object.fromEntries(formData.entries());
+    const button = profileForm.querySelector("button.btn-primary"); 
+
+    setLoadingState(button, true);
+
+    try {
+      const response = await fetch("/users/update_profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataObject),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("success", "top", data.message);
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 2000);
+      } else {
+        alert("warning", "top", data.message);
+        setLoadingState(button, false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("error", "top", "An error occurred while updating your profile.");
+      setLoadingState(button, false);
+    }
+  });
+}
+
 // dom calling
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -673,3 +712,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+

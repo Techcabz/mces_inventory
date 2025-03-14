@@ -258,3 +258,59 @@ def get_profiles(request):
 
         return jsonify({"success": True, "user": user_data})
     return jsonify({'success': False, 'message': 'Create method must be GET.'}), 405
+
+
+def update_profiles():
+    data = request.json
+    user_id = current_user.id
+    user = user_services.get_one(id=user_id)
+
+    if not user:
+        return jsonify({"success": False, "message": "User not found"}), 404
+
+    # Fields to update
+    update_data = {
+        "firstname": data.get("fname"),
+        "middlename": data.get("mname"),
+        "lastname": data.get("lname"),
+        "contact": data.get("contact"),
+        "address": data.get("address"),
+        "sex": data.get("sex"),
+    }
+
+    # Handle password update
+    current_password = data.get("currentPassword")
+    new_password = data.get("newPassword")
+
+    if new_password:  # User wants to change password
+        if not current_password:
+            return jsonify({"success": False, "message": "Current password is required to change password"}), 400
+        
+        if not user.check_password(current_password):  # Use model method
+            return jsonify({"success": False, "message": "Incorrect current password"}), 400
+
+         # Validate new password
+        password_error = is_valid_password(new_password)
+        if password_error:
+            return jsonify({"success": False, "message": password_error}), 400
+
+        user.set_password(new_password)  # Use model method
+
+    # Update user information
+    updated_user = user_services.update(user_id, **update_data)
+
+    if updated_user:
+        return jsonify({"success": True, "message": "Profile updated successfully"})
+    else:
+        return jsonify({"success": False, "message": "Error updating profile"}), 500
+    
+def is_valid_password(password):
+    if len(password) < 8:
+        return "Password must be at least 8 characters long."
+    if not any(char.isdigit() for char in password):
+        return "Password must contain at least one number."
+    if not any(char.isupper() for char in password):
+        return "Password must contain at least one uppercase letter."
+    if not any(char in "!@#$%^&*()-_=+{}[]|;:'\",.<>?/`~" for char in password):
+        return "Password must contain at least one special character."
+    return None  # Password is valid
