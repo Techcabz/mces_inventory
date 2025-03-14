@@ -1,4 +1,33 @@
 $(document).ready(function () {
+
+  var table = $("#datatablefix").DataTable({
+    dom: "t<'row'<'col-sm-12'p>>", // Keeps only table and pagination
+    buttons: ["excel", "pdf", "colvis"], // Retain export buttons
+    responsive: {
+        details: true,
+        breakpoints: [
+            { name: "desktop", width: Infinity },
+            { name: "tablet", width: 1024 },
+            { name: "fablet", width: 768 },
+            { name: "phone", width: 480 },
+        ],
+    },
+    language: {
+        paginate: {
+            first: "First",
+            previous: "Previous",
+            next: "Next",
+            last: "Last",
+        },
+    },
+    select: true,
+    pageLength: 5,
+    lengthMenu: [5, 10, 25, 50, 100],
+    columnDefs: [{ orderable: false, targets: "_all" }]
+});
+
+
+
   var table = $("#datatable").DataTable({
     dom: "l<br>frtip",
     buttons: [

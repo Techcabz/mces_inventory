@@ -3,6 +3,7 @@ from flask import Flask, render_template,send_from_directory, make_response
 from flask_login import LoginManager
 from config import DevelopmentConfig, ProductionConfig, Config
 from app.services.user_services import UserService
+from datetime import datetime
 from app.extensions import db, migrate
 from dotenv import load_dotenv
 from flask_migrate import Migrate
@@ -12,6 +13,7 @@ from app.models.category_models import Category
 from app.models.borrowing_models import Borrowing
 from app.models.logs_models import Logs
 from app.models.borrowing_details_model import BorrowingDetails
+from app.models.cart_models import Cart
 
 def create_app():
     app = Flask(__name__)
@@ -45,9 +47,8 @@ def create_app():
         return User.query.get(int(user_id))
     
     # Register blueprints
-    from app.views.route import main
-    from app.views.route import admin
-    
+    from app.routes import all_blueprints
+   
     @app.route('/static/storage/app/<filename>')
     def cached_image(filename):
         """Serve inventory images with caching"""
@@ -60,9 +61,10 @@ def create_app():
         response.headers["Cache-Control"] = "public, max-age=31536000" 
         return response
         
-    app.register_blueprint(main)
-    app.register_blueprint(admin)
-    
+    for blueprint in all_blueprints:
+        app.register_blueprint(blueprint)
+       
+
     # Error handler for 404
     @app.errorhandler(404)
     def page_not_found(e):
@@ -73,4 +75,7 @@ def create_app():
     def internal_server_error(e):
         return render_template('500.html'), 500
   
+    @app.context_processor
+    def inject_now():
+        return {'now': datetime.now()}
     return app

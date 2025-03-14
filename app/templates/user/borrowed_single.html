@@ -1,91 +1,112 @@
-{% extends "user/templates/user_layout.html" %} {% block user_content %}
+{% extends "user/templates/user_layout.html" %}
+{% block user_content %}
 <main class="main-content mt-2 mt-md-5">
   <div class="page-header mt-sm-5 min-vh-75">
     <div class="container mt-sm-5">
       <div class="card mt-5 mb-4 p-4">
-        <div class="row g-3 align-items-center">
-          <!-- Left Side: Image -->
-          <div class="col-lg-6 col-md-6 col-12">
-            <img loading="lazy" src="{{ borrowings.image_url }}" alt="" class="img-fluid rounded w-100"
-              style="max-height: 350px; object-fit: cover; background-position: center; background-size: contain !important;" />
-          </div>
+        <div class="row g-3 align-items-start">
+          <!-- Left Side: Item Details (Always First) -->
+          <div class="col-lg-6 col-md-12 order-lg-1 order-2">
+            <fieldset class="border p-2 mb-3">
+              <legend class="float-none w-auto text-sm">Item Details</legend>
 
-          <!-- Right Side: Details -->
-          <div class="col-lg-6 col-md-6 col-12">
+              <div class="table-responsive">
+                <table id="datatablefix" class="table table-borderless w-100">
+                  <thead class="bg-gradient-success text-white">
+                    <tr>
+                      <th>Thumbnail</th>
+                      <th>Item</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for cart in borrowing.cart_items %}
+                    <tr>
+                      <td class="cell">
+                        <img class="img-thumbnail"
+                          src="{{ url_for('cached_image', filename=cart.inventory_item.image) if cart.inventory_item.image else url_for('static', filename='images/not_available.jpg') }}"
+                          alt="Inventory Image" loading="lazy"
+                          style="width: 60px !important; height: 60px !important" />
+                      </td>
+                      <td>{{ cart.inventory_item.title | capitalize }}</td>
+                      <td>{{ cart.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+          </div> <!-- End Left Side -->
 
+          <!-- Right Side: Borrowing Details (Always Second) -->
+          <div class="col-lg-6 col-md-12 order-lg-2 order-1">
             <div class="card-body">
               <fieldset
-                class="border p-2 mb-2 {% if borrowings.status == 'completed' or borrowings.status == 'cancelled' or borrowings.status == 'pending' %} d-none {% endif %}">
+                class="border p-2 mb-2 {% if borrowing.status in ['completed', 'cancelled', 'pending'] %} d-none {% endif %}">
                 <legend class="float-none w-auto text-sm">Reference Number</legend>
-                <p class="m-0 p-0 text-center">
-                  <strong> {{ borrowings.reference_number}}</strong>
-                </p>
+                <p class="text-center fw-bold">{{ borrowing.reference_number }}</p>
               </fieldset>
 
               <fieldset class="border p-3 mb-3">
                 <legend class="float-none w-auto text-sm">Borrowed Details</legend>
-                <h4 class="card-title mt-0 text-primary  text-md-start">
-                  {{ borrowings.inventory_item.title | capitalize }}
-                </h4>
-                <p class="text-md-start">Status
-                  <strong> <span
-                      class=" badge {% if borrowings.status == 'completed' %} bg-primary  {% elif borrowings.status == 'pending' %} bg-warning {% elif borrowings.status == 'approved' %} bg-success {% elif borrowings.status == 'cancelled' %} bg-danger {% endif %}">
-                      {{ borrowings.status | capitalize }}
-                    </span></strong>
 
+                <p class="text-md-start">
+                  Status:
+                  <strong>
+                    <span class="badge 
+                      {% if borrowing.status == 'completed' %} bg-primary  
+                      {% elif borrowing.status == 'pending' %} bg-warning 
+                      {% elif borrowing.status == 'approved' %} bg-success 
+                      {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
+                      {{ borrowing.status | capitalize }}
+                    </span>
+                  </strong>
                 </p>
-                <div class="d-flex flex-column flex-md-row gap-2">
-                  <p class="text-md-start mb-0">
-                    Start Date:
-                    <strong>{{ borrowings.start_date_str}}</strong>,
-                  </p>
-                  <p class="text-md-start mb-0">
-                    End Date:
-                    <strong>{{ borrowings.end_date_str}}</strong>
-                  </p>
+
+                <div class="row gap-2">
+                  <p class="mb-0">Start Date: <strong>{{ borrowing.start_date_str }}</strong></p>
+                  <p class="mb-0">End Date: <strong>{{ borrowing.end_date_str }}</strong></p>
                 </div>
 
-
-                <p class=" text-md-start mb-0">Quantity:
-                  <strong>{{ borrowings.quantity }}</strong>
-                </p>
-                {% if  borrowings.status == 'approved' %}
-                <p class=" text-md-start">Day Left / Overdue:
-                  <strong> {% if borrowings.days_remaining > 0 %}
-                    <span class="badge bg-success"> {{ borrowings.days_remaining }}
-                      days</span>
-                    {% elif borrowings.days_late > 0 %}
-                    <span class="badge bg-danger">Overdue: {{ borrowings.days_late }} days</span>
+                {% if borrowing.status == 'approved' %}
+                <p class="text-md-start">
+                  Day Left / Overdue:
+                  <strong>
+                    {% if borrowing.days_remaining > 0 %}
+                    <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }} days</span>
+                    {% elif borrowing.days_late > 0 %}
+                    <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
                     {% else %}
-                    N/A
-                    {% endif %}</strong>
+                    <span class="badge bg-secondary">Remaining: 0 days</span> {# No more "N/A" #}
+                    {% endif %}
 
+
+                  </strong>
                 </p>
                 {% endif %}
               </fieldset>
 
-              {% if borrowings.cancel_reason %}
-              <fieldset class="border p-2 mb-2">
-                <legend class="float-none w-auto text-sm">Cancelled Details</legend>
-                <p class="text-center text-danger font-weight-bold ">
-                  {{ borrowings.cancel_reason}}
-                </p>
+              {% if borrowing.details.cancel_reason %}
+              <fieldset class="border p-0 mb-2">
+                <legend class="w-auto text-sm">Cancelled Details</legend>
+                <p class="text-center text-danger fw-bold">{{ borrowing.details.cancel_reason }}</p>
               </fieldset>
               {% endif %}
 
-              <div class="d-flex gap-2 text-md-start mt-3">
-                {% if borrowings.status == 'pending' %}
-                <a class="btn btn-danger w-100 w-md-auto bCancel" data-borrowing-id="{{ borrowings.id}}">
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                {% if borrowing.status == 'pending' %}
+                <a class="btn btn-danger w-100 w-md-auto bCancel" data-borrowing-id="{{ borrowing.id }}">
                   Cancel Borrow
                 </a>
                 {% endif %}
                 <a href="{{ url_for('main.user_borrowed') }}" class="btn btn-secondary">GO BACK</a>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div> <!-- End Right Side -->
+        </div> <!-- End Row -->
+
+      </div> <!-- End Card -->
+    </div> <!-- End Container -->
+  </div> <!-- End Page Header -->
 </main>
 {% endblock %}

@@ -6,14 +6,14 @@ from PIL import Image
 def get_inventory_image(image_filename):
     """Returns the correct image URL based on file existence"""
     if not image_filename:  
-        return url_for("static", filename="images/not_available.jpg")
+        return url_for("static", filename="images/no-photo.png")
     
     image_path = os.path.join(current_app.static_folder, "storage/app", image_filename)
     
     if os.path.exists(image_path):  
         return url_for("static", filename=f"storage/app/{image_filename}")
     
-    return url_for("static", filename="images/not_available.jpg")
+    return url_for("static", filename="images/no-photo.png")
 
 def compress_image(image_path, max_width=800, quality=85):
     """Compress and convert the image to WebP format."""

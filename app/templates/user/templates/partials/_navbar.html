@@ -29,11 +29,24 @@
             <ul class="navbar-nav justify-content-end px-3 hideToMobile">
               <li class="nav-item dropdown pe-2 d-flex align-items-center">
                 <a href="{{ url_for('main.user_borrowed') }}" class="nav-link text-body font-weight-bold p-0">
-                  <i class="fas fa-cart-arrow-down"></i>
-                  <span class="d-sm-inline d-none">&nbsp;Borrowed </span>
+                  <i class="fa-solid fa-table-list"></i>
+                  <span class="d-sm-inline d-none">&nbsp;Transaction </span>
                 </a>
 
               </li>
+              <li class="nav-item dropdown pe-2 d-flex align-items-center mx-3">
+                <a href="{{ url_for('main.viewCart') }}"
+                  class="nav-link text-body font-weight-bold p-0 position-relative">
+                  <i class="fas fa-cart-arrow-down"></i>
+                  Borrow
+                  <span
+                    class="cart-badge position-absolute top-1 start-100 mx-2 translate-middle badge rounded-pill bg-primary">
+                    0
+                  </span>
+                </a>
+              </li>
+
+
             </ul>
             <ul class="navbar-nav justify-content-end px-3 hideToMobile">
               <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -47,6 +60,11 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                   <li class="mb-0">
+                    <button data-bs-toggle="modal" data-bs-target="#profileUserModal" onclick="fetchUserData()" class="btn  mb-2 btn-sm w-100">
+                      Profile
+                    </button>
+                  </li>
+                  <li class="mb-0">
                     <button id="logout" class="btn btn-outline-danger mb-0 btn-sm w-100">
                       Logout
                     </button>
@@ -59,7 +77,7 @@
                 <li class="m-3">
                   <a href="{{ url_for('main.user_borrowed') }}" class="nav-link text-body font-weight-bold p-0">
                     <i class="fas fa-cart-arrow-down"></i>
-                    <span class="d-sm-inline d-none">&nbsp;Borrowed </span>
+                    <span class="d-sm-inline d-none">&nbsp;Transaction </span>
                   </a>
                 </li>
 
@@ -77,3 +95,20 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Function to update cart count dynamically
+  function updateCartCount() {
+    fetch('/users/cart_count')
+      .then(response => response.json())
+      .then(data => {
+        document.querySelector('.cart-badge').textContent = data.count; // Update cart badge
+      })
+      .catch(error => console.error('Error fetching cart count:', error));
+  }
+
+
+  // Update cart count on page load
+  document.addEventListener('DOMContentLoaded', updateCartCount);
+
+</script>

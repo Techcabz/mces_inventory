@@ -2,16 +2,24 @@ from flask import request, render_template, jsonify
 from app.models.inventory_models import Inventory
 from app.models.category_models import Category
 from app.models.borrowing_models import Borrowing
+from app.models.user_models import User
+from app.models.cart_models import Cart
 from app.services.services import CRUDService
 from app.utils.file_utils import get_inventory_image
 from uuid import UUID 
 from datetime import datetime
+from sqlalchemy.orm import joinedload
+from flask_login import login_required, current_user
+
 from app.models.borrowing_details_model import BorrowingDetails
 
 inventory_service = CRUDService(Inventory)
 borrowing_service = CRUDService(Borrowing)
 category_service = CRUDService(Category)
 cancel_service = CRUDService(BorrowingDetails)
+cart_service = CRUDService(Cart)
+user_services = CRUDService(User)
+
 
 def items(request, inventory_uuid=None):  
     
@@ -51,110 +59,122 @@ def items(request, inventory_uuid=None):
 
             
         return render_template('user/dashboard.html',  categories=categories, category_items=category_items)
+
+
+def borrow_items(request):
     if request.method == 'POST':
-      
-        if inventory_uuid:
-            try:
-                uuid_obj = UUID(str(inventory_uuid)) 
-               
-                inventory = inventory_service.get_one(uuid=str(uuid_obj)) 
-                 
-            except ValueError:
-                return render_template('404.html'), 404
+        user_id = request.form['user_id'].strip().lower()
+        start_date_str = request.form['start_date'].strip().lower()
+        end_date_str = request.form['end_date'].strip().lower()
 
-            if not inventory:
-                return render_template('404.html'), 404
-            
-            user_id = request.form['user_id'].strip().lower()
-            quantity = int(request.form['quantity'].strip()) 
-            start_date_str = request.form['start_date'].strip().lower()
-            end_date_str = request.form['end_date'].strip().lower()
-            inventory_id = inventory.id
+        try:
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+            today = datetime.today().date()
 
-            try:
-                start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
-                end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
-                today = datetime.today().date()
-
-                if start_date < today:
-                    return jsonify({'success': False, 'message': 'Start date cannot be in the past.'}), 400
+            if start_date < today:
+                return jsonify({'success': False, 'message': 'Start date cannot be in the past.'}), 400
                 
-                if end_date <= start_date:
-                    return jsonify({'success': False, 'message': 'End date must be after the start date.'}), 400
+            if end_date <= start_date:
+                return jsonify({'success': False, 'message': 'End date must be after the start date.'}), 400
 
-            except ValueError:
-                return jsonify({'success': False, 'message': 'Invalid date format. Please use YYYY-MM-DD.'}), 400
+        except ValueError:
+            return jsonify({'success': False, 'message': 'Invalid date format. Please use YYYY-MM-DD.'}), 400
 
-            if inventory.quantity < quantity:
-                return jsonify({'success': False, 'message': 'Not enough quantity available for borrowing.'}), 400
+        cart_items = [item for item in cart_service.get(user_id=user_id) if item.status == "pending"]
 
-            # Deduct quantity from inventory
-            inventory.quantity -= quantity
-            inventory_service.update(inventory)
-            
-            if inventory.quantity == 0:
-                inventory.status = 'borrowed'  
-                
-            borrowing = borrowing_service.create(user_id=user_id,inventory_id=inventory_id,start_date=start_date,end_date=end_date,quantity=quantity )
+        if not cart_items:
+            return jsonify({'success': False, 'message': "No pending items in your cart!"}), 400
 
-            return jsonify({
-            'success': True,
-            'message': 'Your borrowing request has been submitted and is pending approval from the admin.',
-            'borrowing_uuid': borrowing.uuid  
-        }), 200
-        return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
-    
+        borrowing = borrowing_service.create(user_id=user_id, start_date=start_date, end_date=end_date)
 
-def users_borrowed(request, item_uuid=None):
-    if request.method == 'GET':
-        now = datetime.utcnow()
-        borrowing_list = borrowing_service.get()
-        if item_uuid:
-            try:
-                uuid_obj = UUID(str(item_uuid)) 
-                borrowing = borrowing_service.get_one(uuid=str(uuid_obj))
-            except ValueError:
-                return render_template('404.html'), 404
-            
-            if not borrowing:
-                return render_template('404.html'), 404
-            
-            # Calculate days_remaining and days_late
-            if borrowing.end_date:
-                days_remaining = (borrowing.end_date - now).days 
-                borrowing.days_remaining = max(0, days_remaining)  
-                borrowing.days_late = max(0, -days_remaining) 
-            else:
-                borrowing.days_remaining = None
-                borrowing.days_late = None
-                
-            inventory_item = borrowing.inventory_item
-            borrowing_details = borrowing.details  
-           
-            # Serialize the borrowing object
-            borrowing_data = borrowing.serialize()
-            borrowing_data['days_remaining'] = borrowing.days_remaining
-            borrowing_data['days_late'] = borrowing.days_late
-            borrowing_data['start_date_str'] = borrowing.start_date.strftime('%b, %d, %Y')
-            borrowing_data['end_date_str'] = borrowing.end_date.strftime('%b, %d, %Y')
-            borrowing_data['image_url'] = get_inventory_image(inventory_item.image)
-            
-            if borrowing_details and borrowing_details.cancel_reason:
-                borrowing_data['cancel_reason'] = borrowing_details.cancel_reason
-            else:
-                borrowing_data['cancel_reason'] = None
-          
-            return render_template('user/borrowed_single.html', borrowings=borrowing_data)
+        if not borrowing:
+            return jsonify({'success': False, 'message': 'Failed to create borrowing request.'}), 500
         
+        for cart_item in cart_items:
+            inventory = inventory_service.get_one(id=cart_item.inventory_id)
+
+            if not inventory or inventory.quantity < cart_item.quantity:
+                return jsonify({
+                    'success': False,
+                    'message': f"⚠️ Not enough stock for {inventory.title}. Available: {inventory.quantity}, Requested: {cart_item.quantity}."
+                }), 400
+
+            inventory.quantity -= cart_item.quantity
+            if inventory.quantity == 0:
+                inventory.status = 'borrowed'
+
+            inventory_service.update(inventory)
+
+            borrowing_service.add_to_relationship(borrowing.id, 'cart_items', cart_item)
+
+            cart_service.update(cart_item.id, status="completed")
+
+        return jsonify({
+            'success': True,
+            'message': 'Your borrowing request has been submitted and is pending approval from the admin.'
+        }), 200
+
+    return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
+
+
+def users_borrowed(request, borrow_uuid=None):
+    now = datetime.utcnow()
+
+    if not borrow_uuid:
+        borrowing_list = Borrowing.query.options(joinedload(Borrowing.cart_items)).all()
+
         for borrowing in borrowing_list:
-            if borrowing.end_date:
-                days_remaining = (borrowing.end_date - now).days
-                borrowing.days_remaining = max(0, days_remaining)  
-                borrowing.days_late = max(0, -days_remaining) 
-            else:
-                borrowing.days_remaining = None
-                borrowing.days_late = None
+            borrowing.days_remaining, borrowing.days_late = calculate_borrowing_days(borrowing, now)
+            borrowing.inventory_titles = format_inventory_titles(borrowing)
+
         return render_template('user/borrowed.html', borrowings=borrowing_list)
+
+    # 🔹 Fetch single borrowing record if UUID is provided
+    try:
+        uuid_obj = UUID(str(borrow_uuid))
+        borrowing_single = Borrowing.query.options(
+            joinedload(Borrowing.cart_items),  
+            joinedload(Borrowing.details)  
+        ).filter_by(uuid=str(uuid_obj)).first()
+
+        if not borrowing_single:
+            return render_template('404.html'), 404
+
+        borrowing_single.start_date_str = borrowing_single.start_date.strftime("%B %d, %Y") if borrowing_single.start_date else "N/A"
+        borrowing_single.end_date_str = borrowing_single.end_date.strftime("%B %d, %Y") if borrowing_single.end_date else "N/A"
+
+        borrowing_single.days_remaining, borrowing_single.days_late = calculate_borrowing_days(borrowing_single, now)
+        borrowing_single.inventory_titles = format_inventory_titles(borrowing_single)
+        print("📌 Borrowing Object Data:", borrowing_single.__dict__)  # Debugging
+
+        return render_template('user/borrowed_single.html', borrowing=borrowing_single)
+
+    except ValueError:
+        return render_template('404.html'), 404
+
+def calculate_borrowing_days(borrowing, now):
+    if borrowing.end_date:
+        days_remaining = (borrowing.end_date.date() - now.date()).days
+        
+        if days_remaining >= 0:
+            return days_remaining, 0  # Not overdue yet
+        else:
+            return 0, abs(days_remaining)  # Convert to positive overdue days
+    
+    return None, None
+
+
+
+
+# 🔹 Helper function to format inventory titles
+def format_inventory_titles(borrowing):
+    if borrowing.cart_items:
+        return [
+            f"{cart_item.inventory_item.title.capitalize()} (Qty: {cart_item.quantity})"
+            for cart_item in borrowing.cart_items if cart_item.inventory_item
+        ]
+    return []
 
 def search_items():
     query = request.args.get("q", "").strip().lower()
@@ -200,14 +220,41 @@ def borrowing_status_user(request, borrowing_id=None):
         data = request.json
         new_status = data.get("status")
         
-        inventory = inventory_service.get_one(id=borrowing.inventory_id) 
+        for cart_item in borrowing.cart_items:
+            inventory = inventory_service.get_one(id=cart_item.inventory_id)  
 
-        if inventory.quantity > 0:
-            inventory.status = 'available'  
-        # add quantity from inventory
-        inventory.quantity += borrowing.quantity
-        inventory_service.update(inventory)
+            if not inventory:
+                return jsonify({'success': False, 'message': f'Inventory ID {cart_item.inventory_id} not found'}), 404
+
+            inventory.quantity += cart_item.quantity
+
+            if inventory.quantity > 0:
+                inventory.status = 'available'
+
+            inventory_service.update(inventory)
+
 
         borrowing_service.update(borrowing.id, status=new_status)
         return jsonify({'success': True, 'message': 'Cancellation request approved'}), 200
     return jsonify({'error': False, 'message': 'Invalid Method'}), 400
+
+def get_profiles(request):
+    if request.method == 'GET':
+        if current_user.is_authenticated:
+            user_data = {
+                "id": current_user.id,
+                "username": current_user.username,
+                "firstname": current_user.firstname,
+                "lastname": current_user.lastname,
+                "middlename": current_user.middlename,
+                "sex": current_user.sex,
+                "status": current_user.status,
+                "address": current_user.address,
+                "contact": current_user.contact,
+                "role": current_user.role,
+                "created_at": current_user.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                "updated_at": current_user.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+
+        return jsonify({"success": True, "user": user_data})
+    return jsonify({'success': False, 'message': 'Create method must be GET.'}), 405

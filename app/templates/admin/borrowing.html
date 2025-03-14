@@ -45,7 +45,6 @@
                 <th>Reference</th>
                 <th>Item</th>
                 <th>Users</th>
-                <th>Qty</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th class="d-none">Status</th>
@@ -59,9 +58,17 @@
                 <td>{{ loop.index }}</td>
 
                 <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
-                <td>{{ borrowing.inventory_item.title }}</td>
+                <td>
+                  {% if borrowing.inventory_titles %}
+                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}">
+                    {{ borrowing.inventory_titles | join(', ') | truncate(40, True) }}
+                  </span>
+                  {% else %}
+                  No Items
+                  {% endif %}
+                </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.quantity }}</td>
                 <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
                 <td>
                   {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
@@ -116,12 +123,10 @@
                 <th>Reference</th>
                 <th>Item</th>
                 <th>Users</th>
-                <th>Qty</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Day Left / Overdue</th>
-                <th class="d-none">Status</th>
-                <th style="width: 160px">Action</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -131,9 +136,17 @@
                 <td>{{ loop.index }}</td>
 
                 <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
-                <td>{{ borrowing.inventory_item.title }}</td>
+                <td>
+                  {% if borrowing.inventory_titles %}
+                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}">
+                    {{ borrowing.inventory_titles | join(', ') | truncate(20, True) }}
+                  </span>
+                  {% else %}
+                  No Items
+                  {% endif %}
+                </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.quantity }}</td>
                 <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
                 <td>
                   {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
@@ -145,14 +158,8 @@
                   {% elif borrowing.days_late > 0 %}
                   <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
                   {% else %}
-                  N/A
+                  <span class="badge bg-secondary">Remaining: 0 days</span> {# No more "N/A" #}
                   {% endif %}
-                </td>
-                <td class="d-none">
-                  <span
-                    class=" badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}">
-                    {{ borrowing.status | capitalize }}
-                  </span>
                 </td>
                 <td>
                   <div class="dropdown d-flex justify-content-center">
@@ -177,7 +184,6 @@
                       </div>
                     </div>
                   </div>
-
                 </td>
               </tr>
               {% endif %}
@@ -212,43 +218,46 @@
                 <th>Reference</th>
                 <th>Item</th>
                 <th>Users</th>
-                <th>Qty</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Status</th>
-                <th class="d-none" style="width: 160px">Action</th>
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled' or borrowing.status == 'completed' %}
-
+              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled' or borrowing.status == 'completed'
+              %}
               <tr>
                 <td>{{ loop.index }}</td>
 
                 <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
-                <td>{{ borrowing.inventory_item.title }}</td>
+                <td>
+                  {% if borrowing.inventory_titles %}
+                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}">
+                    {{ borrowing.inventory_titles | join(', ') | truncate(20, True) }}
+                  </span>
+                  {% else %}
+                  No Items
+                  {% endif %}
+                </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.quantity }}</td>
                 <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
                 <td>
                   {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
                   else 'N/A' }}
                 </td>
                 <td>
-                  <span
-                    class=" badge {% if borrowing.status == 'completed' %} bg-primary  {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}">
+                  <span class="badge 
+                          {% if borrowing.status == 'completed' %} bg-primary 
+                          {% elif borrowing.status == 'pending' %} bg-warning 
+                          {% elif borrowing.status == 'approved' %} bg-success 
+                          {% elif borrowing.status == 'cancelled' %} bg-danger 
+                          {% endif %}">
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>
-                <td class="d-none">
-                  <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
-                    <span class="badge bg-success custom-cursor bApproved" data-id="{{ borrowing.id }}">APPROVED</span>
-                    <span class="badge bg-danger custom-cursor bDisapproved"
-                      data-id="{{ borrowing.id }}">DISAPPROVED</span>
-                  </div>
-                </td>
-              </tr>
 
+              </tr>
               {% endif %}
               {% endfor %}
             </tbody>

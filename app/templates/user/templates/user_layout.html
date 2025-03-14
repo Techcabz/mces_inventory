@@ -1,7 +1,39 @@
 {% extends "base.html" %} {% block content %} {% include
 'user/templates/partials/_navbar.html' %}
-
+{% include 'user/templates/_modal.html' %}
+    
 <div class="background-1">
   <main class="main-content mt-0">{% block user_content %} {% endblock %}</main>
 </div>
+
+<script>
+  function fetchUserData() {
+    fetch('/users/get_profile') 
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        if (data.success) {
+            document.getElementById('username').value = data.user.username;
+            document.getElementById('fname').value = data.user.firstname;
+            document.getElementById('mname').value = data.user.middlename;
+            document.getElementById('lname').value = data.user.lastname;
+
+            document.getElementById('address').value = data.user.address;
+            document.getElementById('contact').value = data.user.contact;
+            
+            let sexSelect = document.getElementById('sex');
+            for (let option of sexSelect.options) {
+                if (option.value.toLowerCase() === data.user.sex.toLowerCase()) {
+                    option.selected = true;
+                    break;
+                }
+            }
+           } else {
+            alert('Failed to load profile data.');
+        }
+    })
+    .catch(error => console.error('Error fetching user data:', error));
+}
+
+</script>
 {% include 'user/templates/partials/_footer.html' %} {% endblock %}

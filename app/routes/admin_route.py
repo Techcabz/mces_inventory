@@ -1,45 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import  current_user
-from app.controllers.auth_controller import login_user_controller,logout_user_controller,register_user_controller
+from . import admin,web_guard,request,render_template
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import cusers,user_approved,user_disapproved
-from app.controllers.item_controller import items, search_items,users_borrowed, borrowing_status_user
-from app.controllers.borrowing_controller import borrowings, borrowings_status,borrowings_cancel_reason,borrowings_done
+from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
 from app.controllers.receipts_controller import receiptGenerate
 from app.controllers.dashboard_controller import dashboard_set
-from app.utils.auth_utils import web_guard,web_guard_user
-from app.models.user_models import User
-from app.extensions import db
-from uuid import UUID
-
-main = Blueprint('main', __name__)
-admin = Blueprint('admin', __name__, url_prefix='/admin')
-# user = Blueprint('admin', __name__, url_prefix='/user')
-
-# AUTHENTICATION
-@main.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin.dashboard'))
-    return login_user_controller(request)
-
-@main.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin.dashboard'))
-    return register_user_controller(request)
-
-@main.route('/', methods=['GET', 'POST'])
-def home():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin.dashboard'))
-    return login_user_controller(request)
-
-@main.route('/logout', methods=['GET', 'POST'])
-def logout():
-    return logout_user_controller()
-
 
 # ADMINISTRATOR
 @admin.route('/dashboard')
@@ -67,6 +32,11 @@ def borrowing_done(borrowing_id=None):
 @web_guard
 def borrowing_cancel_reason(borrowing_id=None):
     return borrowings_cancel_reason(request, borrowing_id)
+
+@admin.route("/borrowing/cancel/<int:borrowing_id>", methods=['GET', 'POST', 'PUT',])
+@web_guard
+def borrowing_cancel(borrowing_id=None):
+    return borrowings_cancel(request, borrowing_id)
 
 @admin.route('/category', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @web_guard
@@ -111,26 +81,3 @@ def user_disapproveds(users_id=None):
     return user_disapproved(request,users_id)
 
 
-# USER DASHBOARD
-@main.route('/user/dashboard')
-@main.route('/users/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
-@web_guard_user
-def user_dashboard(item_uuid=None):
-    return items(request,item_uuid)
-
-@main.route('/user/borrowed')
-@main.route('/users/borrowed/item/<uuid:item_uuid>', methods=['POST','GET', 'PUT', 'DELETE'])
-@web_guard_user
-def user_borrowed(item_uuid=None):
-    return users_borrowed(request,item_uuid)
-
-@main.route('/users/borrowed/status/<int:item_id>', methods=['POST','GET', 'PUT', 'DELETE'])
-@web_guard_user
-def borrowings_status_user(item_id=None):
-    return borrowing_status_user(request,item_id)
-
-
-@main.route('/search-items')
-@web_guard_user
-def search_item():
-    return search_items()

@@ -237,11 +237,9 @@ if (borrowForm) {
 
     const formData = new FormData(e.target);
     const button = document.querySelector("#borrowingButton");
-    const uuid = borrowForm.querySelector("#inventory_uuid").value;
     setLoadingState(button, true);
-
     try {
-      const response = await fetch(`/users/item/${uuid}`, {
+      const response = await fetch('/users/borrow_item', {
         method: "POST",
         body: formData,
       });
@@ -250,9 +248,47 @@ if (borrowForm) {
 
       if (response.ok) {
         alert("success", "top", data.message);
-        const borrowingUuid = data.borrowing_uuid;
         setTimeout(() => {
-          window.location.href = `/users/borrowed/item/${borrowingUuid}`;
+          location.reload();
+        }, 2000);
+        setLoadingState(button, false);
+      } else {
+
+        alert("warning", "top", data.message);
+        setLoadingState(button, false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("error", "top", error);
+      setLoadingState(button, false);
+    }
+  });
+}
+
+
+const cartForm = document.querySelector("#cartForm");
+if (cartForm) {
+  cartForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const button = document.querySelector("#borrowingButton");
+    const uuid = cartForm.querySelector("#inventory_uuid").value;
+    setLoadingState(button, true);
+
+    try {
+      const response = await fetch(`/users/cart/${uuid}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("success", "top", data.message);
+        const uuid = data.inventory_uuid;
+        setTimeout(() => {
+          window.location.href = `/users/item/${uuid}`;
         }, 2000);
       } else {
 
@@ -269,35 +305,6 @@ if (borrowForm) {
 
 // dom calling
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".edit-category").forEach((button) => {
-    button.addEventListener("click", function () {
-      const id = this.dataset.id;
-      const name = this.dataset.name;
-      showUpdateForm(id, name);
-    });
-  });
-
-  document.querySelectorAll(".delete-category").forEach((button) => {
-    button.addEventListener("click", function () {
-      const id = this.dataset.id;
-      deleteCategory(id);
-    });
-  });
-
-  document.querySelectorAll(".edit-inventory").forEach((button) => {
-    button.addEventListener("click", function () {
-      const id = this.dataset.id;
-      // const name = this.dataset.name;
-      showInvUpdateForm(id);
-    });
-  });
-
-  document.querySelectorAll(".delete-inventory").forEach((button) => {
-    button.addEventListener("click", function () {
-      const id = this.dataset.id;
-      deleteInventory(id);
-    });
-  });
 
   const searchBar = document.getElementById("search-bar");
   const categoriesContainer = document.getElementById("default-card");
@@ -379,6 +386,94 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+  const cartTable = document.getElementById("datatable");
+  if (cartTable) {
+    // Update Quantity
+    cartTable.addEventListener("change", function (event) {
+      if (event.target.classList.contains("cart-quantity")) {
+        let cartId = event.target.dataset.cartId;
+        let newQuantity = event.target.value;
+
+        fetch("/users/cart_update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("success", "top", "Cart updated successfully!");
+              location.reload();
+            } else {
+              alert("warning", "top", data.message);
+              location.reload();
+            }
+          })
+          .catch(error => console.error("Error updating cart:", error));
+      }
+    });
+
+    // Remove Item
+    cartTable.addEventListener("click", function (event) {
+      if (event.target.classList.contains("remove-cart-item")) {
+        let cartId = event.target.dataset.cartId;
+
+        fetch("/users/cart_remove", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ cart_id: cartId })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("success", "top", "Item removed from cart.");
+              location.reload(); // Remove row from table
+            } else {
+              alert("danger", "top", data.message);
+            }
+          })
+          .catch(error => console.error("Error removing cart item:", error));
+      }
+    });
+
+  }
+
+
+  document.querySelectorAll(".edit-category").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      showUpdateForm(id, name);
+    });
+  });
+
+  document.querySelectorAll(".delete-category").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteCategory(id);
+    });
+  });
+
+  document.querySelectorAll(".edit-inventory").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      // const name = this.dataset.name;
+      showInvUpdateForm(id);
+    });
+  });
+
+  document.querySelectorAll(".delete-inventory").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteInventory(id);
+    });
+  });
+
+
   document.addEventListener("click", function (event) {
 
     if (event.target.classList.contains("bUserA")) {
@@ -450,8 +545,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (event.target.classList.contains("bDone")) {
       let borrowingId = event.target.getAttribute("data-borrowing-id");
-      let inventoryId = event.target.getAttribute("data-inventory-id");
-      let inventoryQty = event.target.getAttribute("data-inventory-qty");
 
       Swal.fire({
         title: "Mark this borrowing as done?",
@@ -466,7 +559,7 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(`/admin/borrowing/done/${borrowingId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "done", inventory_id: inventoryId, quantity: inventoryQty }),
+            body: JSON.stringify({ status: "completed" }),
           })
             .then(response => response.json())
             .then(data => {
@@ -509,7 +602,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (event.target.classList.contains("bDisapproved")) {
       let borrowingId = event.target.getAttribute("data-borrowing-id");
-     
+
       Swal.fire({
         title: "Cancel Request",
         text: "Please provide a reason:",
@@ -536,7 +629,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // Only trigger cancel if the cancel button is clicked
 
-          fetch(`/admin/borrowing/status/${borrowingId}`, {
+          fetch(`/admin/borrowing/cancel/${borrowingId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "cancelled" }),
@@ -553,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (event.target.classList.contains("bCancel")) {
       let borrowingId = event.target.getAttribute("data-borrowing-id");
-     
+
       Swal.fire({
         title: "Confirm Cancellation",
         text: "  Are you sure you want to cancel this borrowing? This action cannot be undone.",
