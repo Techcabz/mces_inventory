@@ -146,7 +146,7 @@ def users_borrowed(request, borrow_uuid=None):
 
         borrowing_single.days_remaining, borrowing_single.days_late = calculate_borrowing_days(borrowing_single, now)
         borrowing_single.inventory_titles = format_inventory_titles(borrowing_single)
-        print("📌 Borrowing Object Data:", borrowing_single.__dict__)  # Debugging
+        print("Borrowing Object Data:", borrowing_single.__dict__)  # Debugging
 
         return render_template('user/borrowed_single.html', borrowing=borrowing_single)
 
