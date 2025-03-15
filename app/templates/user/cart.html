@@ -1,19 +1,26 @@
-{% extends "user/templates/user_layout.html" %} {% block user_content %}
-<main class="main-content mt-6">
+{% extends "user/templates/user_layout.html" %}
+{% block user_content %}
+
+<main class="main-content mt-7">
     <div class="page-header min-vh-75">
-        <div class="container mt-lg-5 mt-sm-5 mt-md-5" style="margin-top:10vh !important">
-            <div class="row">
-                <!-- Cart Table Section -->
+        <div class="container mt-lg-5 mt-md-5">
+            
+            <div class="row g-4">
+                
+                <!-- 🔹 Cart Table Section -->
                 <div class="col-lg-8">
-                    <div class="card mb-3 p-3">
-                        <div class="table-responsive">
-                            <table id="datatable" class="table table-borderless w-100">
+                    <div class="card shadow-sm p-3">
+                        <h5 class="card-title text-primary fw-bold text-center">Your Borrow Cart</h5>
+                        <hr>
+                
+                        <div class="table-responsive" style="overflow-x: hidden;">
+                            <table id="datatable" class="table table-striped align-middle w-100">
                                 <thead class="bg-gradient-success text-white">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th style="width: 160px">Action</th>
+                                        <th style="white-space: nowrap;">#</th>
+                                        <th style="white-space: nowrap;">Item</th>
+                                        <th style="white-space: nowrap;">Qty</th>
+                                        <th class="text-center" style="white-space: nowrap;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -22,16 +29,21 @@
                                         <td>{{ loop.index }}</td>
                                         <td>{{ cart.inventory_item.title | capitalize }}</td>
                                         <td>
-                                            <input type="number" class="form-control cart-quantity"
+                                            <input type="number" class="form-control text-center cart-quantity"
                                                 style="width: 100px;" data-cart-id="{{ cart.id }}"
                                                 data-previous-value="{{ cart.quantity }}" value="{{ cart.quantity }}"
                                                 min="1" max="{{ cart.inventory_item.quantity }}">
                                         </td>
-                                        <td>
-                                            <button class="btn btn-danger remove-cart-item"
-                                                data-cart-id="{{ cart.id }}">
-                                                REMOVE
+                                        <td class="text-center">
+                                            <button class="btn btn-danger remove-cart-item" data-cart-id="{{ cart.id }}">
+                                                <i class="fas fa-trash"></i> REMOVE
                                             </button>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">
+                                            No items in cart.
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -40,45 +52,45 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Borrow Form Section -->
+                
+                <!-- 🔹 Borrow Form Section -->
                 <div class="col-lg-4">
-                    <div class="card p-3">
-                        <h5 class="card-title text-center fw-bold">Proceed to Borrow</h5>
+                    <div class="card shadow-sm p-4">
+                        <h5 class="card-title text-center fw-bold text-primary">Proceed to Borrow</h5>
                         <hr>
+
                         <form id="borrowForm" method="POST">
-                            <div class="row g-2">
+                            <div class="row g-3">
                                 <div class="col-12">
-                                    <label for="start_date" class="form-label">Start Date</label>
+                                    <label for="start_date" class="form-label fw-bold">Start Date</label>
                                     <input type="date" class="form-control" id="start_date" name="start_date"
                                         required />
                                 </div>
                                 <div class="col-12">
-                                    <label for="end_date" class="form-label">End Date</label>
+                                    <label for="end_date" class="form-label fw-bold">End Date</label>
                                     <input type="date" class="form-control" id="end_date" name="end_date" required />
                                 </div>
                             </div>
 
                             <input type="hidden" id="user_id" name="user_id" value="{{ session['user_id'] }}" />
 
-                            <div class="d-grid gap-2 text-center mt-3">
-                                <button id="borrowingButton" data-loading-text="Processing..." type="submit"
-                                    class="btn btn-primary" {% if cart_list|length==0 %} disabled {% endif %}>
-                                    BORROW NOW
+                            <div class="d-grid gap-2 text-center mt-4">
+                                <button id="borrowingButton" type="submit" class="btn btn-primary btn-lg"
+                                    {% if cart_list|length == 0 %} disabled {% endif %}>
+                                    <i class="fas fa-shopping-cart"></i> BORROW NOW
                                 </button>
 
-
                                 <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-secondary">
-                                    BROWSE ITEM
+                                    <i class="fas fa-arrow-left"></i> BROWSE ITEMS
                                 </a>
                             </div>
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 </main>
-
 
 {% endblock %}

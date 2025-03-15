@@ -1,102 +1,81 @@
-{% extends "user/templates/user_layout.html" %} {% block user_content %}
-<main class="main-content mt-2 mt-md-5">
-  <div class="page-header mt-sm-5 min-vh-75">
-    <div class="container mt-sm-5">
-      <div class="card mt-5 mb-4 p-5">
-        <div class="row g-3 align-items-center">
-          <!-- Left Side: Image -->
-          <div class="col-lg-6 col-md-6 col-12 border p-2">
-            <img
-              loading="lazy"
-              src="{{ inventory.image_url }}"
-              alt="{{ inventory.title }}"
-              class="img-fluid rounded w-100"
-              style="max-height: 350px; object-fit: cover; background-position: center; background-size: contain;"
-            />
+{% extends "user/templates/user_layout.html" %}
+{% block user_content %}
+
+<main class="main-content mt-7">
+  <div class="page-header min-vh-75">
+    <div class="container mt-5">
+
+      <div class="card shadow-sm rounded-3 p-4">
+        <div class="row g-4 align-items-center">
+
+          <!-- 🔹 Left Side: Image -->
+          <div class="col-lg-6">
+            <div class="text-center">
+              <img src="{{ inventory.image_url }}" alt="{{ inventory.title }}" class="img-fluid rounded shadow-sm"
+                style="max-height: 350px; object-fit: contain; width: 100%;" />
+            </div>
           </div>
 
-          <!-- Right Side: Details -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <!-- 🔹 Right Side: Item Details -->
+          <div class="col-lg-6">
             <div class="card-body">
-              <h4 class="card-title text-primary text-sm-center text-md-start">
-                {{ inventory.title | capitalize }}
-              </h4>
+              <h3 class="card-title text-primary fw-bold">{{ inventory.title | capitalize }}</h3>
 
-              <p class="text-sm-center text-md-start">Quantity Available:
-                <strong>{{ inventory.quantity }}</strong> 
+              <p class="mb-2">
+                <strong>Quantity Available:</strong> <span class="text-muted">{{ inventory.quantity }}</span>
               </p>
 
-              <p class="text-sm-center text-md-start">
+              <p>
                 <strong>Status:</strong>
-                <span
-                  class="badge {% if inventory.status == 'available' %} bg-success {% elif inventory.status == 'borrowed' %} bg-primary {% elif inventory.status == 'reserved' %} bg-warning {% elif inventory.status == 'damaged' %} bg-danger {% else %} bg-secondary {% endif %}"
-                >
+                <span class="badge fs-6 
+                  {% if inventory.status == 'available' %} bg-success 
+                  {% elif inventory.status == 'borrowed' %} bg-primary 
+                  {% elif inventory.status == 'reserved' %} bg-warning 
+                  {% elif inventory.status == 'damaged' %} bg-danger 
+                  {% else %} bg-secondary {% endif %}">
                   {{ inventory.status | capitalize }}
                 </span>
               </p>
 
-              <!-- Borrow Form -->
-              {% if inventory.status == 'available' and inventory.quantity > 0
-              %}
+              <!-- 🔹 Borrow Form -->
+              {% if inventory.status == 'available' and inventory.quantity > 0 %}
               <form id="cartForm" method="POST">
-                <div class="mb-3 text-sm-center text-md-start">
-                  <label for="quantity" class="form-label d-block">Quantity to Borrow</label>
-                  <input
-                    type="number"
-                    name="quantity"
-                    id="quantity"
-                    value="1"
-                    class="form-control mx--sm-auto w-100 w-sm-75 w-md-50 w-lg-25"
-                    min="1"
-                    max="{{ inventory.quantity }}"
-                    required
-                  />
+
+                <div class="mb-3">
+                  <label for="quantity" class="form-label">Quantity to Borrow</label>
+                  <input type="number" name="quantity" id="quantity" value="1" class="form-control w-50" min="1"
+                    max="{{ inventory.quantity }}" required />
                 </div>
-                
-        
-                <input
-                  type="hidden"
-                  id="inventory_uuid"
-                  name="inventory_uuid"
-                  value="{{ inventory.uuid}}"
-                />
-                <input type="hidden" id="user_id" name="user_id" value="{{ session['user_id'] }}" />
-                <div class="d-grid d-md-flex gap-2 text-md-start mt-3">
-                  <button
-                    id="borrowingButton"
-                    data-loading-text="Processing..."
-                    type="submit"
-                    class="btn btn-primary w-100 w-md-auto"
-                  >
+
+                <input type="hidden" id="inventory_uuid" name="inventory_uuid" value="{{ inventory.uuid}}" />
+                <input type="hidden" name="user_id" value="{{ session['user_id'] }}">
+
+                <div class="d-grid gap-2 d-md-flex mt-4">
+                  <button id="borrowingButton"  data-loading-text="Processing..."
+                  type="submit" class="btn btn-primary w-100 w-md-auto">
                     ADD TO BORROW CART
                   </button>
-                
-                  <a
-                    href="{{ url_for('main.user_dashboard') }}"
-                    class="btn btn-secondary w-100 w-md-auto"
-                  >
+                  <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-secondary w-100 w-md-auto">
                     GO BACK
                   </a>
                 </div>
-                
+
               </form>
+
               {% else %}
-              <div class="d-flex gap-2 text-center text-md-start">
-                <button class="btn btn-secondary w-100 w-md-auto" disabled>
-                  Not Available
-                </button>
-                <a
-                  href="{{ url_for('main.user_dashboard') }}"
-                  class="btn btn-secondary"
-                  >GO BACK</a
-                >
+              <div class="d-flex flex-column flex-md-row gap-2 mt-4">
+                <button class="btn btn-secondary w-100 w-md-auto" disabled>Not Available</button>
+                <a href="{{ url_for('main.user_dashboard') }}" class="btn btn-secondary w-100 w-md-auto">GO BACK</a>
               </div>
               {% endif %}
+
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </main>
+
 {% endblock %}
