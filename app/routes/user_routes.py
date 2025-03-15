@@ -67,3 +67,5 @@ def get_profile():
 @web_guard_user
 def update_profile():
     return update_profiles()
+
+

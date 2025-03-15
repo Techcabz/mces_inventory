@@ -62,7 +62,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                       <div class="dropdown-item">
                         <div class="d-flex align-items-center gap-3">
-                          <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-category"
+                          <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-profile-user"
                             data-id="{{ user.id }}" data-name="{{ user.name }}">
                             <i class="fa fa-pencil-square-o"></i>
                           </a>
@@ -91,7 +91,8 @@
             <h5 class="m-0 font-weight-bold text-primary">
               ADMINISTRATOR LIST
             </h5>
-            <button type="button" class="btn bg-gradient-success">
+            <button type="button" data-bs-toggle="modal"
+            data-bs-target="#profileAdminModalAdd" class="btn bg-gradient-success">
               <i class="fa fa-plus-square"></i>&nbsp;Add new Admin
             </button>
           </div>
@@ -108,7 +109,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for user in users %} {% if user.role == 'admin' %}
+              {% for user in users %} {% if user.role == 'admin' and user.id != current_user.id %}
               <tr>
                 <td class="cell">{{ loop.index }}</td>
                 <td>{{ user.username.capitalize() }}</td>
@@ -123,7 +124,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                       <div class="dropdown-item">
                         <div class="d-flex align-items-center gap-3">
-                          <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-category"
+                          <a href="javascript:void(0);" class="btn btn-sm btn-warning edit-profile-admin"
                             data-id="{{ user.id }}" data-name="{{ user.name }}">
                             <i class="fa fa-pencil-square-o"></i>
                           </a>

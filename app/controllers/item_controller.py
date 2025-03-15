@@ -177,7 +177,7 @@ def format_inventory_titles(borrowing):
     return []
 
 def search_items():
-    query = request.args.get("q", "").strip().lower()
+    query = request.args.get("q", "").strip().lower() 
 
     if not query:
         # If no query, return all items grouped by category

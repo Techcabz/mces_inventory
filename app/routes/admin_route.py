@@ -1,10 +1,10 @@
 from . import admin,web_guard,request,render_template
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
-from app.controllers.users_controller import cusers,user_approved,user_disapproved
+from app.controllers.users_controller import update_admin_profile,add_admin_profile,cusers,user_approved,user_disapproved,get_profiles_admin,update_profile_user
 from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
 from app.controllers.receipts_controller import receiptGenerate
-from app.controllers.dashboard_controller import dashboard_set
+from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data
 
 # ADMINISTRATOR
 @admin.route('/dashboard')
@@ -81,3 +81,30 @@ def user_disapproveds(users_id=None):
     return user_disapproved(request,users_id)
 
 
+@admin.route('/get_profile_admin/<int:users_id>')
+@web_guard
+def get_profile_admin(users_id=None):
+    return get_profiles_admin(users_id)
+
+
+@admin.route('/update_profile', methods=['POST'])
+@web_guard
+def update_profile_users():
+    return update_profile_user()
+
+@admin.route('/add_admin_profile', methods=['POST'])
+@web_guard
+def add_admin_profiles():
+    return add_admin_profile()
+
+
+@admin.route('/update_admin_profile', methods=['POST'])
+@web_guard
+def update_admin_profiles():
+    return update_admin_profile()
+
+
+@admin.route('/borrowing_chart_data')
+@web_guard
+def borrowing_chart_datas():
+    return borrowing_chart_data()

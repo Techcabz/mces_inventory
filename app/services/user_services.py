@@ -29,11 +29,13 @@ class UserService:
         return User.query.filter_by(username=username).first()
 
     @staticmethod
-    def update_user(user_id, new_password=None, new_role=None, **kwargs):
+    def update_user(user_id, new_password=None,new_username=None, new_role=None, **kwargs):
         user = User.query.get(user_id)
         if user:
             if new_password:
                 user.set_password(new_password)
+            if new_username:
+                user.username = new_username
             if new_role:
                 user.role = new_role
             for key, value in kwargs.items():

@@ -10,8 +10,50 @@
     <div class=" container-fluid py-4 background-1">
       {% block admin_content %} {% endblock %}
     </div>
-   
+
   </main>
- 
-</div>
-{% endblock %}
+  <script>
+    function fetchAdminData(button) {
+      let userId = button.getAttribute("data-id");
+
+      fetch(`/admin/get_profile_admin/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.success) {
+            document.getElementById('pusername').value = data.user.username;
+            document.getElementById('pprofile_user_id').value = data.user.id;
+
+          } else {
+            alert('Failed to load profile data.');
+          }
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("borrowing_chart_data")  // Fetch data from Flask
+        .then(response => response.json())
+        .then(data => {
+          function getRandomColor() {
+            let colors = ["#8e44ad", "#2c3e50", "#d35400", "#f39c12", "#16a085", "#7f8c8d", "#27ae60", "#c0392b", "#2980b9"];
+            return colors[Math.floor(Math.random() * colors.length)];
+          }
+
+          Highcharts.chart('borrowing_chart', {
+            chart: { type: 'column' },
+            title: { text: 'Borrowing Status Per Month' },
+            xAxis: { categories: data.categories, title: { text: 'Month' } },
+            yAxis: { title: { text: 'Count' } },
+            series: [
+              { name: 'Cancelled', data: data.cancelled, color: getRandomColor()  },
+              { name: 'Completed', data: data.completed, color: getRandomColor()  }
+            ],
+            legend: { layout: 'horizontal', align: 'center', verticalAlign: 'bottom' }
+          });
+        });
+    });
+  </script>
+  </div>
+  {% endblock %}
