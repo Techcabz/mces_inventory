@@ -33,7 +33,7 @@
 
 
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("borrowing_chart_data")  // Fetch data from Flask
+      fetch("borrowing_chart_data")  
         .then(response => response.json())
         .then(data => {
           function getRandomColor() {

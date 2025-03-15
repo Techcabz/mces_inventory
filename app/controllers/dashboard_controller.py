@@ -34,17 +34,15 @@ def dashboard_set():
 
 
 def borrowing_chart_data():
-    borrowings = borrow_services.get()  # Fetch all borrowing records
-    
-    # Dictionary to store counts for each month
+    borrowings = borrow_services.get()  
+
     monthly_data = defaultdict(lambda: {"cancelled": 0, "completed": 0})
 
     for borrow in borrowings:
-        if borrow.status in ["cancelled", "completed"]:  # Ensure correct statuses
-            month = borrow.created_at.month  # Extract month as number (1-12)
-            year = borrow.created_at.year  # Extract year
+        if borrow.status in ["cancelled", "completed"]: 
+            month = borrow.created_at.month 
+            year = borrow.created_at.year  
 
-            # Convert month number to full month name
             month_name = f"{calendar.month_name[month]} {year}"  
 
             if borrow.status == "cancelled":
@@ -52,14 +50,13 @@ def borrowing_chart_data():
             elif borrow.status == "completed":
                 monthly_data[month_name]["completed"] += 1
 
-    # Sort by date (keeping full month names)
     categories = sorted(monthly_data.keys(), key=lambda x: (int(x.split()[1]), list(calendar.month_name).index(x.split()[0])))
 
     cancelled_counts = [monthly_data[month]["cancelled"] for month in categories]
     completed_counts = [monthly_data[month]["completed"] for month in categories]
 
     return jsonify({
-        "categories": categories,  # Now full month names!
+        "categories": categories, 
         "cancelled": cancelled_counts,
         "completed": completed_counts
     })
