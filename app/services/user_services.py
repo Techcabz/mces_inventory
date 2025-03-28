@@ -29,6 +29,10 @@ class UserService:
         return User.query.filter_by(username=username).first()
 
     @staticmethod
+    def count_admins():
+        return User.query.filter_by(role="admin").count()
+
+    @staticmethod
     def update_user(user_id, new_password=None,new_username=None, new_role=None, **kwargs):
         user = User.query.get(user_id)
         if user:

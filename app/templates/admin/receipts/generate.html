@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Tags</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        padding: 20px;
+      }
+      .inventory-card {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 15px;
+        font-size: 0.85rem;
+        border: 1px solid #dee2e6;
+      }
+      .card-header {
+        padding: 0.5rem;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #fff;
+      }
+      .card-body {
+        padding: 0.75rem;
+      }
+      .info-row {
+        display: flex;
+        margin-bottom: 0px;
+        align-items: flex-end;
+      }
+      .info-label {
+        font-weight: 500;
+        margin-right: 5px;
+        font-weight: normal;
+        white-space: nowrap;
+      }
+      .info-value {
+        border-bottom: 1px solid #6c757d;
+        flex-grow: 1;
+        min-height: 1.2rem;
+        padding-bottom: 0.1rem;
+      }
+      .warning-text {
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 0.5rem;
+        color: #333;
+      }
+      .logo-img {
+        width: 40px;
+        height: 40px;
+      }
+      .title-text {
+        font-size: 0.7rem;
+        line-height: 1.1;
+        margin-bottom: 0.2rem;
+      }
+      .district-title {
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+      @media (max-width: 768px) {
+        .inventory-card {
+          max-width: 100%;
+        }
+      }
+      @media print {
+        body {
+          padding: 0;
+          background-color: white;
+        }
+        .container {
+          width: 100%;
+          padding: 0;
+        }
+        .page-break {
+          page-break-after: always;
+          margin-top: 20px;
+        }
+        .inventory-card {
+          page-break-inside: avoid;
+        }
+        .row {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 0;
+        }
+       
+        @page {
+          size: auto;
+          margin: 20mm 0 10mm 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% for receipt in receipts %}
+        {% if loop.index0 % 9 == 0 %}
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-0 {% if not loop.first %}page-break{% endif %}">
+        {% endif %}
+        
+        <div class="col">
+          <div class="card inventory-card">
+            <div class="card-header" style="background-color: #fff">
+              <div class="d-flex align-items-center">
+                <img
+                  src="{{ request.url_root }}static/images/favicon.webp"
+                  alt="logo"
+                  class="logo-img mx-4"
+                />
+                <div>
+                  <p class="title-text mb-0">Republic of the Philippines</p>
+                  <p class="title-text mb-0">Department of Education</p>
+                  <p class="title-text mb-0">Caraga Administrative Region</p>
+                  <p class="title-text mb-0">Division of Agusan del Norte</p>
+                  <h6 class="district-title">Magallanes District</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="d-flex mx-5" style="width: 100px; text-align: center">
+                <span class="info-label" style="font-weight: normal"
+                  >Inventory Tag No.:</span
+                >
+                <span class="info-value">52125</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Office/School:</span>
+                <span class="info-value">Magallanes District</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Property No.:</span>
+                <span class="info-value">12345</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Date Acquired:</span>
+                <span class="info-value">2023-01-01</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Accountable Officer:</span>
+                <span class="info-value">Juan Dela Cruz</span>
+              </div>
+              <p class="warning-text mt-2 mb-0">
+                UNAUTHORIZED REMOVAL PUNISHABLE BY LAW
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {% if loop.index0 % 9 == 8 or loop.last %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

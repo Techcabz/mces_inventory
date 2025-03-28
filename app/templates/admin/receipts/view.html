@@ -1,0 +1,141 @@
+{% extends "admin/template/admin_layout.html" %}
+
+{% block admin_content %}
+
+<style>
+    /* Print-specific styles */
+    @media print {
+        @page {
+            size: A4;
+            margin: 0mm;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            border: none;
+            box-shadow: none;
+        }
+
+        .card-body {
+            padding: 0;
+        }
+
+        .receipt-card {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 10px;
+            page-break-inside: avoid;
+        }
+
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Hide the print button during printing */
+        #printButton {
+            display: none;
+        }
+    }
+
+    /* Full-width underline */
+    .full-width-underline {
+        display: block;
+        border-bottom: 1px solid gray;
+        padding-bottom: 2px; /* Adjust as needed */
+        margin-bottom: 5px; /* Adjust as needed */
+    }
+
+    .office-school {
+        display: flex;
+        align-items: center;
+    }
+
+    .label {
+        margin-right: 5px; /* Adjust space between label and value as needed */
+    }
+
+    .value {
+        flex-grow: 1;
+        border-bottom: 1px solid gray;
+        padding-bottom: 0px; /* Adjust space between text and underline */
+    }
+</style>
+
+<!-- JavaScript function to print a specific section -->
+<script>
+    function printSection(sectionId) {
+        var printContents = document.getElementById(sectionId).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+<!-- Assign an ID to the printable section -->
+<div id="printableSection">
+    <div class="card">
+        <div class="card-body">
+            <div class="container">
+                <!-- Print Button -->
+                <div class="row mb-3">
+                    <div class="col-12 text-right">
+                        <a target="_blank" href="{{ url_for('admin.generate_pdf') }}"  class="btn btn-primary" >Print Receipts</a>
+                    </div>
+                </div>
+                <!-- Receipts -->
+                <div class="row">
+                    {% for receipt in receipts %}
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="receipt-card border p-3 mb-3">
+                            <div class="d-flex justify-content-center gap-3">
+                                <div class="logo">
+                                    <img src="{{ url_for('static', filename='images/favicon.webp') }}" style="width: 100px; height: 100px;" alt="main_logo" />
+                                </div>
+                                <div class="title">
+                                    <p class="mb-1">Republic of the Philippines</p>
+                                    <p class="mb-1">Department of Education</p>
+                                    <p class="mb-1">Caraga Administrative Region</p>
+                                    <p class="mb-1">Division of Agusan del Norte</p>
+                                    <h5>Magallanes District</h5>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                               
+                                <p class="text-center">Inventoy Tag No. <span class="border-bottom">{{ receipt.office_school }}</span></p>
+
+                                <p class="office-school mb-1">
+                                    <span class="label">Office/School:</span>
+                                    <span class="value">{{ receipt.office_school }}</span>
+                                </p>
+                                <p class="office-school mb-1">
+                                    <span class="label">Property No.:</span>
+                                    <span class="value">{{ receipt.property_no }}</span>
+                                </p>
+                                <p class="office-school mb-1">
+                                    <span class="label">Date Acquired:</span>
+                                    <span class="value">{{ receipt.date_acquired }}</span>
+                                </p>
+                                <p class="office-school mb-1">
+                                    <span class="label">Accountable Officer:</span>
+                                    <span class="value">{{ receipt.accountable_officer }}</span>
+                                </p>
+                              
+                                <strong>UNAUTHORIZED REMOVAL PUNISHABLE BY LAW</strong>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

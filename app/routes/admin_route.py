@@ -3,8 +3,9 @@ from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import update_admin_profile,add_admin_profile,cusers,user_approved,user_disapproved,get_profiles_admin,update_profile_user
 from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
-from app.controllers.receipts_controller import receiptGenerate
+from app.controllers.receipts_controller import receiptGenerate,generate_pdf_custom
 from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data
+
 
 # ADMINISTRATOR
 @admin.route('/dashboard')
@@ -59,6 +60,11 @@ def reports():
 def receipts():
     return receiptGenerate()
 
+@admin.route('/receipts-generate')
+@web_guard
+def generate_pdf():
+  return generate_pdf_custom()  
+    
 @admin.route('/logs')
 @web_guard
 def logs():
