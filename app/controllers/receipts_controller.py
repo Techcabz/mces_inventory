@@ -1,111 +1,27 @@
 from flask import Flask, render_template, make_response, send_file
 import os
 import subprocess
+from app.models.inventory_models import Inventory
+from app.services.services import CRUDService
 
+inventory_service = CRUDService(Inventory)
 
 def receiptGenerate():
-    receipts = [
-            {
-                'office_school': 'Magallanes District',
-                'property_no': '12345',
-                'date_acquired': '2023-01-01',
-                'accountable_officer': 'Juan Dela Cruz'
-            },
-            {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-             {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-              {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-               {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-             {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-              {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-            # Add more receipts as needed
-    ]
-    return render_template('admin/receipts/view.html', receipts=receipts)
+   
+    item_list = inventory_service.get()
+       
+    return render_template('admin/receipts/view.html', receipts=item_list)
 
 def generate_pdf_custom():
     storage_dir = os.path.join(os.getcwd(), "app", "static", "storage", "file")
     output_pdf = os.path.join(storage_dir, "output.pdf")
     os.makedirs(storage_dir, exist_ok=True)
 
-    # Sample receipts data
-    receipts = [
-            {
-                'office_school': 'Magallanes District',
-                'property_no': '12345',
-                'date_acquired': '2023-01-01',
-                'accountable_officer': 'Juan Dela Cruz'
-            },
-            {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-             {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-              {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-               {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-             {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-              {
-                'office_school': 'Another School',
-                'property_no': '67890',
-                'date_acquired': '2023-02-01',
-                'accountable_officer': 'Maria Santos'
-            },
-            # Add more receipts as needed
-    ]
-   
+    item_list = inventory_service.get()
+      
 
     # Render the HTML template with receipts data
-    html_content = render_template("admin/receipts/generate.html", receipts=receipts)
+    html_content = render_template("admin/receipts/generate.html", receipts=item_list)
     # return html_content
     try:
         process = subprocess.run(

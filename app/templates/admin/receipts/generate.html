@@ -14,15 +14,18 @@
         background-color: #f8f9fa;
         padding: 20px;
       }
+
       .inventory-card {
         width: 100%;
-        max-width: 300px;
-        margin-bottom: 15px;
+        max-width: 450px;
+        margin-bottom: 5px;
+        border-radius: 0px;
         font-size: 0.85rem;
         border: 1px solid #dee2e6;
       }
       .card-header {
         padding: 0.5rem;
+
         background-color: #f8f9fa;
         border-bottom: 1px solid #fff;
       }
@@ -44,7 +47,7 @@
         border-bottom: 1px solid #6c757d;
         flex-grow: 1;
         min-height: 1.2rem;
-        padding-bottom: 0.1rem;
+        padding-bottom: 0px;
       }
       .warning-text {
         font-size: 0.75rem;
@@ -54,8 +57,8 @@
         color: #333;
       }
       .logo-img {
-        width: 40px;
-        height: 40px;
+        width: 70px;
+        height: 70px;
       }
       .title-text {
         font-size: 0.7rem;
@@ -93,7 +96,7 @@
           flex-wrap: wrap;
           margin-bottom: 0;
         }
-       
+
         @page {
           size: auto;
           margin: 20mm 0 10mm 0;
@@ -103,19 +106,23 @@
   </head>
   <body>
     <div class="container">
-      {% for receipt in receipts %}
-        {% if loop.index0 % 9 == 0 %}
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-0 {% if not loop.first %}page-break{% endif %}">
+      {% for receipt in receipts %} {% if loop.index0 % 9 == 0 %}
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-0 {% if not loop.first %}page-break{% endif %}"
+      >
         {% endif %}
-        
+
         <div class="col">
           <div class="card inventory-card">
-            <div class="card-header" style="background-color: #fff">
+            <div
+              class="card-header"
+              style="background-color: #fff; margin-bottom: 0px"
+            >
               <div class="d-flex align-items-center">
                 <img
                   src="{{ request.url_root }}static/images/favicon.webp"
                   alt="logo"
-                  class="logo-img mx-4"
+                  class="logo-img mx-3"
                 />
                 <div>
                   <p class="title-text mb-0">Republic of the Philippines</p>
@@ -127,27 +134,44 @@
               </div>
             </div>
             <div class="card-body">
-              <div class="d-flex mx-5" style="width: 100px; text-align: center">
+              <div
+                class="d-flex m-auto"
+                style="width: 100px; text-align: center"
+              >
                 <span class="info-label" style="font-weight: normal"
                   >Inventory Tag No.:</span
                 >
-                <span class="info-value">52125</span>
+                <span class="info-value">{{ receipt.id }}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">Office/School:</span>
-                <span class="info-value">Magallanes District</span>
+                <span class="info-label">OFFICE/SCHOOL:</span>
+                <span class="info-value">{{ receipt.school | upper}}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">Property No.:</span>
-                <span class="info-value">12345</span>
+                <span class="info-label">ARTICLE/TITLE:</span>
+                <span class="info-value">{{ receipt.title | upper }}</span>
+              </div>
+              <div class="d-flex">
+                <div class="info-row">
+                  <span class="info-label">PROPERTY NO.</span>
+                  <span class="info-value" style="width: 8rem !important"
+                    >{{ receipt.property_no }}</span
+                  >
+                </div>
+                <div class="info-row">
+                  <span class="info-label">UNIT:</span>
+                  <span class="info-value" style="width: 4.5rem !important"
+                    >{{ receipt.unit | upper }}</span
+                  >
+                </div>
               </div>
               <div class="info-row">
-                <span class="info-label">Date Acquired:</span>
-                <span class="info-value">2023-01-01</span>
+                <span class="info-label">DATE ACQUIRED:</span>
+                <span class="info-value">{{ receipt.date_acquired }}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">Accountable Officer:</span>
-                <span class="info-value">Juan Dela Cruz</span>
+                <span class="info-label">ACCOUNTABLE OFFICER:</span>
+                <span class="info-value">{{ receipt.officer | upper }}</span>
               </div>
               <p class="warning-text mt-2 mb-0">
                 UNAUTHORIZED REMOVAL PUNISHABLE BY LAW
@@ -155,11 +179,10 @@
             </div>
           </div>
         </div>
-        
+
         {% if loop.index0 % 9 == 8 or loop.last %}
-          </div>
-        {% endif %}
-      {% endfor %}
+      </div>
+      {% endif %} {% endfor %}
     </div>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
