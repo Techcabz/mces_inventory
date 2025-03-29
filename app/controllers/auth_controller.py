@@ -31,6 +31,7 @@ def login_user_controller(request):
             session['status'] = user.status
             session['firstname'] = user.firstname 
             session['lastname'] = user.lastname
+            session['fullname'] = user.fullname
             session['username'] = user.username.title() 
             return jsonify({'success': True, 'message': 'Login successful! Redirecting...'}), 200
 
