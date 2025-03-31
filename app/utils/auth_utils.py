@@ -27,3 +27,16 @@ def web_guard_user(func):
             return redirect(url_for('main.user_dashboard')) 
         return func(*args, **kwargs)
     return wrapper
+
+
+def web_auth_user(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return func(*args, **kwargs)
+  
+        if session.get('role') == 'guest':
+            return redirect(url_for('main.user_dashboard'))
+        else:
+            return redirect(url_for('admin.dashboard'))
+    return wrapper

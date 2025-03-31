@@ -53,7 +53,6 @@ def borrowings_status_user(item_id=None):
     return borrowing_status_user(request, item_id)
 
 @main.route('/search-items')
-@web_guard_user
 def search_item():
     return search_items()
 

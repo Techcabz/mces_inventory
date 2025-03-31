@@ -1,13 +1,14 @@
 from . import main, redirect,url_for,request
 from flask_login import  current_user
 from app.controllers.auth_controller import login_user_controller,logout_user_controller,register_user_controller
+from app.controllers.users_controller import home_user_controller
+from app.utils.auth_utils import web_auth_user
 
 
 @main.route('/', methods=['GET', 'POST'])
+@web_auth_user
 def home():
-    if current_user.is_authenticated:
-        return redirect(url_for('admin.dashboard'))
-    return login_user_controller(request)
+    return home_user_controller(request)
 
 
 @main.route('/login', methods=['GET', 'POST'])

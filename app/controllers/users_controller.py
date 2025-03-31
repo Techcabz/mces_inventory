@@ -6,10 +6,35 @@ from flask_login import login_required, current_user
 from app.utils.validation_utils import Validation
 from app.services.user_services import UserService
 from app.models.borrowing_models import Borrowing
+from app.models.inventory_models import Inventory
+from app.models.category_models import Category
+from app.utils.file_utils import get_inventory_image
 
 user_services = CRUDService(User)
 borrow_services= CRUDService(Borrowing)
+inventory_service = CRUDService(Inventory)
+category_service = CRUDService(Category)
 
+
+def home_user_controller(request):
+    if request.method == 'GET':
+        
+
+        item_list = inventory_service.get()
+        categories = category_service.get()
+        
+        category_items = {category.name.lower(): [] for category in categories}
+
+        for item in item_list:
+            item.image_url = get_inventory_image(item.image)
+            category_name = item.category.name.lower()
+            
+            if category_name in category_items:
+                category_items[category_name].append(item)
+            else:
+                category_items[category_name] = [item]
+        return render_template('user/main.html',categories=categories, category_items=category_items)
+    return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
 
 def cusers(request,users_id=None):
     if request.method == 'GET':

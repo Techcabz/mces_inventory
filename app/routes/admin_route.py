@@ -53,7 +53,7 @@ def inventory(inventory_id=None):
 @admin.route('/reports')
 @web_guard
 def reports():
-    return render_template('admin/logs.html')
+    return render_template('admin/reports.html')
 
 @admin.route('/receipts')
 @web_guard
