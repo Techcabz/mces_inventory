@@ -87,6 +87,7 @@ def borrowings_status(request, borrowing_id=None):
 
         inventory_service.update(inventory)
 
+    
     borrowing_service.update(borrowing.id, status=new_status)
 
     return jsonify({'success': True, 'message': 'Borrowing request updated successfully'}), 200
@@ -94,6 +95,7 @@ def borrowings_status(request, borrowing_id=None):
 
 def borrowings_done(request, borrowing_id=None):
     if request.method == 'PUT':
+        now = datetime.utcnow()
         borrowing = borrowing_service.get_one(id=borrowing_id)
 
         if not borrowing:
@@ -115,8 +117,10 @@ def borrowings_done(request, borrowing_id=None):
 
             inventory_service.update(inventory)
 
+        if new_status == "completed":
+            borrowing.return_date = now
             
-        borrowing_service.update(borrowing.id, status=new_status)
+        borrowing_service.update(borrowing.id, status=new_status, return_date=borrowing.return_date)
         return jsonify({'success': True, 'message': 'Borrowing completed'}), 200
     return jsonify({'error': False, 'message': 'Invalid Method'}), 400
 

@@ -22,6 +22,7 @@ class Borrowing(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     start_date = db.Column(db.DateTime, default=datetime.utcnow)
     end_date = db.Column(db.DateTime, nullable=True)
+    return_date = db.Column(db.DateTime, nullable=True)
     status = db.Column(Enum("pending", "approved", "cancelled", "completed", name="borrow_status"),
                        default="pending", nullable=False)
     uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(uuid.uuid4()))

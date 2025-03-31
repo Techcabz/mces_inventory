@@ -43,7 +43,7 @@
           </div>
         </h4>
         <div class="table-responsived">
-          <table id="datatable-pending" class="table table-borderless">
+          <table id="datatable-pending" class="table table-borderless w-100">
             <thead class="bg-gradient-success text-white">
               <tr>
                 <th>#</th>
@@ -75,9 +75,9 @@
                   {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
                   else 'N/A' }}
                 </td>
                 <td class="d-none">
@@ -153,9 +153,9 @@
                   {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
                   else 'N/A' }}
                 </td>
                 <td>
@@ -247,9 +247,9 @@
                   {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
                   else 'N/A' }}
                 </td>
                 <td>
@@ -298,6 +298,7 @@
                 <th>Users</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Returned Date</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -319,11 +320,16 @@
                   {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
-                <td>{{ borrowing.start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%Y-%m-%d') if borrowing.end_date
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
                   else 'N/A' }}
                 </td>
+                <td>
+                  {{ borrowing.return_date.strftime('%b %d, %Y') if borrowing.return_date
+                  else 'N/A' }}
+                </td>
+               
                 <td>
                   <span class="badge 
                           {% if borrowing.status == 'completed' %} bg-primary 

@@ -13,7 +13,7 @@
 button.dt-button {
   font-size: 12px !important;
 }
-
+ 
 </style>
 <div class="card">
   <div class="card-body p-3">
@@ -77,8 +77,8 @@ button.dt-button {
             <th>#</th>
 
             <th>Item</th>
-            <th>Start Date</th>
-            <th>End Date</th>
+            <th>Start Date / End Date</th>
+            <th>Return Date</th>
             <th>Borrower</th>
 
             <th class="d-none exclude-print">Status</th>
@@ -103,9 +103,10 @@ button.dt-button {
               </span>
               {% else %} No Items {% endif %}
             </td>
-            <td>{{ borrowing.start_date.strftime('%B %d, %Y') }}</td>
+            <td>{{ borrowing.start_date.strftime('%B %d, %Y') }} - {{ borrowing.end_date.strftime('%B %d, %Y') if borrowing.end_date
+              else 'N/A' }}</td>
             <td>
-              {{ borrowing.end_date.strftime('%B %d, %Y') if borrowing.end_date
+              {{ borrowing.return_date.strftime('%B %d, %Y') if borrowing.return_date
               else 'N/A' }}
             </td>
 
