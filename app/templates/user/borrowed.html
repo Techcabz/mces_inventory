@@ -1,204 +1,351 @@
 {% extends "user/templates/user_layout.html" %} {% block user_content %}
 <main class="main-content mt-5">
-    <div class="page-header min-vh-75">
-        <div class="container mt-lg-5 mt-sm-5 mt-md-5" style="margin-top:10vh !important">
-            <div class="card p-3">
-                <!-- Tabs -->
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending"
-                            type="button" role="tab" aria-controls="pending" aria-selected="true">
-                            PENDING
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved"
-                            type="button" role="tab" aria-controls="approved" aria-selected="false">
-                            APPROVED
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="canceled-tab" data-bs-toggle="tab" data-bs-target="#canceled"
-                            type="button" role="tab" aria-controls="canceled" aria-selected="false">
-                            RECENT / CANCELED
-                        </button>
-                    </li>
-                </ul>
+  <div class="page-header min-vh-75">
+    <div
+      class="container mt-lg-5 mt-sm-5 mt-md-5"
+      style="margin-top: 10vh !important"
+    >
+      <div class="card p-3">
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="pending-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#pending"
+              type="button"
+              role="tab"
+              aria-controls="pending"
+              aria-selected="true"
+            >
+              PENDING
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="approved-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#approved"
+              type="button"
+              role="tab"
+              aria-controls="approved"
+              aria-selected="false"
+            >
+              APPROVED
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="canceled-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#canceled"
+              type="button"
+              role="tab"
+              aria-controls="canceled"
+              aria-selected="false"
+            >
+              CANCELED
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="completed-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#completed"
+              type="button"
+              role="tab"
+              aria-controls="canceled"
+              aria-selected="false"
+            >
+              COMPLETED
+            </button>
+          </li>
+        </ul>
 
-                <!-- Tab Content -->
-                <div class="tab-content mt-3" id="myTabContent">
-                    <!-- Pending Tab -->
-                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                        <div class="table-responsive">
-                            <table id="datatable" class="table table-borderless w-100">
-                                <thead class="bg-gradient-success text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Reference</th>
-                                        <th>Item</th>
-                                        <th>Date Start / End</th>
-                                        <th style="width: 160px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for borrowing in borrowings %}
-                                    {% if borrowing.status == 'pending' and borrowing.user_id == session['user_id'] %}
-                                    <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td><strong>{{ borrowing.reference_number }}</strong></td>
-                                        <td>
-                                            {% if borrowing.inventory_titles %}
-                                            <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ ', '.join(borrowing.inventory_titles) }}">
-                                                {{ borrowing.inventory_titles | join(', ') | truncate(40, True) }}
-                                            </span>
-                                            {% else %}
-                                            No Items
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <span>{{ borrowing.start_date.strftime('%b %d, %Y') }}</span> -
-                                                <span>{{ borrowing.end_date.strftime('%b %d, %Y') }}</span>
-                                            </div>
-                                        </td>
+        <!-- Tab Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+          <!-- Pending Tab -->
+          <div
+            class="tab-pane fade show active"
+            id="pending"
+            role="tabpanel"
+            aria-labelledby="pending-tab"
+          >
+            <div class="table-responsive">
+              <table
+                id="datatable-pending"
+                class="table table-borderless w-100"
+              >
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Item</th>
+                    <th>Date Start / End</th>
+                    <th style="width: 160px">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for borrowing in borrowings %} {% if borrowing.status ==
+                  'pending' and borrowing.user_id == session['user_id'] %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ borrowing.reference_number }}</strong></td>
+                    <td>
+                      {% if borrowing.inventory_titles %}
+                      <span
+                        class="truncate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ ', '.join(borrowing.inventory_titles) }}"
+                      >
+                        {{ borrowing.inventory_titles | join(', ') |
+                        truncate(40, True) }}
+                      </span>
+                      {% else %} No Items {% endif %}
+                    </td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <span
+                          >{{ borrowing.start_date.strftime('%b %d, %Y')
+                          }}</span
+                        >
+                        -
+                        <span
+                          >{{ borrowing.end_date.strftime('%b %d, %Y') }}</span
+                        >
+                      </div>
+                    </td>
 
-                                        <td>
-                                            <a href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
-                                                class="badge bg-gradient-primary custom-cursor hover:text-white">
-                                                VIEW
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Approved Tab -->
-                    <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
-                        <div class="table-responsive">
-                            <table id="datatable1" class="table table-borderless w-100">
-                                <thead class="bg-gradient-success text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Reference</th>
-                                        <th>Item</th>
-
-                                        <th>Date Start / End</th>
-                                        <th>Day Left / Overdue</th>
-                                        <th style="width: 160px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for borrowing in borrowings if borrowing.status == 'approved' and
-                                    borrowing.user_id == session['user_id'] %}
-                                    <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td><strong>{{ borrowing.reference_number }}</strong></td>
-                                        <td>
-                                            {% if borrowing.inventory_titles %}
-                                            <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ ', '.join(borrowing.inventory_titles) }}">
-                                                {{ borrowing.inventory_titles | join(', ') | truncate(40, True) }}
-                                            </span>
-                                            {% else %}
-                                            No Items
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <span>{{ borrowing.start_date.strftime('%b %d, %Y') }}</span> -
-                                                <span>{{ borrowing.end_date.strftime('%b %d, %Y') }}</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {% if borrowing.days_remaining > 0 %}
-                                            <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }}
-                                                days</span>
-                                            {% elif borrowing.days_late > 0 %}
-                                            <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
-                                            {% else %}
-                                            <span class="badge bg-secondary">Remaining: 0 days</span> {# No more "N/A"
-                                            #}
-                                            {% endif %}
-
-
-                                        </td>
-                                        <td>
-                                            <a href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
-                                                class="badge bg-gradient-primary custom-cursor hover:text-white">
-                                                VIEW
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Canceled / Recent Tab -->
-                    <div class="tab-pane fade" id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
-                        <div class="table-responsive">
-                            <table id="datatable2" class="table table-borderless w-100">
-                                <thead class="bg-gradient-success text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Reference</th>
-                                        <th>Item</th>
-                                        <th>Status</th>
-                                        <th style="width: 160px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for borrowing in borrowings if borrowing.status in ['cancelled', 'completed'] and
-                                    borrowing.user_id == session['user_id'] %}
-                                    <tr>
-                                        <td>{{ loop.index }}</td>
-                                        <td><strong>{{ borrowing.reference_number }}</strong></td>
-                                        <td>
-                                            {% if borrowing.inventory_titles %}
-                                            <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ ', '.join(borrowing.inventory_titles) }}">
-                                                {{ borrowing.inventory_titles | join(', ') | truncate(40, True) }}
-                                            </span>
-                                            {% else %}
-                                            No Items
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <span class="badge 
-                                                    {% if borrowing.status == 'completed' %} bg-primary 
-                                                    {% elif borrowing.status == 'pending' %} bg-warning 
-                                                    {% elif borrowing.status == 'approved' %} bg-success 
-                                                    {% elif borrowing.status == 'cancelled' %} bg-danger 
-                                                    {% endif %}">
-                                                {{ borrowing.status | capitalize }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
-                                                class="badge bg-gradient-primary custom-cursor hover:text-white">
-                                                VIEW
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> <!-- End Canceled Tab -->
-
-
-                </div> <!-- End Tab Content -->
+                    <td>
+                      <a
+                        href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
+                        class="badge bg-gradient-primary custom-cursor hover:text-white"
+                      >
+                        VIEW
+                      </a>
+                    </td>
+                  </tr>
+                  {% endif %} {% endfor %}
+                </tbody>
+              </table>
             </div>
+          </div>
+
+          <!-- Approved Tab -->
+          <div
+            class="tab-pane fade"
+            id="approved"
+            role="tabpanel"
+            aria-labelledby="approved-tab"
+          >
+            <div class="table-responsive">
+              <table
+                id="datatable-approved"
+                class="table table-borderless w-100"
+              >
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Item</th>
+
+                    <th>Date Start / End</th>
+                    <th>Day Left / Overdue</th>
+                    <th style="width: 160px">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for borrowing in borrowings if borrowing.status ==
+                  'approved' and borrowing.user_id == session['user_id'] %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ borrowing.reference_number }}</strong></td>
+                    <td>
+                      {% if borrowing.inventory_titles %}
+                      <span
+                        class="truncate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ ', '.join(borrowing.inventory_titles) }}"
+                      >
+                        {{ borrowing.inventory_titles | join(', ') |
+                        truncate(40, True) }}
+                      </span>
+                      {% else %} No Items {% endif %}
+                    </td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <span
+                          >{{ borrowing.start_date.strftime('%b %d, %Y')
+                          }}</span
+                        >
+                        -
+                        <span
+                          >{{ borrowing.end_date.strftime('%b %d, %Y') }}</span
+                        >
+                      </div>
+                    </td>
+                    <td>
+                      {% if borrowing.days_remaining > 0 %}
+                      <span class="badge bg-success"
+                        >Remaining: {{ borrowing.days_remaining }} days</span
+                      >
+                      {% elif borrowing.days_late > 0 %}
+                      <span class="badge bg-danger"
+                        >Overdue: {{ borrowing.days_late }} days</span
+                      >
+                      {% else %}
+                      <span class="badge bg-secondary">Remaining: 0 days</span>
+                      {# No more "N/A" #} {% endif %}
+                    </td>
+                    <td>
+                      <a
+                        href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
+                        class="badge bg-gradient-primary custom-cursor hover:text-white"
+                      >
+                        VIEW
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Canceled / Recent Tab -->
+          <div
+            class="tab-pane fade"
+            id="canceled"
+            role="tabpanel"
+            aria-labelledby="canceled-tab"
+          >
+            <div class="table-responsive">
+              <table
+                id="datatable-cancelled"
+                class="table table-borderless w-100"
+              >
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th style="width: 160px">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for borrowing in borrowings if borrowing.status in
+                  ['cancelled'] and borrowing.user_id == session['user_id'] %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ borrowing.reference_number }}</strong></td>
+                    <td>
+                      {% if borrowing.inventory_titles %}
+                      <span
+                        class="truncate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ ', '.join(borrowing.inventory_titles) }}"
+                      >
+                        {{ borrowing.inventory_titles | join(', ') |
+                        truncate(40, True) }}
+                      </span>
+                      {% else %} No Items {% endif %}
+                    </td>
+                    <td>
+                      <span
+                        class="badge {% if borrowing.status == 'completed' %} bg-primary {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}"
+                      >
+                        {{ borrowing.status | capitalize }}
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
+                        class="badge bg-gradient-primary custom-cursor hover:text-white"
+                      >
+                        VIEW
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Canceled Tab -->
+
+          <div
+            class="tab-pane fade"
+            id="completed"
+            role="tabpanel"
+            aria-labelledby="canceled-tab"
+          >
+            <div class="table-responsive">
+              <table
+                id="datatable-cancelled"
+                class="table table-borderless w-100"
+              >
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Reference</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th style="width: 160px">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for borrowing in borrowings if borrowing.status in
+                  ['completed'] and borrowing.user_id == session['user_id'] %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ borrowing.reference_number }}</strong></td>
+                    <td>
+                      {% if borrowing.inventory_titles %}
+                      <span
+                        class="truncate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ ', '.join(borrowing.inventory_titles) }}"
+                      >
+                        {{ borrowing.inventory_titles | join(', ') |
+                        truncate(40, True) }}
+                      </span>
+                      {% else %} No Items {% endif %}
+                    </td>
+                    <td>
+                      <span
+                        class="badge {% if borrowing.status == 'completed' %} bg-primary {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}"
+                      >
+                        {{ borrowing.status | capitalize }}
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        href="{{ url_for('main.user_borrowed', borrow_uuid=borrowing.uuid) }}"
+                        class="badge bg-gradient-primary custom-cursor hover:text-white"
+                      >
+                        VIEW
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Canceled Tab -->
         </div>
+        <!-- End Tab Content -->
+      </div>
     </div>
+  </div>
 </main>
 {% endblock %}

@@ -14,6 +14,24 @@ inventory_service = CRUDService(Inventory)
 borrowing_service = CRUDService(Borrowing)
 cancel_service = CRUDService(BorrowingDetails)
 
+
+def report(request):
+    borrowing_list = Borrowing.query.all() 
+    borrowings = [] 
+    for borrowing in borrowing_list:
+        borrowing.inventory_item = borrowing.cart_items[0].inventory_item if borrowing.cart_items else None  
+
+          
+        if borrowing.get_cart_items:
+            borrowing.inventory_titles = [
+                f"{cart_item.inventory_item.title.capitalize()} (Qty: {cart_item.quantity})"
+                for cart_item in borrowing.cart_items if cart_item.inventory_item
+            ]
+        else:
+            borrowing.inventory_titles = []
+    return render_template('admin/reports.html', borrowings=borrowing_list)
+
+
 def borrowings(request, item_uuid=None):
    if request.method == 'GET':
         now = datetime.utcnow()

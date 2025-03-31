@@ -2,7 +2,7 @@ from . import admin,web_guard,request,render_template
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import update_admin_profile,add_admin_profile,cusers,user_approved,user_disapproved,get_profiles_admin,update_profile_user
-from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
+from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done, report
 from app.controllers.receipts_controller import receiptGenerate,generate_pdf_custom
 from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data
 
@@ -53,7 +53,7 @@ def inventory(inventory_id=None):
 @admin.route('/reports')
 @web_guard
 def reports():
-    return render_template('admin/reports.html')
+    return report(request)
 
 @admin.route('/receipts')
 @web_guard

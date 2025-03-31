@@ -21,14 +21,16 @@ def dashboard_set():
     total_borrowing_count = borrow_services.count()  
     user_pending = user_service.count(status=0) 
     user_count = user_service.count()
-    
+    item_count = inventory_service.count()
+
     return render_template(
         'admin/dashboard.html',
         pending_count=pending_count,
         approved_count=approved_count,
         total_borrowing_count=total_borrowing_count,  
         user_count=user_count,
-        user_pending=user_pending
+        user_pending=user_pending,
+         item_count=item_count
 
     )
 
