@@ -34,6 +34,12 @@ def dashboard_set():
 
     )
 
+def pending_check_controller():
+    pending_count = borrow_services.count(status='pending')
+    return jsonify({
+        "pending_count": pending_count
+    })
+    
 
 def borrowing_chart_data():
     borrowings = borrow_services.get()  

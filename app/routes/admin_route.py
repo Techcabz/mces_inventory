@@ -4,7 +4,7 @@ from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import update_admin_profile,add_admin_profile,cusers,user_approved,user_disapproved,get_profiles_admin,update_profile_user
 from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done, report
 from app.controllers.receipts_controller import receiptGenerate,generate_pdf_custom
-from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data
+from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data,pending_check_controller
 
 
 # ADMINISTRATOR
@@ -114,3 +114,8 @@ def update_admin_profiles():
 @web_guard
 def borrowing_chart_datas():
     return borrowing_chart_data()
+
+@admin.route('/pending_checker')
+@web_guard
+def pending_checker():
+    return pending_check_controller()

@@ -48,3 +48,32 @@ export function showConfirmationDialog(title, confirmText, denyText, onConfirm, 
     }
   });
 }
+
+export function countdownAlert(message, seconds = 3, position = "top-end") {
+  let timerInterval;
+
+  Swal.fire({
+    title: message,
+    html: "This will close in <b></b> seconds.",
+    toast: true,
+    position: position,
+    timer: seconds * 1000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+      const timerEl = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timerEl.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    }
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("⏳ Countdown alert auto-closed.");
+    }
+  });
+}
+

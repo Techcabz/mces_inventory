@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block content %}
-
+<script type="module" src="{{ url_for('static', filename='js/checker.js') }}"></script>
+ 
 <body class="g-sidenav-show  bg-gray-100">
   {% include 'admin/template/partials/_sidebar.html' %}
 
