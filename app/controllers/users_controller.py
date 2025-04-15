@@ -40,8 +40,19 @@ def cusers(request,users_id=None):
     if request.method == 'GET':
         users = user_services.get()
         pending_count = sum(1 for user in users if user.status == 0)
-
         return render_template('admin/users.html', users=users, pendingCount=pending_count)
+    elif request.method == 'DELETE':
+        if not users_id:
+            return jsonify({'success': False, 'message': 'User ID is required.'}), 400
+        
+        existing_user = user_services.get_one(id=users_id)
+        if not existing_user:
+            return jsonify({'success': False, 'message': 'User not found.'}), 404
+        
+        delete_success = user_services.delete(users_id)
+        if delete_success:
+            return jsonify({'success': True, 'message': 'User deleted successfully!'}), 200
+        return jsonify({'success': False, 'message': 'Error deleting user.'}), 500
     return jsonify({'success': False, 'message': 'Create method must be POST.'}), 405
 
 def user_approved(request,users_id=None):

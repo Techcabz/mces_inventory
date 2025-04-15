@@ -19,7 +19,7 @@ class Borrowing(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     reference_number = db.Column(db.String(15), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     start_date = db.Column(db.DateTime, default=datetime.utcnow)
     end_date = db.Column(db.DateTime, nullable=True)
     return_date = db.Column(db.DateTime, nullable=True)
@@ -30,7 +30,7 @@ class Borrowing(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
-    user = db.relationship('User', backref=db.backref('borrowings', lazy=True))
+    user = db.relationship('User', back_populates='borrowings', passive_deletes=True)
     cart_items = db.relationship('Cart', secondary=borrowing_cart, backref='borrowed_by')
 
     def generate_reference_number(self):

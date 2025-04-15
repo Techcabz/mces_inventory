@@ -1,4 +1,8 @@
-import { setLoadingState, alert, showConfirmationDialog } from "./helper.module.js";
+import {
+  setLoadingState,
+  alert,
+  showConfirmationDialog,
+} from "./helper.module.js";
 
 // categoryForm
 const categoryForm = document.querySelector("#categoryForm");
@@ -51,7 +55,7 @@ if (updatecategoryForm) {
       });
 
       const data = await response.json();
-     
+
       if (response.ok) {
         alert("success", "top", data.message);
 
@@ -81,7 +85,6 @@ function showUpdateForm(id, name) {
   updateModal.show();
 }
 
-
 function deleteCategory(id) {
   if (confirm("Are you sure you want to delete this category?")) {
     fetch("/admin/category", {
@@ -104,6 +107,36 @@ function deleteCategory(id) {
       });
   }
 }
+
+function deleteUser(id) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Deleting this user will also remove all related data (e.g., borrowing, reports). This cannot be undone.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/admin/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            alert("success", "top", "User deleted successfully!");
+            location.reload();
+          } else {
+            alert("warning", "top", "Error deleting user.");
+          }
+        });
+    }
+  });
+}
+
 // categoryForm END
 
 const inventoryForm = document.querySelector("#inventoryForm");
@@ -122,7 +155,7 @@ if (inventoryForm) {
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         alert("success", "top", data.message);
 
@@ -156,7 +189,7 @@ if (updateInventoryForm) {
       });
 
       const data = await response.json();
-     if (response.ok) {
+      if (response.ok) {
         alert("success", "top", data.message);
 
         setTimeout(() => {
@@ -239,7 +272,7 @@ if (borrowForm) {
     const button = document.querySelector("#borrowingButton");
     setLoadingState(button, true);
     try {
-      const response = await fetch('/users/borrow_item', {
+      const response = await fetch("/users/borrow_item", {
         method: "POST",
         body: formData,
       });
@@ -253,7 +286,6 @@ if (borrowForm) {
         }, 2000);
         setLoadingState(button, false);
       } else {
-
         alert("warning", "top", data.message);
         setLoadingState(button, false);
       }
@@ -264,7 +296,6 @@ if (borrowForm) {
     }
   });
 }
-
 
 const cartForm = document.querySelector("#cartForm");
 if (cartForm) {
@@ -291,7 +322,6 @@ if (cartForm) {
           window.location.href = `/users/item/${uuid}`;
         }, 2000);
       } else {
-
         alert("warning", "top", data.message);
         setLoadingState(button, false);
       }
@@ -381,7 +411,9 @@ if (profileFormUserAdmin) {
   });
 }
 
-const profileFormUserAdminAdd = document.querySelector("#profileFormUserAdminAdd");
+const profileFormUserAdminAdd = document.querySelector(
+  "#profileFormUserAdminAdd"
+);
 if (profileFormUserAdminAdd) {
   profileFormUserAdminAdd.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -420,7 +452,9 @@ if (profileFormUserAdminAdd) {
   });
 }
 
-const profileFormUpdateAdmin = document.querySelector("#profileFormUpdateAdmin");
+const profileFormUpdateAdmin = document.querySelector(
+  "#profileFormUpdateAdmin"
+);
 if (profileFormUpdateAdmin) {
   profileFormUpdateAdmin.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -499,21 +533,21 @@ if (profileUpdateAdmin) {
 }
 
 function showUpdateUser(id, name) {
-  
   fetch(`/admin/get_profile_admin/${id}`)
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.success) {
-        document.getElementById('profile_user_id').value = data.user.id;
+        document.getElementById("profile_user_id").value = data.user.id;
 
-        document.getElementById('ausername').value = data.user.username || "N/A";
-        document.getElementById('afname').value = data.user.firstname || "N/A";
-        document.getElementById('amname').value = data.user.middlename || "N/A";
-        document.getElementById('alname').value = data.user.lastname || "N/A";
-        document.getElementById('aaddress').value = data.user.address || "N/A";
-        document.getElementById('acontact').value = data.user.contact || "N/A";
-        
-        let sexSelect = document.getElementById('asex');
+        document.getElementById("ausername").value =
+          data.user.username || "N/A";
+        document.getElementById("afname").value = data.user.firstname || "N/A";
+        document.getElementById("amname").value = data.user.middlename || "N/A";
+        document.getElementById("alname").value = data.user.lastname || "N/A";
+        document.getElementById("aaddress").value = data.user.address || "N/A";
+        document.getElementById("acontact").value = data.user.contact || "N/A";
+
+        let sexSelect = document.getElementById("asex");
         if (sexSelect) {
           for (let option of sexSelect.options) {
             if (option.value.toLowerCase() === data.user.sex.toLowerCase()) {
@@ -530,44 +564,40 @@ function showUpdateUser(id, name) {
         );
         updateModal.show();
       } else {
-        alert('warning','top','Failed to load profile data.');
+        alert("warning", "top", "Failed to load profile data.");
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error fetching profile data:", error);
-      alert('warning','top','Error fetching profile data.');
+      alert("warning", "top", "Error fetching profile data.");
     });
 }
 
 function showUpdateAdmin(id, name) {
-  
   fetch(`/admin/get_profile_admin/${id}`)
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.success) {
-        document.getElementById('aueprofile_user_id').value = data.user.id;
-        document.getElementById('auesername').value = data.user.username || "N/A";
-       
-    
+        document.getElementById("aueprofile_user_id").value = data.user.id;
+        document.getElementById("auesername").value =
+          data.user.username || "N/A";
 
         var updateModal = new bootstrap.Modal(
           document.getElementById("profileUAdminEditModal")
         );
         updateModal.show();
       } else {
-        alert('warning','top','Failed to load profile data.');
+        alert("warning", "top", "Failed to load profile data.");
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error fetching profile data:", error);
-      alert('warning','top','Error fetching profile data.');
+      alert("warning", "top", "Error fetching profile data.");
     });
 }
 
-
 // dom calling
 document.addEventListener("DOMContentLoaded", function () {
-
   const searchBar = document.getElementById("search-bar");
   const categoriesContainer = document.getElementById("default-card");
   const searchResultsContainer = document.getElementById(
@@ -600,14 +630,20 @@ document.addEventListener("DOMContentLoaded", function () {
                   <div class="col">
                     <a href="/users/item/${item.uuid}">
                       <div class="card">
-                        <img class="card-img-top" src="${item.image_url}" alt="${item.title}">
+                        <img class="card-img-top" src="${
+                          item.image_url
+                        }" alt="${item.title}">
                         <div class="card-body">
                           <span class="card-title d-flex justify-content-between">
                             <strong>${item.title}</strong>
                           </span>
                           <div class="d-flex justify-content-between align-items-center">
-                            <p class="card-text m-0">Qty: <strong>${item.quantity}</strong></p>
-                            <span class="badge ${getStatusClass(item.status)}">${item.status}</span>
+                            <p class="card-text m-0">Qty: <strong>${
+                              item.quantity
+                            }</strong></p>
+                            <span class="badge ${getStatusClass(
+                              item.status
+                            )}">${item.status}</span>
                           </div>
                         </div>
                       </div>
@@ -621,7 +657,8 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         } catch (error) {
           console.error("Error fetching search results:", error);
-          searchResultsList.innerHTML = "<p>Error loading results. Please try again.</p>";
+          searchResultsList.innerHTML =
+            "<p>Error loading results. Please try again.</p>";
         }
       } else {
         categoriesContainer.style.display = "block";
@@ -630,7 +667,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
 
   function getStatusClass(status) {
     switch (status) {
@@ -647,8 +683,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
-  const cartTable = document.getElementById("datatable");
+  const cartTable = document.getElementById("datatablefix");
   if (cartTable) {
     // Update Quantity
     cartTable.addEventListener("change", function (event) {
@@ -659,12 +694,12 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch("/users/cart_update", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })
+          body: JSON.stringify({ cart_id: cartId, quantity: newQuantity }),
         })
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.success) {
               alert("success", "top", "Cart updated successfully!");
               location.reload();
@@ -673,7 +708,7 @@ document.addEventListener("DOMContentLoaded", function () {
               location.reload();
             }
           })
-          .catch(error => console.error("Error updating cart:", error));
+          .catch((error) => console.error("Error updating cart:", error));
       }
     });
 
@@ -685,12 +720,12 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch("/users/cart_remove", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cart_id: cartId })
+          body: JSON.stringify({ cart_id: cartId }),
         })
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.success) {
               alert("success", "top", "Item removed from cart.");
               location.reload(); // Remove row from table
@@ -698,12 +733,10 @@ document.addEventListener("DOMContentLoaded", function () {
               alert("danger", "top", data.message);
             }
           })
-          .catch(error => console.error("Error removing cart item:", error));
+          .catch((error) => console.error("Error removing cart item:", error));
       }
     });
-
   }
-
 
   document.querySelectorAll(".edit-category").forEach((button) => {
     button.addEventListener("click", function () {
@@ -712,7 +745,6 @@ document.addEventListener("DOMContentLoaded", function () {
       showUpdateForm(id, name);
     });
   });
-
 
   document.querySelectorAll(".delete-category").forEach((button) => {
     button.addEventListener("click", function () {
@@ -736,7 +768,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-
   document.querySelectorAll(".edit-profile-user").forEach((button) => {
     button.addEventListener("click", function () {
       const id = this.dataset.id;
@@ -754,7 +785,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.addEventListener("click", function (event) {
-
     if (event.target.classList.contains("bUserA")) {
       let userID = event.target.getAttribute("data-user-id");
 
@@ -783,9 +813,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("error", "top", error.message);
           }
         },
-        () => {
-
-        }
+        () => {}
       );
     }
 
@@ -800,7 +828,7 @@ document.addEventListener("DOMContentLoaded", function () {
           try {
             const response = await fetch(`/admin/users/disapproved/${userID}`, {
               method: "DELETE",
-              headers: { "Content-Type": "application/json" }
+              headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
@@ -816,9 +844,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("error", "top", error.message);
           }
         },
-        () => {
-
-        }
+        () => {}
       );
     }
 
@@ -840,13 +866,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "completed" }),
           })
-            .then(response => response.json())
-            .then(data => {
-            
+            .then((response) => response.json())
+            .then((data) => {
               alert("success", "top", data.message);
               location.reload();
             })
-            .catch(error => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error));
         }
       });
     }
@@ -868,13 +893,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "approved" }),
           })
-            .then(response => response.json())
-            .then(data => {
-             
+            .then((response) => response.json())
+            .then((data) => {
               alert("success", "top", data.message);
               location.reload();
             })
-            .catch(error => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error));
         }
       });
     }
@@ -898,13 +922,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "cancelled", reason: reason }),
           })
-            .then(response => response.json())
-            .then(data => {
-             
+            .then((response) => response.json())
+            .then((data) => {
               alert("success", "top", data.message);
               location.reload();
             })
-            .catch(error => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error));
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // Only trigger cancel if the cancel button is clicked
 
@@ -913,12 +936,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "cancelled" }),
           })
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
               alert("success", "top", data.message);
               location.reload();
             })
-            .catch(error => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error));
         }
       });
     }
@@ -939,17 +962,28 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status: "cancelled" }),
           })
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
               alert("success", "top", data.message);
               location.reload();
             })
-            .catch(error => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error));
         }
       });
     }
   });
 
+  document.querySelectorAll(".delete-admin").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteUser(id);
+    });
+  });
 
+  document.querySelectorAll(".delete-user").forEach((button) => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      deleteUser(id);
+    });
+  });
 });
-

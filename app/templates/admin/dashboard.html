@@ -11,7 +11,7 @@
               <p class="text-sm mb-0 text-capitalize font-weight-bold">
                 Borrow Pending
               </p>
-              <h3 class="font-weight-bolder mb-0 text-danger">{{ pending_count }}</h3>
+              <h3 class="font-weight-bolder mb-0 {{ 'text-danger' if pending_count >= 1 else '' }}">{{ pending_count }}</h3>
             </div>
             <div
               class="icon icon-shape bg-gradient-success shadow text-center border-radius-md"

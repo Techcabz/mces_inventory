@@ -111,12 +111,15 @@ def register_user_controller(request):
             contact=contact
         )
 
+        session.clear() 
+        
         if new_user:
             log_service.create(name="User Registration", level="INFO", message=f"New user registered: {username}", user_id=new_user.id)
             return jsonify({'success': True, 'message': 'Registration successful! Please log in.'}), 200
         else:
             log_service.create(name="User Registration Failed", level="ERROR", message=f"Failed registration attempt for username: {username}")   
             return jsonify({'success': False, 'message': 'Failed to register. Please try again.'}), 500
+
 
     return jsonify({'success': False, 'message': 'Invalid request method.'}), 405
 
