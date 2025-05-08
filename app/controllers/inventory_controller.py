@@ -23,19 +23,19 @@ def inventories(request, inventory_id=None):
             
             inventory_data = inventory.serialize()
             inventory_data["image_url"] = get_inventory_image(inventory.image)
-            
             return jsonify(inventory_data), 200
 
         inventory_list = inventory_service.get()
         categories = category_service.get()
         
-        
+       
         for item in inventory_list:
             item.image_url = get_inventory_image(item.image)
-        
+            
         return render_template('admin/inventory.html', inventories=inventory_list, categories=categories)
     elif request.method == 'POST':
         title = request.form.get('title', '').lower()
+        inv_tag = request.form.get('inv_tag', '')
         category_id = request.form.get('category_id', '')
         property_no = request.form.get('property_no', '').lower()
         date_acquired = request.form.get('date_acquired', '')
@@ -45,7 +45,7 @@ def inventories(request, inventory_id=None):
         school = request.form.get('school', '').lower()
         qty = request.form.get('qty', '')
         
-        if not all([title, category_id,  date_acquired, cost,  officer, qty]):
+        if not all([title, category_id,  date_acquired, cost,  officer, qty,inv_tag]):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400
 
         # if not Validation.is_valid_name(title):
@@ -75,6 +75,7 @@ def inventories(request, inventory_id=None):
        
         # Create and save inventory
         inventory_service.create( title=title,
+            inv_tag=inv_tag,
             category_id=category_id,
             property_no=property_no,
             date_acquired=date_acquired,
@@ -89,6 +90,7 @@ def inventories(request, inventory_id=None):
         if inventory_id:
             inventory = inventory_service.get_one(id=inventory_id)
             title = request.form.get('title', '').lower()
+            inv_tag = request.form.get('inv_tag', '')
             category_id = request.form.get('category_id', '')
             property_no = request.form.get('property_no', '').lower()
             date_acquired = request.form.get('date_acquired', '')
@@ -98,7 +100,7 @@ def inventories(request, inventory_id=None):
             school = request.form.get('school', '').lower()
             qty = request.form.get('qty', '')
        
-            if not all([title, category_id,  date_acquired, cost, officer, qty]):
+            if not all([title, category_id,  date_acquired, cost, officer, qty,inv_tag]):
                 return jsonify({'success': False, 'message': 'All fields are required.'}), 400
 
             # if not Validation.is_valid_name(title):
@@ -132,7 +134,7 @@ def inventories(request, inventory_id=None):
                 filename = compressed_filename
               
             # Create and save inventory
-            inventory_service.update(inventory_id, title=title,
+            inventory_service.update(inventory_id, title=title,inv_tag=inv_tag,
                 category_id=category_id,
                 property_no=property_no,
                 date_acquired=date_acquired,

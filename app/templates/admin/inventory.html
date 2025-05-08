@@ -22,8 +22,9 @@
         <thead class="bg-gradient-success text-white">
           <tr>
             <th>#</th>
-            <th>Title</th>
             <th>Image</th>
+            <th>Title</th>
+            <th>Inventory Tag No.</th>
             <th>Property No</th>
             <th>Category</th>
             <th>Quantity</th>
@@ -47,7 +48,9 @@
               />
             </td>
             <td class="cell">{{ inventory.title.capitalize() }}</td>
+            <td class="cell">{{ inventory.inv_tag or 'N/A' }}</td>
             <td class="cell">{{ inventory.property_no or 'N/A' }}</td>
+            
             <td class="cell">
               {{ inventory.category.name.capitalize() if inventory.category else
               'Uncategorized' }}

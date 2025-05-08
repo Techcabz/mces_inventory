@@ -1,84 +1,169 @@
-<div class="modal fade" id="profileUserModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">PROFILE DETAILS</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card" style="background: #d8ebe0">
-                    <div class="card-body p-3">
-                        <form id="profileForm">
-                            <!-- Username -->
-                            <div class="mb-2">
-                                <label class="form-label">Username</label>
-                                <input type="text" id="username" name="username" class="form-control" readonly />
-                            </div>
+<div
+  class="modal fade"
+  id="profileUserModal"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">PROFILE DETAILS</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="background: #d8ebe0">
+          <div class="card-body p-3">
+            <form id="profileForm">
+              <!-- Username -->
+              <div class="mb-2">
+                <label class="form-label">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  readonly
+                />
+              </div>
 
-                            <!-- Full Name -->
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="mb-2">
-                                        <label class="form-label">First Name <span style="color: red">*</span></label></label>
-                                        <input type="text" id="fname" name="fname" class="form-control" required />
-                                    </div>
+              <!-- Full Name -->
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-2">
+                    <label class="form-label"
+                      >First Name <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="fname"
+                      name="fname"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-2">
+                    <label class="form-label">Middle Name</label>
+                    <input
+                      type="text"
+                      id="mname"
+                      name="mname"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-2">
+                <label class="form-label"
+                  >Last Name <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="lname"
+                  name="lname"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-2">
+                <label class="form-label"
+                  >Email<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  readonly
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  required
+                />
+              </div>
 
-                                </div>
-                                <div class="col-6">
-                                    <div class="mb-2">
-                                        <label class="form-label">Middle Name</label>
-                                        <input type="text" id="mname" name="mname" class="form-control"  />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Last Name <span style="color: red">*</span></label></label>
-                                <input type="text" id="lname" name="lname" class="form-control" required />
-                            </div>
-                            <div class="row">
-                                <div class="col-6 mb-2">
-                                    <label class="form-label">Contact <span style="color: red">*</span></label></label>
-                                    <input type="text" id="contact" name="contact" class="form-control" required />
-                                </div>
-                                <div class="col-6 mb-2">
-                                    <label class="form-label">Sex <span style="color: red">*</span></label></label>
-                                    <select id="sex" name="sex" class="form-control" required>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                            </div>
+              <div class="row">
+                <div class="col-6 mb-2">
+                  <label class="form-label"
+                    >Contact <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="col-6 mb-2">
+                  <label class="form-label"
+                    >Sex <span style="color: red">*</span></label
+                  >
+                  <select id="sex" name="sex" class="form-control" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
 
+              <!-- Address -->
+              <div class="mb-2">
+                <label class="form-label"
+                  >Address <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  class="form-control"
+                  required
+                />
+              </div>
 
-                            <!-- Address -->
-                            <div class="mb-2">
-                                <label class="form-label">Address <span style="color: red">*</span></label></label>
-                                <input type="text" id="address" name="address" class="form-control" required />
-                            </div>
+              <!-- Password Update with Old Password Verification -->
+              <div class="mb-3">
+                <label class="form-label"
+                  >Current Password (required to change password)</label
+                >
+                <input
+                  type="password"
+                  id="currentPassword"
+                  name="currentPassword"
+                  class="form-control"
+                  placeholder="Enter current password"
+                />
+              </div>
 
-                            <!-- Password Update with Old Password Verification -->
-                            <div class="mb-3">
-                                <label class="form-label">Current Password (required to change password)</label>
-                                <input type="password" id="currentPassword" name="currentPassword" class="form-control"
-                                    placeholder="Enter current password" />
-                            </div>
+              <div class="mb-3">
+                <label class="form-label">New Password (optional)</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  class="form-control"
+                  placeholder="Leave blank to keep current password"
+                />
+              </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">New Password (optional)</label>
-                                <input type="password" id="newPassword" name="newPassword" class="form-control"
-                                    placeholder="Leave blank to keep current password" />
-                            </div>
-
-
-                            <!-- Save Button -->
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="profileButtonUpdate" data-loading-text="Save Changes...">Save
-                                    Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div> 
-            </div> 
-        </div> 
-    </div> 
+              <!-- Save Button -->
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="profileButtonUpdate"
+                  data-loading-text="Save Changes..."
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

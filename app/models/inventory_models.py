@@ -8,6 +8,7 @@ class Inventory(db.Model):
     __tablename__ = 'inventory'
 
     id = db.Column(db.Integer, primary_key=True)
+    inv_tag = db.Column(db.String(120), unique=True, nullable=False)
     title = db.Column(db.String(120), unique=True, nullable=False)
     property_no = db.Column(db.String(255), unique=False, nullable=True)
     date_acquired = db.Column(db.Date, nullable=True)
@@ -34,6 +35,7 @@ class Inventory(db.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "inv_tag": self.inv_tag,
             "category_id": self.category_id,
             "category": self.category.name if self.category else 'Uncategorized',
             "property_no": self.property_no,
@@ -41,7 +43,7 @@ class Inventory(db.Model):
             "cost": float(self.cost),  # Ensure cost is properly serialized
             "unit": self.unit,
             "fund_source": self.fund_source,
-            "officer": self.officer,
+            "officer": self.officer, 
             "school": self.school,
             "quantity": self.quantity,
             "status": self.status,
@@ -51,4 +53,4 @@ class Inventory(db.Model):
         }
 
     def __repr__(self):
-        return f"<Inventory {self.id}: {self.title}, Quantity: {self.quantity}, Unit: {self.unit}, Cost: {self.cost}, Status: {self.status}>"
+        return f"<Inventory {self.id}: {self.title}, Quantity: {self.quantity}, Unit: {self.unit}, Cost: {self.cost}, Status: {self.status}, Inv_tag: {self.inv_tag}>"

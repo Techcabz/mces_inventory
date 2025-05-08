@@ -75,8 +75,8 @@ if (updatecategoryForm) {
 }
 
 function showUpdateForm(id, name) {
-  document.getElementById("updatecategoryForm").querySelector("#id").value = id;
-  document.getElementById("updatecategoryForm").querySelector("#name").value =
+  document.getElementById("updatecategoryForm").querySelector("#cu_id").value = id;
+  document.getElementById("updatecategoryForm").querySelector("#cu_name").value =
     name;
 
   var updateModal = new bootstrap.Modal(
@@ -182,6 +182,7 @@ if (updateInventoryForm) {
     const button = document.querySelector("#inventoryButtonUpdate");
     setLoadingState(button, true);
     const id = formData.get("id");
+
     try {
       const response = await fetch(`/admin/inventory/${id}`, {
         method: "PUT",
@@ -207,8 +208,6 @@ if (updateInventoryForm) {
   });
 }
 async function showInvUpdateForm(id) {
-  document.getElementById("updatecategoryForm").querySelector("#id").value = id;
-
   try {
     const response = await fetch(`/admin/inventory/${id}`, { method: "GET" });
 
@@ -218,18 +217,18 @@ async function showInvUpdateForm(id) {
 
     const data = await response.json();
     const form = document.getElementById("updateInventoryForm");
-
-    form.querySelector("#title").value = data.title || "";
-    form.querySelector("#category_id").value = data.category_id || "";
-    form.querySelector("#property_no").value = data.property_no || "";
-    form.querySelector("#date_acquired").value = data.date_acquired || "";
-    form.querySelector("#cost").value = data.cost || "";
-    form.querySelector("#fund_source").value = data.fund_source || "";
-    form.querySelector("#officer").value = data.officer || "";
-    form.querySelector("#school").value = data.school || "";
-    form.querySelector("#qty").value = data.quantity || "";
-    form.querySelector("#unit").value = data.unit || "";
-    form.querySelector("#id").value = data.id || "";
+    form.querySelector("#u_title").value = data.title || "";
+    form.querySelector("#u_category_id").value = data.category_id || "";
+    form.querySelector("#u_property_no").value = data.property_no || "";
+    form.querySelector("#u_date_acquired").value = data.date_acquired || "";
+    form.querySelector("#u_cost").value = data.cost || "";
+    form.querySelector("#u_fund_source").value = data.fund_source || "";
+    form.querySelector("#u_officer").value = data.officer || "";
+    form.querySelector("#u_school").value = data.school || "";
+    form.querySelector("#u_qty").value = data.quantity || "";
+    form.querySelector("#u_unit").value = data.unit || "";
+    form.querySelector("#u_id").value = data.id || "";
+    form.querySelector("#u_inv_tag").value = data.inv_tag || "";
 
     var updateModal = new bootstrap.Modal(
       document.getElementById("updateInventory")
@@ -544,6 +543,8 @@ function showUpdateUser(id, name) {
         document.getElementById("afname").value = data.user.firstname || "N/A";
         document.getElementById("amname").value = data.user.middlename || "N/A";
         document.getElementById("alname").value = data.user.lastname || "N/A";
+        document.getElementById("aemail").value = data.user.email || "N/A";
+       
         document.getElementById("aaddress").value = data.user.address || "N/A";
         document.getElementById("acontact").value = data.user.contact || "N/A";
 

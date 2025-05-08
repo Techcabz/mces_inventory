@@ -69,7 +69,7 @@ if (loginForm) {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("error", "top", error);
+      alert("error", "top", "Please try again.");
       setLoadingState(loginButton, false);
     }
   });

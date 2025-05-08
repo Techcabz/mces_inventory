@@ -17,9 +17,8 @@ $(document).ready(function () {
     }
 
     if (document.getElementById(id)) {
-      console.log(id)
       $(`#${id}`).DataTable({
-        dom: id === "datatablefix" ? "lfrtip" : "l<br>Bfrtip", 
+        dom: id === "datatablefix" ? "lfrtip" : "l<br>Bfrtip",
         buttons:
           id === "datatablefix"
             ? []
@@ -56,7 +55,6 @@ $(document).ready(function () {
                 },
                 "excel",
                 "pdf",
-                "colvis",
               ],
         responsive: {
           details: true,
@@ -83,8 +81,10 @@ $(document).ready(function () {
     }
   });
 
-  $("#datatable_report").each(function () {
-    var table = $("#datatable_report").DataTable({
+  let tableIDReport = ["datatable_report", "datatable_report1", "datatable_report2", "datatable_report3"];
+
+  tableIDReport.forEach(function (id) {
+    var table = $("#" + id).DataTable({
       dom: "Bfrtip",
       buttons: [
         {
@@ -109,58 +109,65 @@ $(document).ready(function () {
         ],
       },
     });
-
-    var filterType = $("#filter-status");
-    var monthFilter = $("#month");
-    var weekFilter = $("#week-filter");
-
-    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-      var typefilterValue = filterType.val().toLowerCase();
-      var monthFilterValue = monthFilter.val().toLowerCase();
-      var weekFilterValue = weekFilter.val();
-
-      var rowData = table.row(dataIndex).data();
-      var rowStatus = rowData[5].toLowerCase();
-      var rowDate = new Date(rowData[3]);
-      var rowMonth = convertDateToMonthName(rowDate).toLowerCase();
-      var rowWeek = getWeekNumber(rowDate);
-
-      if (typefilterValue !== "all" && !rowStatus.includes(typefilterValue)) {
-        return false;
+  
+    // Apply filtering logic only to datatable_report
+    if (id === "datatable_report") {
+      var filterType = $("#filter-status");
+      var monthFilter = $("#month");
+      var weekFilter = $("#week-filter");
+  
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        // Make sure this filter only applies to the correct table
+        if (settings.nTable.id !== "datatable_report") return true;
+  
+        var typefilterValue = filterType.val().toLowerCase();
+        var monthFilterValue = monthFilter.val().toLowerCase();
+        var weekFilterValue = weekFilter.val();
+  
+        var rowData = data; // data is passed directly
+        var rowStatus = rowData[5].toLowerCase();
+        var rowDate = new Date(rowData[3]);
+        var rowMonth = convertDateToMonthName(rowDate).toLowerCase();
+        var rowWeek = getWeekNumber(rowDate);
+  
+        if (typefilterValue !== "all" && !rowStatus.includes(typefilterValue)) {
+          return false;
+        }
+  
+        if (monthFilterValue !== "all" && rowMonth !== monthFilterValue) {
+          return false;
+        }
+  
+        if (weekFilterValue !== "all" && rowWeek !== parseInt(weekFilterValue)) {
+          return false;
+        }
+  
+        return true;
+      });
+  
+      function convertDateToMonthName(date) {
+        return date.toLocaleString("en-US", { month: "long" });
       }
-
-      if (monthFilterValue !== "all" && rowMonth !== monthFilterValue) {
-        return false;
+  
+      function getWeekNumber(date) {
+        var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        var dayOfWeek = firstDayOfMonth.getDay();
+        var weekNumber = Math.ceil((date.getDate() + dayOfWeek) / 7);
+        return weekNumber;
       }
-
-      if (weekFilterValue !== "all" && rowWeek !== parseInt(weekFilterValue)) {
-        return false;
-      }
-
-      return true;
-    });
-
-    function convertDateToMonthName(date) {
-      return date.toLocaleString("en-US", { month: "long" });
+  
+      filterType.on("change", function () {
+        table.draw();
+      });
+      monthFilter.on("change", function () {
+        table.draw();
+      });
+      weekFilter.on("change", function () {
+        table.draw();
+      });
+  
+      table.draw();
     }
-
-    function getWeekNumber(date) {
-      var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-      var dayOfWeek = firstDayOfMonth.getDay();
-      var weekNumber = Math.ceil((date.getDate() + dayOfWeek) / 7);
-      return weekNumber;
-    }
-
-    filterType.on("change", function () {
-      table.draw();
-    });
-    monthFilter.on("change", function () {
-      table.draw();
-    });
-    weekFilter.on("change", function () {
-      table.draw();
-    });
-
-    table.draw();
   });
+  
 });

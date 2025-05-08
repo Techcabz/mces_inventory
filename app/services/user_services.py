@@ -80,6 +80,7 @@ class UserService:
             default_data = {
                 "firstname": "admin",
                 "lastname": "admin",
+                "email": "admin@gmail.com",
                 "middlename": "",
                 "sex": "male",
                 "status": 1,

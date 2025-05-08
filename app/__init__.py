@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from config import DevelopmentConfig, ProductionConfig, Config
 from app.services.user_services import UserService
 from datetime import datetime
-from app.extensions import db, migrate
+from app.extensions import db, migrate, mail, celery
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 from app.models.user_models import User
@@ -14,6 +14,10 @@ from app.models.borrowing_models import Borrowing
 from app.models.logs_models import Logs
 from app.models.borrowing_details_model import BorrowingDetails
 from app.models.cart_models import Cart
+from celery_config import init_celery
+from app.tasks.apscheduler import start_scheduler
+
+from flask_mail import Mail
 
 def create_app():
     app = Flask(__name__)
@@ -27,11 +31,15 @@ def create_app():
         app.config.from_object(DevelopmentConfig)
 
     Config.Initialize_database()
+    Config.initialize_sqlite_db()
+    start_scheduler()
     
     # Initialize SQLAlchemy
     db.init_app(app)
     Migrate(app, db)
-    
+    mail.init_app(app) 
+    init_celery(app)
+     
     with app.app_context():
         db.create_all()
         UserService.create_default_admin()
@@ -46,6 +54,7 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
     
+   
     # Register blueprints
     from app.routes import all_blueprints
    
@@ -64,7 +73,7 @@ def create_app():
     for blueprint in all_blueprints:
         app.register_blueprint(blueprint)
        
-
+  
     # Error handler for 404
     @app.errorhandler(404)
     def page_not_found(e):

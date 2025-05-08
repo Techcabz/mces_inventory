@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     lastname = db.Column(db.String(120), nullable=False)
     middlename = db.Column(db.String(120), nullable=False)
     sex = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=True)
     status = db.Column(db.Integer, default=0, nullable=False, comment="0=Pending, 1=Approved, 2=Blocked")
     address = db.Column(db.String(255), nullable=False)
     contact = db.Column(db.String(20), nullable=False)
@@ -34,9 +35,10 @@ class User(UserMixin, db.Model):
  
     @property
     def fullname(self):
-        return f"{self.firstname} {self.middlename} {self.lastname}".strip()
+        midname = "" if self.middlename.strip().lower() == "n/a" else self.middlename
+        return f"{self.firstname} {midname} {self.lastname}".strip()
 
 
     def __repr__(self):
-        return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname} {self.status}>"
+        return f"<User {self.id}: {self.firstname} {self.middlename} {self.lastname} {self.email} {self.status}>"
 

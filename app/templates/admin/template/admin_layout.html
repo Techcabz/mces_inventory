@@ -1,60 +1,87 @@
 {% extends "base.html" %} {% block content %}
-<script type="module" src="{{ url_for('static', filename='js/checker.js') }}"></script>
- 
-<body class="g-sidenav-show  bg-gray-100">
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/checker.js') }}"
+></script>
+
+<body class="g-sidenav-show bg-gray-100">
   {% include 'admin/template/partials/_sidebar.html' %}
 
   <!-- partial -->
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    {% include 'admin/template/partials/_navbar.html' %}
-    {% include 'admin/template/_modal.html' %}
-    <div class=" container-fluid py-4 background-1">
+  <main
+    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+  >
+    {% include 'admin/template/partials/_navbar.html' %} {% include
+    'admin/template/_modal.html' %}
+    <div class="container-fluid py-4 background-1">
       {% block admin_content %} {% endblock %}
     </div>
-
   </main>
   <script>
     function fetchAdminData(button) {
       let userId = button.getAttribute("data-id");
 
       fetch(`/admin/get_profile_admin/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
+        .then((response) => response.json())
+        .then((data) => {
           if (data.success) {
-            document.getElementById('pusername').value = data.user.username;
-            document.getElementById('pprofile_user_id').value = data.user.id;
-
+            document.getElementById("pusername").value = data.user.username;
+            document.getElementById("pprofile_user_id").value = data.user.id;
           } else {
-            alert('Failed to load profile data.');
+            alert("Failed to load profile data.");
           }
         })
-        .catch(error => console.error('Error fetching user data:', error));
+        .catch((error) => console.error("Error fetching user data:", error));
     }
 
-
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("borrowing_chart_data")  
-        .then(response => response.json())
-        .then(data => {
-          function getRandomColor() {
-            let colors = ["#8e44ad", "#2c3e50", "#d35400", "#f39c12", "#16a085", "#7f8c8d", "#27ae60", "#c0392b", "#2980b9"];
-            return colors[Math.floor(Math.random() * colors.length)];
-          }
+      const chartContainer = document.getElementById("borrowing_chart");
 
-          Highcharts.chart('borrowing_chart', {
-            chart: { type: 'column' },
-            title: { text: 'Borrowing Status Per Month' },
-            xAxis: { categories: data.categories, title: { text: 'Month' } },
-            yAxis: { title: { text: 'Count' } },
-            series: [
-              { name: 'Cancelled', data: data.cancelled, color: getRandomColor()  },
-              { name: 'Completed', data: data.completed, color: getRandomColor()  }
-            ],
-            legend: { layout: 'horizontal', align: 'center', verticalAlign: 'bottom' }
+      if (chartContainer) {
+        fetch("borrowing_chart_data")
+          .then((response) => response.json())
+          .then((data) => {
+            function getRandomColor() {
+              let colors = [
+                "#8e44ad",
+                "#2c3e50",
+                "#d35400",
+                "#f39c12",
+                "#16a085",
+                "#7f8c8d",
+                "#27ae60",
+                "#c0392b",
+                "#2980b9",
+              ];
+              return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            Highcharts.chart("borrowing_chart", {
+              chart: { type: "column" },
+              title: { text: "Borrowing Status Per Month" },
+              xAxis: { categories: data.categories, title: { text: "Month" } },
+              yAxis: { title: { text: "Count" } },
+              series: [
+                {
+                  name: "Cancelled",
+                  data: data.cancelled,
+                  color: getRandomColor(),
+                },
+                {
+                  name: "Completed",
+                  data: data.completed,
+                  color: getRandomColor(),
+                },
+              ],
+              legend: {
+                layout: "horizontal",
+                align: "center",
+                verticalAlign: "bottom",
+              },
+            });
           });
-        });
+      }
     });
   </script>
-  </div>
-  {% endblock %}
+</body>
+{% endblock %}

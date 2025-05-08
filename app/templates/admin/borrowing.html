@@ -2,33 +2,71 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button"
-      role="tab" aria-controls="pending" aria-selected="true">
+    <button
+      class="nav-link active"
+      id="pending-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#pending"
+      type="button"
+      role="tab"
+      aria-controls="pending"
+      aria-selected="true"
+    >
       PENDING
     </button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved" type="button" role="tab"
-      aria-controls="approved" aria-selected="false">
+    <button
+      class="nav-link"
+      id="approved-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#approved"
+      type="button"
+      role="tab"
+      aria-controls="approved"
+      aria-selected="false"
+    >
       APPROVED
     </button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="canceled-tab" data-bs-toggle="tab" data-bs-target="#canceled" type="button" role="tab"
-      aria-controls="canceled" aria-selected="false">
-       CANCELED
+    <button
+      class="nav-link"
+      id="canceled-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#canceled"
+      type="button"
+      role="tab"
+      aria-controls="canceled"
+      aria-selected="false"
+    >
+      CANCELED
     </button>
+  </li>
 
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab"
-        aria-controls="canceled" aria-selected="false">
-       COMPLETED
-      </button>
+  <li class="nav-item" role="presentation">
+    <button
+      class="nav-link"
+      id="completed-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#completed"
+      type="button"
+      role="tab"
+      aria-controls="canceled"
+      aria-selected="false"
+    >
+      COMPLETED
+    </button>
   </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+  <div
+    class="tab-pane fade show active"
+    id="pending"
+    role="tabpanel"
+    aria-labelledby="pending-tab"
+  >
     <div class="card">
       <div class="card-body p-3">
         <h4 class="card-title">
@@ -58,47 +96,64 @@
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %}
-              {% if borrowing.status == 'pending' %}
+              {% for borrowing in borrowings %} {% if borrowing.status ==
+              'pending' %}
               <tr>
                 <td>{{ loop.index }}</td>
 
-                <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                <td>
+                  <span class="border p-1 border-dark font-weight-bold"
+                    >{{ borrowing.reference_number }}</span
+                  >
+                </td>
                 <td>
                   {% if borrowing.inventory_titles %}
-                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="{{ ', '.join(borrowing.inventory_titles) }}">
-                    {{ borrowing.inventory_titles | join(', ') | truncate(40, True) }}
+                  <span
+                    class="truncate"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}"
+                  >
+                    {{ borrowing.inventory_titles | join(', ') | truncate(40,
+                    True) }}
                   </span>
-                  {% else %}
-                  No Items
-                  {% endif %}
+                  {% else %} No Items {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
                 <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
-                  else 'N/A' }}
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if
+                  borrowing.end_date else 'N/A' }}
                 </td>
                 <td class="d-none">
                   <span
-                    class=" badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}">
+                    class="badge {% if borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancel' %} bg-danger {% endif %}"
+                  >
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>
                 <td>
-                  <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
-                    <span class="badge bg-success custom-cursor bApproved" data-borrowing-id="{{ borrowing.id }}"
+                  <div
+                    class="d-flex justify-content-center align-items-center gap-2 mt-1"
+                  >
+                    <span
+                      class="badge bg-success custom-cursor bApproved"
+                      data-borrowing-id="{{ borrowing.id }}"
                       data-inventory-id="{{ borrowing.inventory_item.id }}"
-                      data-inventory-qty="{{ borrowing.quantity }}">APPROVED</span>
-                    <span class="badge bg-danger custom-cursor bDisapproved" data-borrowing-id="{{ borrowing.id }}"
+                      data-inventory-qty="{{ borrowing.quantity }}"
+                      >APPROVED</span
+                    >
+                    <span
+                      class="badge bg-danger custom-cursor bDisapproved"
+                      data-borrowing-id="{{ borrowing.id }}"
                       data-inventory-id="{{ borrowing.inventory_item.id }}"
-                      data-inventory-qty="{{ borrowing.quantity }}">Cancel</span>
+                      data-inventory-qty="{{ borrowing.quantity }}"
+                      >Cancel</span
+                    >
                   </div>
                 </td>
               </tr>
-              {% endif %}
-              {% endfor %}
+              {% endif %} {% endfor %}
             </tbody>
           </table>
         </div>
@@ -106,7 +161,12 @@
     </div>
   </div>
 
-  <div class="tab-pane fade show " id="approved" role="tabpanel" aria-labelledby="approved-tab">
+  <div
+    class="tab-pane fade show"
+    id="approved"
+    role="tabpanel"
+    aria-labelledby="approved-tab"
+  >
     <div class="card">
       <div class="card-body p-3">
         <h4 class="card-title">
@@ -136,54 +196,80 @@
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %}
-              {% if borrowing.status == 'approved' %}
+              {% for borrowing in borrowings %} {% if borrowing.status ==
+              'approved' %}
               <tr>
                 <td>{{ loop.index }}</td>
 
-                <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                <td>
+                  <span class="border p-1 border-dark font-weight-bold"
+                    >{{ borrowing.reference_number }}</span
+                  >
+                </td>
                 <td>
                   {% if borrowing.inventory_titles %}
-                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="{{ ', '.join(borrowing.inventory_titles) }}">
-                    {{ borrowing.inventory_titles | join(', ') | truncate(20, True) }}
+                  <span
+                    class="truncate"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}"
+                  >
+                    {{ borrowing.inventory_titles | join(', ') | truncate(20,
+                    True) }}
                   </span>
-                  {% else %}
-                  No Items
-                  {% endif %}
+                  {% else %} No Items {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
                 <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
-                  else 'N/A' }}
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if
+                  borrowing.end_date else 'N/A' }}
                 </td>
                 <td>
                   {% if borrowing.days_remaining > 0 %}
-                  <span class="badge bg-success">Remaining: {{ borrowing.days_remaining }} days</span>
+                  <span class="badge bg-success"
+                    >Remaining: {{ borrowing.days_remaining }} days</span
+                  >
                   {% elif borrowing.days_late > 0 %}
-                  <span class="badge bg-danger">Overdue: {{ borrowing.days_late }} days</span>
+                  <span class="badge bg-danger"
+                    >Overdue: {{ borrowing.days_late }} days</span
+                  >
                   {% else %}
-                  <span class="badge bg-secondary">Remaining: 0 days</span> {# No more "N/A" #}
-                  {% endif %}
+                  <span class="badge bg-secondary">Remaining: 0 days</span> {#
+                  No more "N/A" #} {% endif %}
                 </td>
                 <td>
                   <div class="dropdown d-flex justify-content-center">
-                    <button class="btn btn-secondary btn-custom btn-sm dropdown-toggle" type="button"
-                      id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button
+                      class="btn btn-secondary btn-custom btn-sm dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
                       <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
                       <div class="dropdown-item">
                         <div class="d-flex align-items-center gap-3">
-                          <span class="badge bg-success custom-cursor bDone" data-borrowing-id="{{ borrowing.id }}"
+                          <span
+                            class="badge bg-success custom-cursor bDone"
+                            data-borrowing-id="{{ borrowing.id }}"
                             data-inventory-id="{{ borrowing.inventory_item.id }}"
-                            data-inventory-qty="{{ borrowing.quantity }}">
+                            data-inventory-qty="{{ borrowing.quantity }}"
+                          >
                             MARK AS DONE
                           </span>
-                          <span class="badge bg-danger custom-cursor bDisapproved"
-                            data-borrowing-id="{{ borrowing.id }}" data-inventory-id="{{ borrowing.inventory_item.id }}"
-                            data-inventory-qty="{{ borrowing.quantity }}">
+                          <span
+                            class="badge bg-danger custom-cursor bDisapproved"
+                            data-borrowing-id="{{ borrowing.id }}"
+                            data-inventory-id="{{ borrowing.inventory_item.id }}"
+                            data-inventory-qty="{{ borrowing.quantity }}"
+                          >
                             CANCEL
                           </span>
                         </div>
@@ -192,8 +278,7 @@
                   </div>
                 </td>
               </tr>
-              {% endif %}
-              {% endfor %}
+              {% endif %} {% endfor %}
             </tbody>
           </table>
         </div>
@@ -201,13 +286,18 @@
     </div>
   </div>
 
-  <div class="tab-pane fade show " id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
+  <div
+    class="tab-pane fade show"
+    id="canceled"
+    role="tabpanel"
+    aria-labelledby="canceled-tab"
+  >
     <div class="card">
       <div class="card-body p-3">
         <h4 class="card-title">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class="m-0 font-weight-bold text-primary">
-               CANCELED {{ request.endpoint.split('.')[-1] | upper }} LIST
+              CANCELED {{ request.endpoint.split('.')[-1] | upper }} LIST
             </h5>
             <button type="button" class="btn bg-gradient-success d-none">
               <i class="fa fa-plus-square"></i>&nbsp;Add new {{
@@ -230,42 +320,44 @@
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %} {% if borrowing.status == 'cancelled'
-              %}
+              {% for borrowing in borrowings %} {% if borrowing.status ==
+              'cancelled' %}
               <tr>
                 <td>{{ loop.index }}</td>
 
-                <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                <td>
+                  <span class="border p-1 border-dark font-weight-bold"
+                    >{{ borrowing.reference_number }}</span
+                  >
+                </td>
                 <td>
                   {% if borrowing.inventory_titles %}
-                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="{{ ', '.join(borrowing.inventory_titles) }}">
-                    {{ borrowing.inventory_titles | join(', ') | truncate(20, True) }}
+                  <span
+                    class="truncate"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}"
+                  >
+                    {{ borrowing.inventory_titles | join(', ') | truncate(20,
+                    True) }}
                   </span>
-                  {% else %}
-                  No Items
-                  {% endif %}
+                  {% else %} No Items {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
                 <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
-                  else 'N/A' }}
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if
+                  borrowing.end_date else 'N/A' }}
                 </td>
                 <td>
-                  <span class="badge 
-                          {% if borrowing.status == 'completed' %} bg-primary 
-                          {% elif borrowing.status == 'pending' %} bg-warning 
-                          {% elif borrowing.status == 'approved' %} bg-success 
-                          {% elif borrowing.status == 'cancelled' %} bg-danger 
-                          {% endif %}">
+                  <span
+                    class="badge {% if borrowing.status == 'completed' %} bg-primary {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}"
+                  >
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>
-
               </tr>
-              {% endif %}
-              {% endfor %}
+              {% endif %} {% endfor %}
             </tbody>
           </table>
         </div>
@@ -273,7 +365,12 @@
     </div>
   </div>
 
-  <div class="tab-pane fade show " id="completed" role="tabpanel" aria-labelledby="completed-tab">
+  <div
+    class="tab-pane fade show"
+    id="completed"
+    role="tabpanel"
+    aria-labelledby="completed-tab"
+  >
     <div class="card">
       <div class="card-body p-3">
         <h4 class="card-title">
@@ -303,47 +400,49 @@
               </tr>
             </thead>
             <tbody>
-              {% for borrowing in borrowings %} {% if  borrowing.status == 'completed'
-              %}
+              {% for borrowing in borrowings %} {% if borrowing.status ==
+              'completed' %}
               <tr>
                 <td>{{ loop.index }}</td>
 
-                <td> <span class="border p-1 border-dark font-weight-bold">{{ borrowing.reference_number }}</span></td>
+                <td>
+                  <span class="border p-1 border-dark font-weight-bold"
+                    >{{ borrowing.reference_number }}</span
+                  >
+                </td>
                 <td>
                   {% if borrowing.inventory_titles %}
-                  <span class="truncate" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="{{ ', '.join(borrowing.inventory_titles) }}">
-                    {{ borrowing.inventory_titles | join(', ') | truncate(20, True) }}
+                  <span
+                    class="truncate"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="{{ ', '.join(borrowing.inventory_titles) }}"
+                  >
+                    {{ borrowing.inventory_titles | join(', ') | truncate(20,
+                    True) }}
                   </span>
-                  {% else %}
-                  No Items
-                  {% endif %}
+                  {% else %} No Items {% endif %}
                 </td>
                 <td>{{ borrowing.user.fullname }}</td>
                 <td>{{ borrowing.start_date.strftime('%b %d, %Y') }}</td>
                 <td>
-                  {{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date
-                  else 'N/A' }}
+                  {{ borrowing.end_date.strftime('%b %d, %Y') if
+                  borrowing.end_date else 'N/A' }}
                 </td>
                 <td>
-                  {{ borrowing.return_date.strftime('%b %d, %Y') if borrowing.return_date
-                  else 'N/A' }}
+                  {{ borrowing.return_date.strftime('%b %d, %Y') if
+                  borrowing.return_date else 'N/A' }}
                 </td>
-               
+
                 <td>
-                  <span class="badge 
-                          {% if borrowing.status == 'completed' %} bg-primary 
-                          {% elif borrowing.status == 'pending' %} bg-warning 
-                          {% elif borrowing.status == 'approved' %} bg-success 
-                          {% elif borrowing.status == 'cancelled' %} bg-danger 
-                          {% endif %}">
+                  <span
+                    class="badge {% if borrowing.status == 'completed' %} bg-primary {% elif borrowing.status == 'pending' %} bg-warning {% elif borrowing.status == 'approved' %} bg-success {% elif borrowing.status == 'cancelled' %} bg-danger {% endif %}"
+                  >
                     {{ borrowing.status | capitalize }}
                   </span>
                 </td>
-
               </tr>
-              {% endif %}
-              {% endfor %}
+              {% endif %} {% endfor %}
             </tbody>
           </table>
         </div>
@@ -371,6 +470,14 @@
         tabInstance.show();
       }
     }
+
+    var myTab = document.querySelectorAll("#myTab button");
+    myTab.forEach(function (tab) {
+      tab.addEventListener("shown.bs.tab", function (event) {
+        var activeTab = event.target.getAttribute("data-bs-target");
+        window.location.hash = activeTab;
+      });
+    });
   });
 </script>
 

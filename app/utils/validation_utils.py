@@ -25,6 +25,12 @@ class Validation:
         return "." in filename and filename.rsplit(".", 1)[1].lower() in Validation.ALLOWED_EXTENSIONS
     
     @staticmethod
+    def is_valid_email(email):
+        """Check if the email format is valid."""
+        email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return bool(re.match(email_regex, email))
+
+    @staticmethod
     def is_valid_password(password):
         if len(password) < 8:
             return "Password must be at least 8 characters long."

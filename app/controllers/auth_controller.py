@@ -62,12 +62,13 @@ def register_user_controller(request):
         middlename = request.form.get('middlename', '').lower()  # Optional
         sex = request.form.get('sex', '').lower()
         address = request.form.get('address', '').lower()
+        email = request.form.get('email')
         contact = request.form.get('contact')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
         # Validate fields
-        if not all([username, firstname, lastname, sex, address, contact, password, confirm_password]):
+        if not all([username, firstname, lastname, sex, address, contact, password, confirm_password, email]):
             return jsonify({'success': False, 'message': 'All fields are required.'}), 400
 
         if username == "admin":
@@ -78,8 +79,11 @@ def register_user_controller(request):
         if Validation.has_repeated_characters(firstname):
             return jsonify({'success': False, 'message': 'First name must not have three or more consecutive repeated characters.'}), 400
 
+        if not Validation.is_valid_email(email):
+            return jsonify({'success': False, 'message': 'Invalid email address format.'}), 400
+
         if not Validation.is_valid_name(lastname):
-            return jsonify({'success': False, 'message': 'Last name must contain only letters.'}), 400
+            return jsonify( {'success': False, 'message': 'Last name must contain only letters.'}), 400
         if Validation.has_repeated_characters(lastname):
             return jsonify({'success': False, 'message': 'Last name must not have three or more consecutive repeated characters.'}), 400
         
@@ -107,6 +111,7 @@ def register_user_controller(request):
             lastname=lastname,
             middlename=middlename,
             sex=sex,
+            email=email,
             address=address,
             contact=contact
         )

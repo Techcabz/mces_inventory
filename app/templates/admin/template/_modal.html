@@ -1,23 +1,41 @@
-<!-- category start -->
-<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="addCategory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="profileModalLabel">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
             <form id="categoryForm" method="post">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
                 <input type="text" id="name" name="name" class="form-control" />
               </div>
-              <button type="submit" id="categoryButton" data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0">
+              <button
+                type="submit"
+                id="categoryButton"
+                data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0"
+              >
                 Submit
               </button>
             </form>
@@ -28,26 +46,50 @@
   </div>
 </div>
 
-<div class="modal fade" id="updateCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="updateCategory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">
+        <h5 class="modal-title">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
             <form id="updatecategoryForm" method="put">
               <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                <input type="hidden" id="id" name="id" />
-                <input type="text" id="name" name="name" class="form-control" />
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input type="hidden" id="cu_id" name="id" />
+                <input
+                  type="text"
+                  id="cu_name"
+                  name="name"
+                  class="form-control"
+                />
               </div>
-              <button type="submit" id="categoryButtonUpdate" data-loading-text="Submitting..."
-                class="btn bg-gradient-success w-100 mt-4 mb-0">
+              <button
+                type="submit"
+                id="categoryButtonUpdate"
+                data-loading-text="Submitting..."
+                class="btn bg-gradient-success w-100 mt-4 mb-0"
+              >
                 Update
               </button>
             </form>
@@ -60,32 +102,69 @@
 <!-- category end -->
 
 <!-- inventory start -->
-<div class="modal fade" id="addInventory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="addInventory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">
+        <h5 class="modal-title">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form id="inventoryForm" method="post" enctype="multipart/form-data">
+            <form
+              id="inventoryForm"
+              method="post"
+              enctype="multipart/form-data"
+            >
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Title/Article <span style="color: red;">*</span></label>
+                  <label>Inventory Tag <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Title/Article" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inv_tag"
+                      name="inv_tag"
+                     placeholder="Tag"
+                    />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Title/Article <span style="color: red">*</span></label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      name="title"
+                      placeholder="Title/Article"
+                    />
                     <div id="titleError" class="error-text"></div>
                   </div>
                 </div>
 
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Category <span style="color: red;">*</span> </label>
+                  <label>Category <span style="color: red">*</span> </label>
                   <div class="mb-2">
-                    <select class="form-select" id="category_id" name="category_id">
+                    <select
+                      class="form-select"
+                      id="category_id"
+                      name="category_id"
+                    >
                       <option value="" selected>Select Categories</option>
                       {% for category in categories %}
                       <option value="{{ category.id }}">
@@ -96,36 +175,47 @@
                     <div id="category_idError" class="error-text"></div>
                   </div>
                 </div>
-                <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Image </label>
-                  <div class="mb-2">
-                    <input type="file" class="form-control" id="image" name="image" placeholder="Image" />
-                    <div id="imageError" class="error-text"></div>
-                  </div>
-                </div>
               </div>
 
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Property No. </label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="property_no" name="property_no"
-                      placeholder="Property No." />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="property_no"
+                      name="property_no"
+                      placeholder="Property No."
+                    />
                     <div id="sfnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Date Acquired <span style="color: red;">*</span></label>
+                  <label>Date Acquired <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="date" class="form-control" id="date_acquired" name="date_acquired"
-                      placeholder="Date Acquired" />
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date_acquired"
+                      name="date_acquired"
+                      placeholder="Date Acquired"
+                    />
                     <div id="slnameError" class="error-text"></div>
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Aquisition Cost <span style="color: red;">*</span></label>
+                  <label
+                    >Aquisition Cost <span style="color: red">*</span></label
+                  >
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cost"
+                      name="cost"
+                      placeholder="Cost"
+                    />
                     <div id="smnameError" class="error-text"></div>
                   </div>
                 </div>
@@ -135,24 +225,41 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Unit</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" />
-                    <div id="sfnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="unit"
+                      name="unit"
+                      placeholder="Unit"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Fund Source</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="fund_source" name="fund_source"
-                      placeholder="Fund Source" />
-                    <div id="slnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fund_source"
+                      name="fund_source"
+                      placeholder="Fund Source"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Accountable Officer <span style="color: red;">*</span></label>
+                  <label
+                    >Accountable Officer
+                    <span style="color: red">*</span></label
+                  >
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="officer" name="officer"
-                      placeholder="Accountable Officer" value="" />
-                    <div id="smnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="officer"
+                      name="officer"
+                      placeholder="Accountable Officer"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>
@@ -160,21 +267,49 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Office/School</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="school" name="school" placeholder="Office/School" />
-                    <div id="titleError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="school"
+                      name="school"
+                      placeholder="Office/School"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Quantity <span style="color: red;">*</span></label>
+                  <label>Quantity <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="number" class="form-control" id="qty" name="qty" min="1" max="100"
-                      placeholder="Quantity" />
-                    <div id="titleError" class="error-text"></div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="qty"
+                      name="qty"
+                      min="1"
+                      max="100"
+                      placeholder="Quantity"
+                    />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Image </label>
+                  <div class="mb-2">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="image"
+                      name="image"
+                      placeholder="Image"
+                    />
+                    <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
               </div>
-              <button type="submit" id="inventoryButton" data-loading-text="Submitting..."
-                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0">
+              <button
+                type="submit"
+                id="inventoryButton"
+                data-loading-text="Submitting..."
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
+              >
                 Submit
               </button>
             </form>
@@ -185,32 +320,68 @@
   </div>
 </div>
 
-<div class="modal fade" id="updateInventory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="updateInventory"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">
+        <h5 class="modal-title">
           {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
           <div class="card-body p-3">
-            <form id="updateInventoryForm" method="put" enctype="multipart/form-data">
+            <form
+              id="updateInventoryForm"
+              method="put"
+              enctype="multipart/form-data"
+            >
               <div class="col-xl-12 col-lg-5 col-md-6 row">
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Title/Article <span style="color: red;">*</span></label>
+                  <label>Inventory Tag <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Title/Article" />
-                    <div id="titleError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_inv_tag"
+                      name="inv_tag"
+                      placeholder="Tag"
+                    />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Title/Article <span style="color: red">*</span></label>
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_title"
+                      name="title"
+                      placeholder="Title/Article"
+                    />
                   </div>
                 </div>
 
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Category <span style="color: red;">*</span></label>
+                  <label>Category <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <select class="form-select" id="category_id" name="category_id">
+                    <select
+                      class="form-select"
+                      id="u_category_id"
+                      name="category_id"
+                    >
                       <option value="" selected>Select Categories</option>
                       {% for category in categories %}
                       <option value="{{ category.id }}">
@@ -218,15 +389,6 @@
                       </option>
                       {% endfor %}
                     </select>
-                    <div id="category_idError" class="error-text"></div>
-                  </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Image </label>
-                  <div class="mb-2">
-                    <input type="file" class="form-control" id="image" name="image" placeholder="Image" />
-                    <div id="imageError" class="error-text"></div>
                   </div>
                 </div>
               </div>
@@ -235,24 +397,39 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Property No. </label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="property_no" name="property_no"
-                      placeholder="Property No." />
-                    <div id="sfnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_property_no"
+                      name="property_no"
+                      placeholder="Property No."
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Date Acquired <span style="color: red;">*</span></label>
+                  <label>Date Acquired <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="date" class="form-control" id="date_acquired" name="date_acquired"
-                      placeholder="Date Acquired" />
-                    <div id="slnameError" class="error-text"></div>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="u_date_acquired"
+                      name="date_acquired"
+                      placeholder="Date Acquired"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Aquisition Cost <span style="color: red;">*</span></label>
+                  <label
+                    >Aquisition Cost <span style="color: red">*</span></label
+                  >
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost" />
-                    <div id="smnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_cost"
+                      name="cost"
+                      placeholder="Cost"
+                    />
                   </div>
                 </div>
               </div>
@@ -261,24 +438,40 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Unit</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" />
-                    <div id="sfnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_unit"
+                      name="unit"
+                      placeholder="Unit"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Fund Source</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="fund_source" name="fund_source"
-                      placeholder="Fund Source" />
-                    <div id="slnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_fund_source"
+                      name="fund_source"
+                      placeholder="Fund Source"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Accountable Officer <span style="color: red;">*</span></label>
+                  <label
+                    >Accountable Officer
+                    <span style="color: red">*</span></label
+                  >
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="officer" name="officer"
-                      placeholder="Accountable Officer" />
-                    <div id="smnameError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_officer"
+                      name="officer"
+                      placeholder="Accountable Officer"
+                    />
                   </div>
                 </div>
               </div>
@@ -286,22 +479,50 @@
                 <div class="col-xl-4 col-lg-5 col-md-6">
                   <label>Office/School</label>
                   <div class="mb-2">
-                    <input type="text" class="form-control" id="school" name="school" placeholder="Office/School" />
-                    <div id="titleError" class="error-text"></div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="u_school"
+                      name="school"
+                      placeholder="Office/School"
+                    />
                   </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
-                  <label>Quantity <span style="color: red;">*</span></label>
+                  <label>Quantity <span style="color: red">*</span></label>
                   <div class="mb-2">
-                    <input type="number" class="form-control" id="qty" name="qty" min="1" max="100"
-                      placeholder="Quantity" />
-                    <div id="titleError" class="error-text"></div>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="u_qty"
+                      name="qty"
+                      min="1"
+                      max="100"
+                      placeholder="Quantity"
+                    />
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-6">
+                  <label>Image </label>
+                  <div class="mb-2">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="u_image"
+                      name="image"
+                      placeholder="Image"
+                    />
                   </div>
                 </div>
               </div>
-              <input type="hidden" id="id" name="id" />
-              <button type="submit" id="inventoryButtonUpdate" data-loading-text="Submitting..."
-                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0">
+
+              <input type="hidden" id="u_id" name="id" />
+              <button
+                type="submit"
+                id="inventoryButtonUpdate"
+                data-loading-text="Submitting..."
+                class="btn d-flex justify-content-center m-auto bg-gradient-success w-50 mt-4 mb-0"
+              >
                 Update
               </button>
             </form>
@@ -314,14 +535,25 @@
 <!-- inventory end -->
 
 <!-- user table pending -->
-<div class="modal fade" id="pendingUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="pendingUser"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">
+        <h5 class="modal-title">
           PENDING {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
@@ -343,14 +575,33 @@
                     <td class="cell">{{ loop.index }}</td>
                     <td>{{ user.username.capitalize() }}</td>
                     <td>{{ user.fullname.capitalize() }}</td>
-                    <td> <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                        data-bs-placement="bottom" data-bs-content=" {{ user.address }}"
-                        class="d-inline-block text-truncate" style="width: 150px;"> {{ user.address }}</span></td>
                     <td>
-                      <div class="d-flex justify-content-center align-items-center gap-2 mt-1">
-                        <span class="badge bg-success custom-cursor bUserA" data-user-id="{{ user.id }}">APPROVED</span>
-                        <span class="badge bg-danger custom-cursor bUserD"
-                          data-user-id="{{ user.id }}">DISAPPROVED</span>
+                      <span
+                        tabindex="0"
+                        data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-placement="bottom"
+                        data-bs-content=" {{ user.address }}"
+                        class="d-inline-block text-truncate"
+                        style="width: 150px"
+                      >
+                        {{ user.address }}</span
+                      >
+                    </td>
+                    <td>
+                      <div
+                        class="d-flex justify-content-center align-items-center gap-2 mt-1"
+                      >
+                        <span
+                          class="badge bg-success custom-cursor bUserA"
+                          data-user-id="{{ user.id }}"
+                          >APPROVED</span
+                        >
+                        <span
+                          class="badge bg-danger custom-cursor bUserD"
+                          data-user-id="{{ user.id }}"
+                          >DISAPPROVED</span
+                        >
                       </div>
                     </td>
                   </tr>
@@ -365,12 +616,23 @@
   </div>
 </div>
 
-<div class="modal fade" id="profileUserAdminModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="profileUserAdminModal"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">USERS DETAILS</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
@@ -379,78 +641,164 @@
               <!-- Username -->
               <div class="mb-2">
                 <label class="form-label">Username</label>
-                <input type="text" id="ausername" name="ausername" class="form-control" required />
+                <input
+                  type="text"
+                  id="ausername"
+                  autocomplete="username"
+                  name="ausername"
+                  class="form-control"
+                  required
+                />
               </div>
 
               <!-- Full Name -->
               <div class="row">
                 <div class="col-6">
                   <div class="mb-2">
-                    <label class="form-label">First Name <span style="color: red">*</span></label></label>
-                    <input type="text" id="afname" name="afname" class="form-control" required />
+                    <label class="form-label"
+                      >First Name <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="afname"
+                      name="afname"
+                      class="form-control"
+                      required
+                    />
                   </div>
-
                 </div>
                 <div class="col-6">
                   <div class="mb-2">
                     <label class="form-label">Middle Name</label>
-                    <input type="text" id="amname" name="amname" class="form-control" />
+                    <input
+                      type="text"
+                      id="amname"
+                      name="amname"
+                      class="form-control"
+                    />
                   </div>
                 </div>
               </div>
               <div class="mb-2">
-                <label class="form-label">Last Name <span style="color: red">*</span></label></label>
-                <input type="text" id="alname" name="alname" class="form-control" required />
+                <label class="form-label"
+                  >Last Name <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="alname"
+                  name="alname"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-2">
+                <label class="form-label"
+                  >Email <span style="color: red">*</span></label
+                >
+                <input
+                  type="email"
+                  id="aemail"
+                  name="aemail"
+                  class="form-control"
+                  required
+                />
               </div>
               <div class="row">
                 <div class="col-6 mb-2">
-                  <label class="form-label">Contact <span style="color: red">*</span></label></label>
-                  <input type="text" id="acontact" name="acontact" class="form-control" required />
+                  <label class="form-label"
+                    >Contact <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="acontact"
+                    name="acontact"
+                    class="form-control"
+                    required
+                  />
                 </div>
                 <div class="col-6 mb-2">
-                  <label class="form-label">Sex <span style="color: red">*</span></label></label>
+                  <label class="form-label"
+                    >Sex <span style="color: red">*</span></label
+                  >
                   <select id="asex" name="asex" class="form-control" required>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
                 </div>
               </div>
-              <input type="hidden" id="profile_user_id" name="profile_user_id">
+              <input
+                type="hidden"
+                id="profile_user_id"
+                name="profile_user_id"
+              />
 
               <!-- Address -->
               <div class="mb-2">
-                <label class="form-label">Address <span style="color: red">*</span></label></label>
-                <input type="text" id="aaddress" name="aaddress" class="form-control" required />
+                <label class="form-label"
+                  >Address <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="aaddress"
+                  name="aaddress"
+                  autocomplete="username"
+                  class="form-control"
+                  required
+                />
               </div>
-
 
               <div class="mb-3">
                 <label class="form-label">New Password (optional)</label>
-                <input type="password" id="newPassword" name="newPassword" class="form-control"
-                  placeholder="Leave blank to keep current password" />
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  autocomplete="current-password"
+                  class="form-control"
+                  placeholder="Leave blank to keep current password"
+                />
               </div>
-
 
               <!-- Save Button -->
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="profileButtonUpdate"
-                  data-loading-text="Save Changes...">Save
-                  Changes</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-loading-text="Save Changes..."
+                >
+                  Save Changes
+                </button>
               </div>
             </form>
-          </div> <!-- End Card Body -->
-        </div> <!-- End Card -->
-      </div> <!-- End Modal Body -->
-    </div> <!-- End Modal Content -->
-  </div> <!-- End Modal Dialog -->
+          </div>
+          <!-- End Card Body -->
+        </div>
+        <!-- End Card -->
+      </div>
+      <!-- End Modal Body -->
+    </div>
+    <!-- End Modal Content -->
+  </div>
+  <!-- End Modal Dialog -->
 </div>
 
-<div class="modal fade" id="profileAdminModalAdd" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="profileAdminModalAdd"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">ADD NEW ADMIN</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
@@ -459,20 +807,37 @@
               <!-- Username -->
               <div class="mb-2">
                 <label class="form-label">Username</label>
-                <input type="text" id="auusername" name="auusername" class="form-control" required />
+                <input
+                  type="text"
+                  autocomplete="username"
+                  id="auusername"
+                  name="auusername"
+                  class="form-control"
+                  required
+                />
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Password </label>
-                <input type="password" id="aunewPassword" name="aunewPassword" class="form-control" required />
+                <input
+                  type="password"
+                  id="aunewPassword"
+                  autocomplete="current-password"
+                  name="aunewPassword"
+                  class="form-control"
+                  required
+                />
               </div>
-
 
               <!-- Save Button -->
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="profileButtonUpdate"
-                  data-loading-text="Register...">Register
-                  </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-loading-text="Register..."
+                >
+                  Register
+                </button>
               </div>
             </form>
           </div>
@@ -482,12 +847,23 @@
   </div>
 </div>
 
-<div class="modal fade" id="profileUAdminEditModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="profileUAdminEditModal"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">UPDATE ADMIN DETAILS</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
@@ -496,22 +872,42 @@
               <!-- Username -->
               <div class="mb-2">
                 <label class="form-label">Username</label>
-                <input type="text" id="auesername" name="auesername" class="form-control" readonly />
+                <input
+                  autocomplete="username"
+                  type="text"
+                  id="auesername"
+                  name="auesername"
+                  class="form-control"
+                  readonly
+                />
               </div>
 
-              <input type="hidden" id="aueprofile_user_id" name="profile_user_id">
+              <input
+                type="hidden"
+                id="aueprofile_user_id"
+                name="profile_user_id"
+              />
               <div class="mb-3">
                 <label class="form-label">New Password (optional)</label>
-                <input type="password" id="aeunewPassword" name="aeunewPassword" class="form-control"
-                  placeholder="Leave blank to keep current password" />
+                <input
+                  type="password"
+                  id="aeunewPassword"
+                  autocomplete="current-password"
+                  name="aeunewPassword"
+                  class="form-control"
+                  placeholder="Leave blank to keep current password"
+                />
               </div>
-
 
               <!-- Save Button -->
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="profileButtonUpdate"
-                  data-loading-text="Save Changes...">Save
-                  Changes</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-loading-text="Save Changes..."
+                >
+                  Save Changes
+                </button>
               </div>
             </form>
           </div>
@@ -521,13 +917,23 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="profileModal"
+  tabindex="-1"
+  aria-labelledby="profileModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">PROFILE DETAILS</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="card" style="background: #d8ebe0">
@@ -536,22 +942,44 @@
               <!-- Username -->
               <div class="mb-2">
                 <label class="form-label">Username</label>
-                <input type="text" id="pusername" name="auesername" class="form-control" readonly />
+                <input
+                  type="text"
+                  id="pusername"
+                  name="auesername"
+                  autocomplete="username"
+
+                  class="form-control"
+                  readonly
+                />
               </div>
 
-              <input type="hidden" id="pprofile_user_id" name="profile_user_id">
+              <input
+                type="hidden"
+                id="pprofile_user_id"
+                name="profile_user_id"
+              />
               <div class="mb-3">
                 <label class="form-label">New Password (optional)</label>
-                <input type="password" id="pnewPassword" name="aeunewPassword" class="form-control"
-                  placeholder="Leave blank to keep current password" />
+                <input
+                  type="password"
+                  autocomplete="current-password"
+                  id="pnewPassword"
+                  name="aeunewPassword"
+                  class="form-control"
+                  placeholder="Leave blank to keep current password"
+                />
               </div>
-
 
               <!-- Save Button -->
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="profileButtonUpdate"
-                  data-loading-text="Save Changes...">Save
-                  Changes</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="profileButtonUpdate"
+                  data-loading-text="Save Changes..."
+                >
+                  Save Changes
+                </button>
               </div>
             </form>
           </div>

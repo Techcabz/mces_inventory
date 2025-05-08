@@ -84,8 +84,7 @@ def user_disapproved(request,users_id=None):
 
 def get_profiles_admin(users_id):
     user = user_services.get_one(id=users_id)
-    print(user)
-
+  
     if not user:
         return jsonify({"success": False, "message": "User not found"}), 404
 
@@ -96,6 +95,7 @@ def get_profiles_admin(users_id):
         "lastname": user.lastname,
         "middlename": user.middlename,
         "sex": user.sex,
+        "email": user.email,
         "status": user.status,
         "address": user.address,
         "contact": user.contact,
@@ -119,12 +119,12 @@ def update_profile_user():
         "firstname": data.get("afname"),
         "middlename": data.get("amname"),
         "lastname": data.get("alname"),
+        "email": data.get("aemail"),
         "contact": data.get("acontact"),
         "address": data.get("aaddress"),
         "sex": data.get("asex"),
     }
     new_password = data.get("newPassword")
-    print(update_data)
     if new_password:  
         password_error = Validation.is_valid_password(new_password)
         if password_error:

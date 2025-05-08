@@ -1,123 +1,357 @@
 {% extends "admin/template/admin_layout.html" %} {% block admin_content %}
 <style>
   @media print {
-  .dt-print-title {
-    font-size: 16px !important; /* Adjust size */
-    font-weight: normal !important;
+    .dt-print-title {
+      font-size: 16px !important;
+      font-weight: normal !important;
+    }
   }
-}
-.dt-buttons {
-  font-size: 14px; /* Adjust the size as needed */
-}
+  .dt-buttons {
+    font-size: 14px;
+  }
 
-button.dt-button {
-  font-size: 12px !important;
-}
- 
+  button.dt-button {
+    font-size: 12px !important;
+  }
 </style>
 <div class="card">
-  <div class="card-body p-3">
+  <div class="card-body">
     <h4 class="card-title">
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="m-0 font-weight-bold text-primary">
-          {{ request.endpoint.split('.')[-1] | upper }} LIST
+          {{ request.endpoint.split('.')[-1] | upper }}
         </h5>
       </div>
     </h4>
     <hr />
-    <div class="row mt-2 g-3">
-      <div class="col-auto row">
-        <div class="col-auto">
-          <label class="form-control-plaintext">FILTER OPTIONS:</label>
-        </div>
-        <div class="col-auto">
-          <div class="input-group input-group-sm p-1">
-            <select class="form-select" id="filter-status" style="width: 12em">
-              <option value="all">All Status</option>
-              <!-- <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="cancelled">Cancelled</option> -->
-              <option value="completed">Completed</option>
-            </select>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="returned-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#returned"
+          type="button"
+          role="tab"
+          aria-controls="returned"
+          aria-selected="true"
+        >
+          RETURNED AND UNRETURNED
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="borrower-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#borrower"
+          type="button"
+          role="tab"
+          aria-controls="borrower"
+          aria-selected="false"
+        >
+          BY BORROWER
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="item-details-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#item-details"
+          type="button"
+          role="tab"
+          aria-controls="item-details"
+          aria-selected="false"
+        >
+          ITEM DETAILS
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="date-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#date"
+          type="button"
+          role="tab"
+          aria-controls="date"
+          aria-selected="false"
+        >
+          BORROW AND RETURN DATES
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="returned" role="tabpanel">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive mt-3">
+              <table id="datatable_report1" class="table table-borderless w-100">
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Reference No.</th>
+                    <th>Borrower</th>
+                    <th>Officer</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                    <th>Borrow Date</th>
+                    <th>Return Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in borrowings %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ b.reference_number }}</td>
+                    <td>{{ b.user.fullname }}</td>
+                    <td>
+                      {% for item in b.cart_items %} {{
+                      item.inventory_item.officer }}{% if not loop.last %}, {%
+                      endif %} {% endfor %}
+                    </td>
+                    <td>
+                      {% for item in b.cart_items %} {{
+                      item.inventory_item.title }} (Qty: {{ item.quantity }})<br />
+                      {% endfor %}
+                    </td>
+                    <td>{{ b.status.capitalize() }}</td>
+                    <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
+                    <td>
+                      {{ b.return_date.strftime('%b %d, %Y') if b.return_date
+                      else 'Unreturned' }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-auto row">
-        <div class="col-auto">
-          <div class="input-group input-group-sm p-1">
-            <select class="form-select" id="month" style="width: 12em">
-              <option value="all">All Month</option>
-              {% for month in ["January", "February", "March", "April", "May",
-              "June", "July", "August", "September", "October", "November",
-              "December"] %}
-              <option value="{{ month }}">{{ month }}</option>
-              {% endfor %}
-            </select>
+
+      <div class="tab-pane fade show" id="borrower" role="tabpanel">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive mt-3">
+              <table id="datatable_report2" class="table table-borderless w-100">
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Borrower</th>
+                    <th>Reference No.</th>
+                    <th>Items</th>
+                    <th>Officer</th>
+                    <th>Status</th>
+                    <th>Borrow Date</th>
+                    <th>Return Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in borrowings %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ b.user.fullname }}</td>
+                    <td>{{ b.reference_number }}</td>
+                    <td>
+                      {% for item in b.cart_items %} {{
+                      item.inventory_item.title }} ({{ item.quantity }})<br />
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% for item in b.cart_items %} {{
+                      item.inventory_item.officer }}{% if not loop.last %}, {%
+                      endif %} {% endfor %}
+                    </td>
+                    <td>{{ b.status }}</td>
+                    <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
+                    <td>
+                      {{ b.return_date.strftime('%b %d, %Y') if b.return_date
+                      else 'Unreturned' }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-auto row">
-        <div class="input-group input-group-sm p-1">
-          <select class="form-select" id="week-filter" style="width: 12em">
-            <option value="all">All Weeks</option>
-            <option value="1">Week 1</option>
-            <option value="2">Week 2</option>
-            <option value="3">Week 3</option>
-            <option value="4">Week 4</option>
-            <option value="5">Week 5</option>
-          </select>
+
+      <div class="tab-pane fade show" id="item-details" role="tabpanel">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive mt-3">
+              <table id="datatable_report3" class="table table-borderless w-100">
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Borrower</th>
+                    <th>Officer</th>
+                    <th>Borrow Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in borrowings %} {% for item in b.cart_items %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.inventory_item.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ b.user.fullname }}</td>
+                    <td>{{ item.inventory_item.officer }}</td>
+                    <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
+                    <td>
+                      {{ b.return_date.strftime('%b %d, %Y') if b.return_date
+                      else 'Unreturned' }}
+                    </td>
+                    <td>{{ b.status }}</td>
+                  </tr>
+                  {% endfor %} {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <hr />
-    <div class="table-responsived">
-      <table id="datatable_report" class="table table-borderless">
-        <thead class="bg-gradient-success text-white">
-          <tr>
-            <th>#</th>
 
-            <th>Item</th>
-            <th>Start Date / End Date</th>
-            <th>Return Date</th>
-            <th>Borrower</th>
+      <div class="tab-pane fade show" id="date" role="tabpanel">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row mt-2 g-3">
+              <div class="col-auto row">
+                <div class="col-auto">
+                  <label class="form-control-plaintext">FILTER OPTIONS:</label>
+                </div>
+                <div class="col-auto d-none">
+                  <div class="input-group input-group-sm p-1">
+                    <select
+                      class="form-select"
+                      id="filter-status"
+                      style="width: 12em"
+                    >
+                      <option value="all">All Status</option>
+                      <!-- <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="cancelled">Cancelled</option> -->
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-auto row">
+                <div class="col-auto">
+                  <div class="input-group input-group-sm p-1">
+                    <select class="form-select" id="month" style="width: 12em">
+                      <option value="all">All Month</option>
+                      {% for month in ["January", "February", "March", "April",
+                      "May", "June", "July", "August", "September", "October",
+                      "November", "December"] %}
+                      <option value="{{ month }}">{{ month }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-auto row">
+                <div class="input-group input-group-sm p-1">
+                  <select
+                    class="form-select"
+                    id="week-filter"
+                    style="width: 12em"
+                  >
+                    <option value="all">All Weeks</option>
+                    <option value="1">Week 1</option>
+                    <option value="2">Week 2</option>
+                    <option value="3">Week 3</option>
+                    <option value="4">Week 4</option>
+                    <option value="5">Week 5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="table-responsived">
+              <table id="datatable_report" class="table table-borderless w-100">
+                <thead class="bg-gradient-success text-white">
+                  <tr>
+                    <th>#</th>
 
-            <th class="d-none exclude-print">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for borrowing in borrowings %} {% if borrowing.status ==
-          'completed' %}
-          <tr>
-            <td>{{ loop.index }}</td>
+                    <th>Item</th>
+                    <th>Start Date / End Date</th>
+                    <th>Return Date</th>
+                    <th>Borrower</th>
 
-            <td>
-              {% if borrowing.inventory_titles %}
-              <span
-                class="truncate"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="{{ ', '.join(borrowing.inventory_titles) }}"
-              >
-                {{ borrowing.inventory_titles | join(', ') | truncate(30, True)
-                }}
-              </span>
-              {% else %} No Items {% endif %}
-            </td>
-            <td>{{ borrowing.start_date.strftime('%B %d, %Y') }} - {{ borrowing.end_date.strftime('%B %d, %Y') if borrowing.end_date
-              else 'N/A' }}</td>
-            <td>
-              {{ borrowing.return_date.strftime('%B %d, %Y') if borrowing.return_date
-              else 'N/A' }}
-            </td>
+                    <th class="d-none exclude-print">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for borrowing in borrowings %} {% if borrowing.status ==
+                  'completed' %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
 
-            <td>{{ borrowing.user.fullname | upper }}</td>
+                    <td>
+                      {% if borrowing.inventory_titles %}
+                      <span
+                        class="truncate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ ', '.join(borrowing.inventory_titles) }}"
+                      >
+                        {{ borrowing.inventory_titles | join(', ') |
+                        truncate(30, True) }}
+                      </span>
+                      {% else %} No Items {% endif %}
+                    </td>
+                    <td>
+                      {{ borrowing.start_date.strftime('%B %d, %Y') }} - {{
+                      borrowing.end_date.strftime('%B %d, %Y') if
+                      borrowing.end_date else 'N/A' }}
+                    </td>
+                    <td>
+                      {{ borrowing.return_date.strftime('%B %d, %Y') if
+                      borrowing.return_date else 'N/A' }}
+                    </td>
 
-            <td class="d-none exclude-print">{{ borrowing.status }}</td>
-          </tr>
-          {% endif %} {% endfor %}
-        </tbody>
-      </table>
+                    <td>{{ borrowing.user.fullname | upper }}</td>
+
+                    <td class="d-none exclude-print">{{ borrowing.status }}</td>
+                  </tr>
+                  {% endif %} {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var hash = window.location.hash;
+    if (hash) {
+      var tab = document.querySelector('button[data-bs-target="' + hash + '"]');
+      if (tab) {
+        var tabInstance = new bootstrap.Tab(tab);
+        tabInstance.show();
+      }
+    }
+
+    var myTab = document.querySelectorAll("#myTab button");
+    myTab.forEach(function (tab) {
+      tab.addEventListener("shown.bs.tab", function (event) {
+        var activeTab = event.target.getAttribute("data-bs-target");
+        window.location.hash = activeTab;
+      });
+    });
+  });
+</script>
 {% endblock %}

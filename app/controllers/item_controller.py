@@ -250,6 +250,7 @@ def get_profiles(request):
                 "sex": current_user.sex,
                 "status": current_user.status,
                 "address": current_user.address,
+                "email": current_user.email,
                 "contact": current_user.contact,
                 "role": current_user.role,
                 "created_at": current_user.created_at.strftime("%Y-%m-%d %H:%M:%S"),
@@ -274,6 +275,7 @@ def update_profiles():
         "middlename": data.get("mname"),
         "lastname": data.get("lname"),
         "contact": data.get("contact"),
+         "email": data.get("email"),
         "address": data.get("address"),
         "sex": data.get("sex"),
     }
