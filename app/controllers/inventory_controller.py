@@ -54,6 +54,10 @@ def inventories(request, inventory_id=None):
         if existing_inventory:
             return jsonify({'success': False, 'message': 'Inventory name is already taken.'}), 400
         
+        existing_inv = inventory_service.get_one(inv_tag=inv_tag)
+        if existing_inv:
+            return jsonify({'success': False, 'message': 'Inventory Tag is existing.'}), 400
+        
         if Validation.has_repeated_characters(title):
             return jsonify({'success': False, 'message': 'Title must not have three or more consecutive repeated characters.'}), 400
 

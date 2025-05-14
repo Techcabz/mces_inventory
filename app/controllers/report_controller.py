@@ -7,45 +7,52 @@ from app.models.inventory_models import Inventory
 from app.models.borrowing_models import Borrowing
 from app.models.borrowing_details_model import BorrowingDetails
 from app.services.services import CRUDService
-
+from app.models.borrowing_status_model import BorrowedItemStatus  
 inventory_service = CRUDService(Inventory)
 borrowing_service = CRUDService(Borrowing)
 cancel_service = CRUDService(BorrowingDetails)
 
 def report(request):
-    borrowing_list = Borrowing.query.all() 
-    inventory_list = inventory_service.get() 
+    borrowing_list = Borrowing.query.all()
+    inventory_list = inventory_service.get()
 
-    borrowings = [] 
+    report_rows = []
+
     for borrowing in borrowing_list:
-        borrowing.inventory_item = borrowing.cart_items[0].inventory_item if borrowing.cart_items else None  
+        # Get unique officers
+        officers = []
+        for cart_item in borrowing.cart_items:
+            officer = cart_item.inventory_item.officer
+            if officer and officer not in officers:
+                officers.append(officer)
+        officer_string = ', '.join(officers)
 
-        # Adding item titles to the borrowing object
-        if borrowing.get_cart_items:
-            borrowing.inventory_titles = [
-                f"{cart_item.inventory_item.title.capitalize()} (Qty: {cart_item.quantity})"
-                for cart_item in borrowing.cart_items if cart_item.inventory_item
-            ]
-        else:
-            borrowing.inventory_titles = []
-
-        # Adding more item details to each borrowing
-        borrowing.item_details = []
         for cart_item in borrowing.cart_items:
             inventory_item = cart_item.inventory_item
-            if inventory_item:
-                item_detail = {
-                    "title": inventory_item.title,
-                    "inv_tag": inventory_item.inv_tag,
-                    "property_no": inventory_item.property_no,
-                    "date_acquired": inventory_item.date_acquired.strftime('%Y-%m-%d') if inventory_item.date_acquired else None,
-                    "cost": float(inventory_item.cost),
-                    "quantity": cart_item.quantity,
-                    "status": inventory_item.status,
-                    "officer": inventory_item.officer,
-                    "image": inventory_item.image,
-                    "description": inventory_item.description,
-                }
-                borrowing.item_details.append(item_detail)
+            if not inventory_item:
+                continue
 
-    return render_template('admin/reports.html', borrowings=borrowing_list, inventories=inventory_list)
+            # Get item status
+            item_status = BorrowedItemStatus.query.filter_by(
+                borrowing_id=borrowing.id,
+                inventory_item_id=inventory_item.id
+            ).first()
+
+            report_rows.append({
+                'item_title': inventory_item.title,
+                'quantity': cart_item.quantity,
+                'borrower': borrowing.user.fullname,
+                'officer': officer_string,
+                'status': 'Returned' if item_status and item_status.is_returned else 'Unreturned',
+                'return_date': item_status.return_date.strftime('%b %d, %Y') if item_status and item_status.return_date else None,
+                'borrow_date': borrowing.start_date.strftime('%b %d, %Y'),
+            })
+            
+            borrowers_set = set()
+            for b in borrowing_list:
+                if b.user and b.user.fullname:
+                    borrowers_set.add(b.user.fullname)
+
+            unique_borrowers = sorted(borrowers_set)
+
+    return render_template('admin/reports.html', report_rows=report_rows, inventories=inventory_list, borrowings=borrowing_list,  unique_borrowers=unique_borrowers)

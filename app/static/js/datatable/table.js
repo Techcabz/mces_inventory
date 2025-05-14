@@ -176,6 +176,45 @@ $(document).ready(function () {
       table.draw();
     }
 
+    if (id === "datatable_report1") {
+      var returnFilter = $("#filter-status-return");
+      var returnBorrower1 = $("#filter-borrower1");
+
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        if (settings.nTable.id !== "datatable_report1") return true;
+        console.log(data);
+        var returnFilterValue = returnFilter.val().toLowerCase().trim();
+        var returnBorrower1Value = returnBorrower1.val().toLowerCase().trim();
+        var rowReturn = data[5].toLowerCase(); 
+        var rowBor = data[3].toLowerCase(); 
+        
+        if (returnFilterValue) {
+          const normalizedReturnStatus = rowReturn.trim().toLowerCase();
+          const normalizedFilterValue = returnFilterValue.trim().toLowerCase();
+
+          if (normalizedReturnStatus !== normalizedFilterValue) {
+            return false;
+          }
+        }
+
+        if (returnBorrower1Value && !rowBor.includes(returnBorrower1Value)) {
+          return false;
+        }
+
+        return true;
+      });
+
+      returnFilter.on("change", function () {
+        table.draw();
+      });
+
+      returnBorrower1.on("change", function () {
+        table.draw();
+      });
+
+      table.draw();
+    }
+
     if (id === "datatable_report2") {
       var borrowerFilter = $("#filter-borrower");
 

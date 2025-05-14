@@ -21,7 +21,7 @@ def start_scheduler():
         scheduler.add_job(run_both_jobs, 'cron',hour='8,17', minute=0)  # 8 AM and 5 PM
         
         scheduler.start()
-        logging.info("Scheduler started.")
+        # logging.info("Scheduler started.")
     else:
         logging.info("Scheduler is already running.")
     

@@ -87,6 +87,39 @@
       <div class="tab-pane fade show active" id="returned" role="tabpanel">
         <div class="card">
           <div class="card-body">
+            <div class="col-auto row">
+              <div class="col-auto">
+                <label class="form-control-plaintext">FILTER OPTIONS:</label>
+              </div>
+              <div class="col-auto">
+                <div class="input-group input-group-sm p-1">
+                  <select
+                    class="form-select"
+                    id="filter-status-return"
+                    style="width: 12em"
+                  >
+                    <option value="">Select Status</option>
+
+                    <option value="returned">Returned</option>
+                    <option value="unreturned">Unreturned</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="input-group input-group-sm p-1">
+                  <select
+                    class="form-select"
+                    id="filter-borrower1"
+                    style="width: 12em"
+                  >
+                    <option value="">Select Borrower</option>
+                    {% for name in unique_borrowers %}
+                    <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
             <div class="table-responsive mt-3">
               <table
                 id="datatable_report1"
@@ -95,37 +128,26 @@
                 <thead class="bg-gradient-success text-white">
                   <tr>
                     <th>#</th>
-                    <th>Reference No.</th>
+                    <th>Item</th>
+                    <th>Qty</th>
                     <th>Borrower</th>
                     <th>Officer</th>
-                    <th>Items</th>
                     <th>Status</th>
                     <th>Borrow Date</th>
                     <th>Return Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for b in borrowings %}
+                  {% for row in report_rows %}
                   <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ b.reference_number }}</td>
-                    <td>{{ b.user.fullname }}</td>
-                    <td>
-                      {% for item in b.cart_items %} {{
-                      item.inventory_item.officer }}{% if not loop.last %}, {%
-                      endif %} {% endfor %}
-                    </td>
-                    <td>
-                      {% for item in b.cart_items %} {{
-                      item.inventory_item.title }} (Qty: {{ item.quantity }})<br />
-                      {% endfor %}
-                    </td>
-                    <td>{{ b.status.capitalize() }}</td>
-                    <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
-                    <td>
-                      {{ b.return_date.strftime('%b %d, %Y') if b.return_date
-                      else 'Unreturned' }}
-                    </td>
+                    <td>{{ row.item_title.capitalize() }}</td>
+                    <td>{{ row.quantity }}</td>
+                    <td>{{ row.borrower }}</td>
+                    <td>{{ row.officer }}</td>
+                    <td>{{ row.status }}</td>
+                    <td>{{ row.borrow_date }}</td>
+                    <td>{{ row.return_date or 'Unreturned' }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -151,9 +173,8 @@
                       style="width: 12em"
                     >
                       <option value="">Select Borrower</option>
-                      {% for bx in borrowings %}
-                      <option value="{{bx.user.fullname}}">{{bx.user.fullname}}</option>
-
+                      {% for name in unique_borrowers %}
+                      <option value="{{ name }}">{{ name }}</option>
                       {% endfor %}
                     </select>
                   </div>

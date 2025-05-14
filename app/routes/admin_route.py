@@ -2,7 +2,7 @@ from . import admin,web_guard,request,render_template
 from app.controllers.categories_controller import categories
 from app.controllers.inventory_controller import inventories
 from app.controllers.users_controller import update_admin_profile,add_admin_profile,cusers,user_approved,user_disapproved,get_profiles_admin,update_profile_user
-from app.controllers.borrowing_controller import borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
+from app.controllers.borrowing_controller import borrowings_done_status, borrowing_fetch,borrowings,borrowings_cancel, borrowings_status,borrowings_cancel_reason,borrowings_done
 from app.controllers.receipts_controller import receiptGenerate,generate_pdf_custom
 from app.controllers.dashboard_controller import dashboard_set,borrowing_chart_data,pending_check_controller
 from app.controllers.report_controller import report
@@ -19,6 +19,12 @@ def dashboard():
 def borrowing(item_uuid=None):
     return borrowings(request,item_uuid)
 
+@admin.route('/borrowing_fetch/item/<int:id>', methods=['GET'])
+@web_guard
+def borrowing_fetch_item(id=None):
+    return borrowing_fetch(id)
+
+
 @admin.route("/borrowing/status/<int:borrowing_id>", methods=['GET', 'POST', 'PUT',])
 @web_guard
 def borrowing_status(borrowing_id=None):
@@ -28,6 +34,12 @@ def borrowing_status(borrowing_id=None):
 @web_guard
 def borrowing_done(borrowing_id=None):
     return borrowings_done(request, borrowing_id)
+
+@admin.route("/borrowing/done_status", methods=['GET', 'POST', 'PUT',])
+@web_guard
+def borrowing_done_status():
+    return borrowings_done_status(request)
+
 
 @admin.route("/borrowing/cancel_reason/<int:borrowing_id>", methods=['GET', 'POST', 'PUT',])
 @web_guard

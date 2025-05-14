@@ -257,10 +257,16 @@
                       <div class="dropdown-item">
                         <div class="d-flex align-items-center gap-3">
                           <span
-                            class="badge bg-success custom-cursor bDone"
+                            class="badge bg-success custom-cursor"
+                            data-bs-toggle="modal"
+                            data-bs-target="#completeBorrowingModal"
                             data-borrowing-id="{{ borrowing.id }}"
-                            data-inventory-id="{{ borrowing.inventory_item.id }}"
-                            data-inventory-qty="{{ borrowing.quantity }}"
+                            data-borrowing-reference="{{ borrowing.reference_number }}"
+                            data-borrowing-items="{{ borrowing.inventory_titles | join(', ') }}"
+                            data-borrowing-quantity="{{ borrowing.cart_items | length }}"
+                            data-borrowing-start="{{ borrowing.start_date.strftime('%b %d, %Y') }}"
+                            data-borrowing-end="{{ borrowing.end_date.strftime('%b %d, %Y') if borrowing.end_date else 'N/A' }}"
+                            data-cart-ids="{{ borrowing.cart_items | map(attribute='id') | join(', ') }}"
                           >
                             MARK AS DONE
                           </span>
@@ -478,6 +484,72 @@
         window.location.hash = activeTab;
       });
     });
+
+    document.querySelectorAll('[data-bs-toggle="modal"]').forEach((button) => {
+      button.addEventListener("click", async () => {
+        const borrowingId = button.getAttribute("data-borrowing-id"); 
+        const itemsChecklist = document.getElementById("itemsChecklist");
+        const returnStatus = document.getElementById("returnStatus");
+        const unreturnedItemsMessage = document.getElementById(
+          "unreturnedItemsMessage"
+        );
+
+        document.getElementById('borrowing_id').value = borrowingId;
+        itemsChecklist.innerHTML = "";
+        let allReturned = true;
+
+        try {
+          const response = await fetch(
+            `/admin/borrowing_fetch/item/${borrowingId}`
+          );
+          const data = await response.json();
+
+          data.items.forEach((item) => {
+            const itemHtml = `
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="returned_items"
+              value="${item.cart_id}"
+              id="item-${item.cart_id}"
+              checked
+            />
+            <label class="form-check-label" for="item-${item.cart_id}">
+              ${item.title} (Qty: ${item.quantity})
+            </label>
+          </div>
+        `;
+            itemsChecklist.insertAdjacentHTML("beforeend", itemHtml);
+          });
+
+          // Attach checkbox listeners and update status
+          const checkboxes = document.querySelectorAll(
+            "#itemsChecklist input[type='checkbox']"
+          );
+          checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", updateReturnStatus);
+          });
+
+          updateReturnStatus();
+
+          function updateReturnStatus() {
+            allReturned = [...checkboxes].every((checkbox) => checkbox.checked);
+            if (allReturned) {
+              returnStatus.classList.remove("d-none");
+              unreturnedItemsMessage.classList.add("d-none");
+            } else {
+              returnStatus.classList.add("d-none");
+              unreturnedItemsMessage.classList.remove("d-none");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching borrowing data:", error);
+        }
+      });
+    });
+
+   
   });
 </script>
 

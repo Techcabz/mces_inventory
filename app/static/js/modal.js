@@ -75,9 +75,11 @@ if (updatecategoryForm) {
 }
 
 function showUpdateForm(id, name) {
-  document.getElementById("updatecategoryForm").querySelector("#cu_id").value = id;
-  document.getElementById("updatecategoryForm").querySelector("#cu_name").value =
-    name;
+  document.getElementById("updatecategoryForm").querySelector("#cu_id").value =
+    id;
+  document
+    .getElementById("updatecategoryForm")
+    .querySelector("#cu_name").value = name;
 
   var updateModal = new bootstrap.Modal(
     document.getElementById("updateCategory")
@@ -544,7 +546,7 @@ function showUpdateUser(id, name) {
         document.getElementById("amname").value = data.user.middlename || "N/A";
         document.getElementById("alname").value = data.user.lastname || "N/A";
         document.getElementById("aemail").value = data.user.email || "N/A";
-       
+
         document.getElementById("aaddress").value = data.user.address || "N/A";
         document.getElementById("acontact").value = data.user.contact || "N/A";
 
@@ -987,4 +989,48 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteUser(id);
     });
   });
+
+  let completeBorrowingVar = document.getElementById("completeBorrowing");
+  if (completeBorrowingVar) {
+    completeBorrowingVar.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const borrowingId = document.getElementById("borrowing_id").value;
+      const checkboxes = document.querySelectorAll(
+        "#itemsChecklist input[type='checkbox']"
+      );
+
+      let allReturned = true;
+      let returnedItems = [];
+      let unreturnedItems = [];
+
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          returnedItems.push(checkbox.value);
+        } else {
+          unreturnedItems.push(checkbox.value);
+          allReturned = false;
+        }
+      });
+
+      fetch(`/admin/borrowing/done_status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          borrowing_id: borrowingId,
+          status: "completed",
+          returned_items: returnedItems,
+          unreturned_items: unreturnedItems,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert("success", "top", data.message);
+          location.reload();
+        })
+        .catch((error) => console.error("Error:", error));
+
+      console.log(returnedItems);
+    });
+  }
 });

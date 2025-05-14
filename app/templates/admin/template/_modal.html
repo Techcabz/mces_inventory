@@ -139,7 +139,7 @@
                       class="form-control"
                       id="inv_tag"
                       name="inv_tag"
-                     placeholder="Tag"
+                      placeholder="Tag"
                     />
                   </div>
                 </div>
@@ -947,7 +947,6 @@
                   id="pusername"
                   name="auesername"
                   autocomplete="username"
-
                   class="form-control"
                   readonly
                 />
@@ -981,6 +980,61 @@
                   Save Changes
                 </button>
               </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="modal fade"
+  id="completeBorrowingModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ request.endpoint.split('.')[-1] | upper }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card" style="background: #d8ebe0">
+          <div class="card-body p-3">
+            <!-- Updated label -->
+            <h5 >
+              Please double-check the items below to ensure they are correct and in proper condition before returning.
+            </h5>
+            <form id="completeBorrowing" method="put">
+              <input type="hidden" name="borrowing_id" id="borrowing_id" />
+              <div id="itemsChecklist" class="mb-3">
+                <!-- Items with checkboxes will be injected here -->
+              </div>
+             
+              <div id="returnStatus" class="alert alert-success d-none">
+                <strong>Status:</strong> All items are marked as returned.
+              </div>
+              <div id="unreturnedItemsMessage" class="alert alert-danger d-none">
+                <strong>Unreturned Items:</strong> Some items have not been returned.
+              </div>
+              <button
+                type="submit"
+                id="completeBorrowingButtonUpdate"
+                class="btn bg-gradient-success w-100 mt-4 mb-0"
+              >
+                MARK AS DONE
+              </button>
             </form>
           </div>
         </div>
