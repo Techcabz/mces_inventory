@@ -200,6 +200,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  
                   {% for b in borrowings %}
                   <tr>
                     <td>{{ loop.index }}</td>
@@ -246,9 +247,8 @@
                       style="width: 12em"
                     >
                       <option value="">Select Officer</option>
-                      {% for offc in inventories %}
-                      <option value="{{offc.officer}}">{{offc.officer}}</option>
-
+                      {% for name in unique_inv %}
+                      <option value="{{ name }}">{{ name }}</option>
                       {% endfor %}
                     </select>
                   </div>

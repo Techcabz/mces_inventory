@@ -16,6 +16,20 @@ def report(request):
     borrowing_list = Borrowing.query.all()
     inventory_list = inventory_service.get()
 
+    borrowers_set = set()
+    for b in borrowing_list:
+        if b.user and b.user.fullname:
+            borrowers_set.add(b.user.fullname)
+
+    unique_borrowers = sorted(borrowers_set)
+    
+    inventory_set = set()
+    for b in inventory_list:
+        if b.officer:
+            inventory_set.add(b.officer)
+
+    unique_inv = sorted(inventory_set)
+    
     report_rows = []
 
     for borrowing in borrowing_list:
@@ -48,11 +62,6 @@ def report(request):
                 'borrow_date': borrowing.start_date.strftime('%b %d, %Y'),
             })
             
-            borrowers_set = set()
-            for b in borrowing_list:
-                if b.user and b.user.fullname:
-                    borrowers_set.add(b.user.fullname)
+        print(borrowing_list)
 
-            unique_borrowers = sorted(borrowers_set)
-
-    return render_template('admin/reports.html', report_rows=report_rows, inventories=inventory_list, borrowings=borrowing_list,  unique_borrowers=unique_borrowers)
+    return render_template('admin/reports.html', report_rows=report_rows, inventories=inventory_list, borrowings=borrowing_list, unique_borrowers=unique_borrowers, unique_inv=unique_inv)

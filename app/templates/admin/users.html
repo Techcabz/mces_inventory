@@ -37,7 +37,10 @@
               <tr>
                 <th style="width: 50px">#</th>
                 <th>Username</th>
+                <th>Fullname</th>
+                <th>Email</th>
                 <th>Status</th>
+               
                 <th>Created At</th>
                 <th style="width: 160px">Action</th>
               </tr>
@@ -47,11 +50,15 @@
               <tr>
                 <td class="cell">{{ loop.index }}</td>
                 <td>{{ user.username.capitalize() }}</td>
+                <td>{{ user.fullname.capitalize() }}</td>
+                <td>{{ user.email }}</td>
+                 
                 <td><span
                   class="badge {% if user.status == 0 %}badge-warning {% elif user.status == 1 %}badge-success {% elif user.status == 2 %}badge-danger{% endif %}"
                 >
                 {% if user.status == 0 %}PENDING {% elif user.status == 1 %} APPROVED {% elif user.status == 2 %} BLOCKED {% endif %}
                 </span></td>
+               
                 <td>{{ user.created_at.strftime('%B %d, %Y %I:%M %p') }}</td>
                 <td>
                   <div class="dropdown d-flex justify-content-center">
