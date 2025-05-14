@@ -14,7 +14,6 @@ from app.models.borrowing_models import Borrowing
 from app.models.logs_models import Logs
 from app.models.borrowing_details_model import BorrowingDetails
 from app.models.cart_models import Cart
-from celery_config import init_celery
 from app.tasks.apscheduler import start_scheduler
 
 from flask_mail import Mail
@@ -31,15 +30,13 @@ def create_app():
         app.config.from_object(DevelopmentConfig)
 
     Config.Initialize_database()
-    Config.initialize_sqlite_db()
     start_scheduler()
     
     # Initialize SQLAlchemy
     db.init_app(app)
     Migrate(app, db)
     mail.init_app(app) 
-    init_celery(app)
-     
+    
     with app.app_context():
         db.create_all()
         UserService.create_default_admin()

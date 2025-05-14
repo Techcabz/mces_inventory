@@ -88,7 +88,10 @@
         <div class="card">
           <div class="card-body">
             <div class="table-responsive mt-3">
-              <table id="datatable_report1" class="table table-borderless w-100">
+              <table
+                id="datatable_report1"
+                class="table table-borderless w-100"
+              >
                 <thead class="bg-gradient-success text-white">
                   <tr>
                     <th>#</th>
@@ -135,8 +138,34 @@
       <div class="tab-pane fade show" id="borrower" role="tabpanel">
         <div class="card">
           <div class="card-body">
+            <div class="row mt-2 g-3">
+              <div class="col-auto row">
+                <div class="col-auto">
+                  <label class="form-control-plaintext">FILTER OPTIONS:</label>
+                </div>
+                <div class="col-auto">
+                  <div class="input-group input-group-sm p-1">
+                    <select
+                      class="form-select"
+                      id="filter-borrower"
+                      style="width: 12em"
+                    >
+                      <option value="">Select Borrower</option>
+                      {% for bx in borrowings %}
+                      <option value="{{bx.user.fullname}}">{{bx.user.fullname}}</option>
+
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
             <div class="table-responsive mt-3">
-              <table id="datatable_report2" class="table table-borderless w-100">
+              <table
+                id="datatable_report2"
+                class="table table-borderless w-100"
+              >
                 <thead class="bg-gradient-success text-white">
                   <tr>
                     <th>#</th>
@@ -183,36 +212,86 @@
       <div class="tab-pane fade show" id="item-details" role="tabpanel">
         <div class="card">
           <div class="card-body">
+            <div class="row mt-2 g-3">
+              <div class="col-auto row">
+                <div class="col-auto">
+                  <label class="form-control-plaintext">FILTER OPTIONS:</label>
+                </div>
+                <div class="col-auto">
+                  <div class="input-group input-group-sm p-1">
+                    <select
+                      class="form-select"
+                      id="filter-officer"
+                      style="width: 12em"
+                    >
+                      <option value="">Select Officer</option>
+                      {% for offc in inventories %}
+                      <option value="{{offc.officer}}">{{offc.officer}}</option>
+
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <label class="form-control-plaintext"
+                    >FILTER DATE ACQUIRED:</label
+                  >
+                </div>
+                <div class="col-auto">
+                  <div class="input-group input-group-sm p-1">
+                    <input
+                      class="form-select"
+                      type="date"
+                      id="filter-start-date"
+                    />
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="input-group input-group-sm p-1">
+                    <input
+                      class="form-select"
+                      type="date"
+                      id="filter-end-date"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
             <div class="table-responsive mt-3">
-              <table id="datatable_report3" class="table table-borderless w-100">
+              <table
+                id="datatable_report3"
+                class="table table-borderless w-100"
+              >
                 <thead class="bg-gradient-success text-white">
                   <tr>
                     <th>#</th>
+                    <th>Inventory Tag No.</th>
                     <th>Item</th>
                     <th>Quantity</th>
-                    <th>Borrower</th>
                     <th>Officer</th>
-                    <th>Borrow Date</th>
-                    <th>Return Date</th>
-                    <th>Status</th>
+                    <th>Category</th>
+                    <th>Cost</th>
+
+                    <th>Date Acquired</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for b in borrowings %} {% for item in b.cart_items %}
+                  {% for item in inventories %}
                   <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ item.inventory_item.title }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ b.user.fullname }}</td>
-                    <td>{{ item.inventory_item.officer }}</td>
-                    <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
+                    <td>{{item.inv_tag}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.officer}}</td>
+                    <td>{{item.category.name}}</td>
+                    <td>{{item.cost}}</td>
                     <td>
-                      {{ b.return_date.strftime('%b %d, %Y') if b.return_date
-                      else 'Unreturned' }}
+                      {{ item.date_acquired.strftime('%b %d, %Y') if
+                      item.date_acquired else 'N/A' }}
                     </td>
-                    <td>{{ b.status }}</td>
                   </tr>
-                  {% endfor %} {% endfor %}
+                  {% endfor %}
                 </tbody>
               </table>
             </div>

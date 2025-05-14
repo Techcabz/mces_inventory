@@ -81,7 +81,12 @@ $(document).ready(function () {
     }
   });
 
-  let tableIDReport = ["datatable_report", "datatable_report1", "datatable_report2", "datatable_report3"];
+  let tableIDReport = [
+    "datatable_report",
+    "datatable_report1",
+    "datatable_report2",
+    "datatable_report3",
+  ];
 
   tableIDReport.forEach(function (id) {
     var table = $("#" + id).DataTable({
@@ -109,53 +114,55 @@ $(document).ready(function () {
         ],
       },
     });
-  
-    // Apply filtering logic only to datatable_report
+
     if (id === "datatable_report") {
       var filterType = $("#filter-status");
       var monthFilter = $("#month");
       var weekFilter = $("#week-filter");
-  
+
       $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
         // Make sure this filter only applies to the correct table
         if (settings.nTable.id !== "datatable_report") return true;
-  
+
         var typefilterValue = filterType.val().toLowerCase();
         var monthFilterValue = monthFilter.val().toLowerCase();
         var weekFilterValue = weekFilter.val();
-  
+
         var rowData = data; // data is passed directly
         var rowStatus = rowData[5].toLowerCase();
         var rowDate = new Date(rowData[3]);
         var rowMonth = convertDateToMonthName(rowDate).toLowerCase();
         var rowWeek = getWeekNumber(rowDate);
-  
+
         if (typefilterValue !== "all" && !rowStatus.includes(typefilterValue)) {
           return false;
         }
-  
+
         if (monthFilterValue !== "all" && rowMonth !== monthFilterValue) {
           return false;
         }
-  
-        if (weekFilterValue !== "all" && rowWeek !== parseInt(weekFilterValue)) {
+
+        if (
+          weekFilterValue !== "all" &&
+          rowWeek !== parseInt(weekFilterValue)
+        ) {
           return false;
         }
-  
+
         return true;
       });
-  
+
       function convertDateToMonthName(date) {
         return date.toLocaleString("en-US", { month: "long" });
       }
-  
+
       function getWeekNumber(date) {
         var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
         var dayOfWeek = firstDayOfMonth.getDay();
         var weekNumber = Math.ceil((date.getDate() + dayOfWeek) / 7);
         return weekNumber;
       }
-  
+
       filterType.on("change", function () {
         table.draw();
       });
@@ -165,9 +172,81 @@ $(document).ready(function () {
       weekFilter.on("change", function () {
         table.draw();
       });
-  
+
+      table.draw();
+    }
+
+    if (id === "datatable_report2") {
+      var borrowerFilter = $("#filter-borrower");
+
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        if (settings.nTable.id !== "datatable_report2") return true;
+
+        var borrowerValue = borrowerFilter.val().toLowerCase().trim();
+        var rowBorrower = data[1].toLowerCase(); // Column 1 = Borrower
+
+        if (borrowerValue && !rowBorrower.includes(borrowerValue)) {
+          return false;
+        }
+
+        return true;
+      });
+
+      borrowerFilter.on("change", function () {
+        table.draw();
+      });
+
+      table.draw();
+    }
+
+    if (id === "datatable_report3") {
+      var officerFilter = $("#filter-officer");
+      var startDateFilter = $("#filter-start-date");
+      var endDateFilter = $("#filter-end-date");
+
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        if (settings.nTable.id !== "datatable_report3") return true;
+
+        var officerValue = officerFilter.val().toLowerCase().trim();
+        var startDateValue = startDateFilter.val();
+        var endDateValue = endDateFilter.val();
+
+        var rowOfficer = data[4].toLowerCase();
+        var rowDate = new Date(data[7]); // Column 7 = Date Acquired
+
+        // Officer match
+        if (officerValue && !rowOfficer.includes(officerValue)) {
+          return false;
+        }
+
+        // Date Acquired range match
+        if (startDateValue) {
+          var start = new Date(startDateValue);
+          if (rowDate < start) {
+            return false;
+          }
+        }
+        if (endDateValue) {
+          var end = new Date(endDateValue);
+          if (rowDate > end) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      officerFilter.on("change", function () {
+        table.draw();
+      });
+      startDateFilter.on("change", function () {
+        table.draw();
+      });
+      endDateFilter.on("change", function () {
+        table.draw();
+      });
+
       table.draw();
     }
   });
-  
 });
