@@ -2,7 +2,7 @@ from flask import  request,render_template
 from app.models.borrowing_models import Borrowing
 from datetime import datetime, timedelta
 from sqlalchemy import or_, and_
-
+import re
 from app.models.inventory_models import Inventory
 from app.models.borrowing_models import Borrowing
 from app.models.borrowing_details_model import BorrowingDetails
@@ -23,13 +23,19 @@ def report(request):
 
     unique_borrowers = sorted(borrowers_set)
     
-    inventory_set = set()
-    for b in inventory_list:
-        if b.officer:
-            inventory_set.add(b.officer)
+    normalized_officers = {}
 
-    unique_inv = sorted(inventory_set)
-    
+    for item in inventory_list:
+        if item.officer:
+        # Full normalization: strip + lowercase + remove extra internal spaces
+            normalized_name = re.sub(r'\s+', ' ', item.officer.strip().lower())
+        
+        # Store first version of the cleaned name
+        if normalized_name not in normalized_officers:
+            normalized_officers[normalized_name] = re.sub(r'\s+', ' ', item.officer.strip())  # Clean spacing in original
+
+    unique_inv = sorted(normalized_officers.values())
+    print(unique_inv)
     report_rows = []
 
     for borrowing in borrowing_list:

@@ -194,7 +194,6 @@
                     <th>Reference No.</th>
                     <th>Items</th>
                     <th>Officer</th>
-                    <th>Status</th>
                     <th>Borrow Date</th>
                     <th>Return Date</th>
                   </tr>
@@ -216,7 +215,6 @@
                       item.inventory_item.officer }}{% if not loop.last %}, {%
                       endif %} {% endfor %}
                     </td>
-                    <td>{{ b.status }}</td>
                     <td>{{ b.start_date.strftime('%b %d, %Y') }}</td>
                     <td>
                       {{ b.return_date.strftime('%b %d, %Y') if b.return_date
@@ -255,7 +253,7 @@
                 </div>
                 <div class="col-auto">
                   <label class="form-control-plaintext"
-                    >FILTER DATE ACQUIRED:</label
+                    >FILTER DATE ACQUIRED RANGE:</label
                   >
                 </div>
                 <div class="col-auto">
