@@ -71,7 +71,14 @@ class Config:
                     port=cls.MYSQL_PORT
                 )
                 with connection.cursor() as cursor:
-                    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {cls.MYSQL_DB_NAME}")
+                    # Check if database exists
+                    cursor.execute("SHOW DATABASES LIKE %s", (cls.MYSQL_DB_NAME,))
+                    exists = cursor.fetchone()
+                    if exists:
+                        print(f"Database '{cls.MYSQL_DB_NAME}' already exists. Skipping creation.")
+                        return  # Exit early
+                    cursor.execute(f"CREATE DATABASE {cls.MYSQL_DB_NAME}")
+                    print(f"Database '{cls.MYSQL_DB_NAME}' created.")
                 connection.commit()
             except pymysql.MySQLError as e:
                 print(f"Error initializing MySQL database: {e}")
@@ -80,6 +87,7 @@ class Config:
 
         elif cls.DB_TYPE == "postgresql":
             import psycopg2
+            conn = None
             try:
                 conn = psycopg2.connect(
                     dbname='postgres',
@@ -90,10 +98,13 @@ class Config:
                 )
                 conn.autocommit = True
                 with conn.cursor() as cursor:
-                    cursor.execute(f"SELECT 1 FROM pg_database WHERE datname='{cls.POSTGRES_DB_NAME}'")
+                    cursor.execute(f"SELECT 1 FROM pg_database WHERE datname = %s", (cls.POSTGRES_DB_NAME,))
                     exists = cursor.fetchone()
-                    if not exists:
-                        cursor.execute(f"CREATE DATABASE {cls.POSTGRES_DB_NAME}")
+                    if exists:
+                        print(f"Database '{cls.POSTGRES_DB_NAME}' already exists. Skipping creation.")
+                        return  # Exit early
+                    cursor.execute(f"CREATE DATABASE {cls.POSTGRES_DB_NAME}")
+                    print(f"Database '{cls.POSTGRES_DB_NAME}' created.")
             except psycopg2.Error as e:
                 print(f"Error initializing PostgreSQL database: {e}")
             finally:

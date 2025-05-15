@@ -75,27 +75,29 @@ class UserService:
         admin_password = "admin123"
         admin_role = "admin"
        
-        existing_admin = UserService.get_user_by_username(username=admin_username)
-        if not existing_admin:
-            default_data = {
-                "firstname": "admin",
-                "lastname": "admin",
-                "email": "admin@gmail.com",
-                "middlename": "",
-                "sex": "male",
-                "status": 1,
-                "address": "admin address",
-                "contact": "0000000000",
-            }
-            admin = UserService.create_user(
-                username=admin_username,
-                password=admin_password,
-                role=admin_role,
-                **default_data,
-            )
-            if admin:
-                print(f"Default admin user created with username: {admin_username} & {admin_password}")
+        if os.getenv("CREATE_DEFAULT_ADMIN", "true").lower() == "true":
+  
+            existing_admin = UserService.get_user_by_username(username=admin_username)
+            if not existing_admin:
+                default_data = {
+                    "firstname": "admin",
+                    "lastname": "admin",
+                    "email": "admin@gmail.com",
+                    "middlename": "",
+                    "sex": "male",
+                    "status": 1,
+                    "address": "admin address",
+                    "contact": "0000000000",
+                }
+                admin = UserService.create_user(
+                    username=admin_username,
+                    password=admin_password,
+                    role=admin_role,
+                    **default_data,
+                )
+                if admin:
+                    print(f"Default admin user created with username: {admin_username} & {admin_password}")
+                else:
+                    print("Failed to create default admin user.")
             else:
-                print("Failed to create default admin user.")
-        else:
-            print("Default admin user already exists.")
+                print("Default admin user already exists.")

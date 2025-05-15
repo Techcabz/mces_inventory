@@ -40,8 +40,12 @@ def create_app():
     
     with app.app_context():
         db.create_all()
-        UserService.create_default_admin()
-        
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        if 'users' in inspector.get_table_names():
+            if UserService.count_admins() == 0:
+                UserService.create_default_admin()
+                
     # Initialize LoginManager
     login_manager = LoginManager()
     login_manager.init_app(app)
