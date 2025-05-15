@@ -5,7 +5,7 @@ class Logs(db.Model):
     __tablename__ = 'logs'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
     level = db.Column(db.String(50), nullable=False, default='INFO')
     message = db.Column(db.String(255), nullable=False)  
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=True)
