@@ -13,7 +13,7 @@ borrowing_service = CRUDService(Borrowing)
 cancel_service = CRUDService(BorrowingDetails)
 
 def report(request):
-    borrowing_list = Borrowing.query.all()
+    borrowing_list = Borrowing.query.filter_by(status="completed").all()
     inventory_list = inventory_service.get()
 
     borrowers_set = set()
