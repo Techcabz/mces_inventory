@@ -24,7 +24,7 @@ class Config:
     }
 
     # Decide database type: 'sqlite', 'mysql', or 'postgresql'
-    DB_TYPE = os.getenv("DB_TYPE", "postgresql").lower()
+    DB_TYPE = os.getenv("DB_TYPE", "mysql").lower()
 
     if DB_TYPE == "mysql":
         MYSQL_DATABASE_URL = os.getenv("MYSQL_DATABASE_URL", "mysql+pymysql://root:@localhost/mces_inventory")

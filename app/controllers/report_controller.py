@@ -68,6 +68,6 @@ def report(request):
                 'borrow_date': borrowing.start_date.strftime('%b %d, %Y'),
             })
             
-        print(borrowing_list)
+        print(inventory_list)
 
     return render_template('admin/reports.html', report_rows=report_rows, inventories=inventory_list, borrowings=borrowing_list, unique_borrowers=unique_borrowers, unique_inv=unique_inv)

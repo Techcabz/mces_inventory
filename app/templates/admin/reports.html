@@ -389,39 +389,30 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for borrowing in borrowings %} {% if borrowing.status ==
-                  'completed' %}
+                     {% for b in borrowings %}
                   <tr>
                     <td>{{ loop.index }}</td>
 
                     <td>
-                      {% if borrowing.inventory_titles %}
-                      <span
-                        class="truncate"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="{{ ', '.join(borrowing.inventory_titles) }}"
-                      >
-                        {{ borrowing.inventory_titles | join(', ') |
-                        truncate(30, True) }}
-                      </span>
-                      {% else %} No Items {% endif %}
+                      {% for item in b.cart_items %} {{
+                      item.inventory_item.title }} ({{ item.quantity }})<br />
+                      {% endfor %}
                     </td>
                     <td>
-                      {{ borrowing.start_date.strftime('%B %d, %Y') }} - {{
-                      borrowing.end_date.strftime('%B %d, %Y') if
-                      borrowing.end_date else 'N/A' }}
+                      {{ b.start_date.strftime('%B %d, %Y') }} - {{
+                      b.end_date.strftime('%B %d, %Y') if
+                      b.end_date else 'N/A' }}
                     </td>
                     <td>
-                      {{ borrowing.return_date.strftime('%B %d, %Y') if
-                      borrowing.return_date else 'N/A' }}
+                      {{ b.return_date.strftime('%B %d, %Y') if
+                      b.return_date else 'N/A' }}
                     </td>
 
-                    <td>{{ borrowing.user.fullname | upper }}</td>
+                    <td>{{ b.user.fullname | upper }}</td>
 
-                    <td class="d-none exclude-print">{{ borrowing.status }}</td>
+                    <td class="d-none exclude-print">{{ b.status }}</td>
                   </tr>
-                  {% endif %} {% endfor %}
+                   {% endfor %}
                 </tbody>
               </table>
             </div>
