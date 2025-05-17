@@ -86,28 +86,23 @@ def borrow_items(request):
         if not cart_items:
             return jsonify({'success': False, 'message': "No pending items in your cart!"}), 400
 
-        borrowing = borrowing_service.create(user_id=user_id, start_date=start_date, end_date=end_date)
-
-        if not borrowing:
-            return jsonify({'success': False, 'message': 'Failed to create borrowing request.'}), 500
-        
+        # Check availability before proceeding
         for cart_item in cart_items:
             inventory = inventory_service.get_one(id=cart_item.inventory_id)
-
             if not inventory or inventory.quantity < cart_item.quantity:
                 return jsonify({
                     'success': False,
                     'message': f"⚠️ Not enough stock for {inventory.title}. Available: {inventory.quantity}, Requested: {cart_item.quantity}."
                 }), 400
 
-            inventory.quantity -= cart_item.quantity
-            if inventory.quantity == 0:
-                inventory.status = 'borrowed'
+        # Create borrowing without modifying inventory yet
+        borrowing = borrowing_service.create(user_id=user_id, start_date=start_date, end_date=end_date)
 
-            inventory_service.update(inventory)
+        if not borrowing:
+            return jsonify({'success': False, 'message': 'Failed to create borrowing request.'}), 500
 
+        for cart_item in cart_items:
             borrowing_service.add_to_relationship(borrowing.id, 'cart_items', cart_item)
-
             cart_service.update(cart_item.id, status="completed")
 
         return jsonify({

@@ -89,24 +89,34 @@ def borrowings_status(request, borrowing_id=None):
     data = request.json
     new_status = data.get("status")
 
-    for cart_item in borrowing.cart_items:
-        inventory = inventory_service.get_one(id=cart_item.inventory_id)  # Get inventory item
+    if new_status == "approved":
+        for cart_item in borrowing.cart_items:
+            inventory = inventory_service.get_one(id=cart_item.inventory_id)
 
-        if not inventory:
-            return jsonify({'success': False, 'message': f'Inventory ID {cart_item.inventory_id} not found'}), 404
+            if not inventory:
+                return jsonify({
+                    'success': False,
+                    'message': f'Inventory ID {cart_item.inventory_id} not found'
+                }), 404
 
-        # inventory.quantity += cart_item.quantity
+            if inventory.quantity < cart_item.quantity:
+                return jsonify({
+                    'success': False,
+                    'message': f"⚠️ Not enough stock for {inventory.title}. Available: {inventory.quantity}, Requested: {cart_item.quantity}."
+                }), 400
 
-        if inventory.quantity > 0:
-            inventory.status = 'available'
+            inventory.quantity -= cart_item.quantity
 
-        inventory_service.update(inventory)
+            if inventory.quantity == 0:
+                inventory.status = 'borrowed'
+            else:
+                inventory.status = 'available'
 
-    
+            inventory_service.update(inventory)
+
     borrowing_service.update(borrowing.id, status=new_status)
 
     return jsonify({'success': True, 'message': 'Borrowing request updated successfully'}), 200
-
 
 def borrowings_done(request, borrowing_id=None):
     if request.method == 'PUT':
@@ -154,29 +164,16 @@ def borrowings_done_status(request):
             return jsonify({'success': False, 'message': 'Borrowing record not found'}), 404
         
         if returned_ids:
-            print("TRUE HAVE returned_ids")
             for cart_id in returned_ids:
                 cart_item = cart_services.get_one(id=cart_id)
-                # cart_item = next((item for item in borrowing.cart_items if item.id == cart_id), None)
-                print(cart_item)
                 if cart_item:
-                    print(f"Found cart item: {cart_item.id}, inventory_id: {cart_item.inventory_id}")
-            
                     item_status = BorrowedItemStatus.query.filter_by(
                         borrowing_id=borrowing.id,
                         inventory_item_id=cart_item.inventory_id
                     ).first()
 
                     if item_status:
-                        item_status.is_returned = True
-                        item_status.return_date = now
                         borrow_status.update(item_status.id, is_returned=True, return_date=now)
-
-                        inventory = inventory_service.get_one(id=cart_item.inventory_id)
-                        if inventory:
-                            inventory.quantity += cart_item.quantity
-                            inventory.status = 'available' 
-                            inventory_service.update(inventory)
                     else:
                         new_item_status = borrow_status.create(
                             borrowing_id=borrowing.id,
@@ -188,6 +185,13 @@ def borrowings_done_status(request):
                         )
                         if not new_item_status:
                             return jsonify({'success': False, 'message': f"Failed to create status for cart item {cart_id}"}), 500
+
+                    # ✅ Always update inventory when item is returned
+                    inventory = inventory_service.get_one(id=cart_item.inventory_id)
+                    if inventory:
+                        inventory.quantity += cart_item.quantity
+                        inventory.status = 'available'
+                        inventory_service.update(inventory)
 
         if unreturned_ids:
             

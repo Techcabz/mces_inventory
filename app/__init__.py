@@ -11,7 +11,7 @@ from app.models.user_models import User
 from app.models.inventory_models import Inventory
 from app.models.category_models import Category
 from app.models.borrowing_models import Borrowing
-from app.models.logs_models import Logs
+
 from app.models.borrowing_details_model import BorrowingDetails
 from app.models.borrowing_status_model import BorrowedItemStatus
 from app.models.cart_models import Cart
